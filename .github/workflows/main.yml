@@ -1,0 +1,30 @@
+name: main
+on:
+  schedule:
+    - cron: '0 10 * * *'
+
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        racket-version: [ "7.5" ]
+        racket-variant: [ "regular" ]
+    name: main
+    steps:
+      - uses: actions/checkout@master
+      - uses: Bogdanp/setup-racket@v0.5
+        with:
+          architecture: x64
+          distribution: full # or minimal
+          variant: ${{ matrix.racket-variant }}
+          version: ${{ matrix.racket-version }}
+      - name: install deps
+        run: |
+          cd 2019-nCov-report && raco pkg install --auto
+      - name: send-sms
+        run: |
+          cd 2019-nCov-report && ./main.rkt
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
