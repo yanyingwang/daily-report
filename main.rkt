@@ -1,3 +1,4 @@
+#!/usr/bin/env racket
 #lang racket/base
 
 (module+ test
@@ -26,6 +27,58 @@
 ;; Code here
 
 
+(require request
+         net/http-client
+         html-parsing
+         xml
+         xml/path
+         racket/file)
+
+
+
+
+
+
+#;(let-values (((status headers in) (http-sendrecv "arademaker.github.io"
+                                                   "/about.html")))
+  (html->xexp in))
+
+
+
+(define-values (status headers in)
+  (http-sendrecv "m.medsci.cn"
+                 "/wh.asp"
+                 ;;#:ssl? #t
+                 ;;#:version "1.1"
+                 ;;#:method "GET"
+                 ;;#:data "Hello"
+                 ))
+
+(displayln status)
+(displayln headers)
+(displayln (port->string in))
+
+
+
+(define news-qq-com
+  (make-domain-requester "news.qq.com" (make-https-requester http-requester)))
+
+(define result (html->xexp (http-response-body (get news-qq-com "/zt2020/page/feiyan.htm"))))
+
+#;(display-to-file (se-path*/list '(p span) result) "/Users/yanying/abc.txt")
+(display-to-file  (http-response-body (get news-qq-com "/zt2020/page/feiyan.htm")) "/Users/yanying/abc.html")
+
+#;(class "clearfix placeItem placeArea")
+
+#;(html->xexp "<div class='clearfix placeItem placeArea'>
+<h2 class='blue'>河南</h2>
+<div class='add ac_add' >89</div>
+<div class='confirm'>764</div>
+<div class='heal'>49</div>
+<div class='dead'>2</div>
+</div>")
+
+
 
 (module+ test
   ;; Any code in this `test` submodule runs when this file is run using DrRacket
@@ -43,8 +96,8 @@
   (require racket/cmdline)
   (define who (box "world"))
   (command-line
-    #:program "my-program"
-    #:once-each
-    [("-n" "--name") name "Who to say hello to" (set-box! who name)]
-    #:args ()
-    (printf "hello ~a~n" (unbox who))))
+   #:program "my-program"
+   #:once-each
+   [("-n" "--name") name "Who to say hello to" (set-box! who name)]
+   #:args ()
+   (printf "hello ~a~n" (unbox who))))
