@@ -24,27 +24,29 @@
 ;; See the current version of the racket style guide here:
 ;; http://docs.racket-lang.org/style/index.html
 
-;; Code here
-
 
 (require request
          net/http-client
          html-parsing
          xml
          xml/path
-         racket/file)
-
-
-
-
-
+         racket/file
+         webscraperhelper
+         sxml)
 
 #;(let-values (((status headers in) (http-sendrecv "arademaker.github.io"
                                                    "/about.html")))
   (html->xexp in))
 
 
-
+(define-values (status headers in)
+  (http-sendrecv "news.ifeng.com"
+                 "/c/special/7tPlDSzDgVk"
+                 #:ssl? #t
+                 ;;#:version "1.1"
+                 ;;#:method "GET"
+                 ;;#:data "Hello"
+                 ))
 (define-values (status headers in)
   (http-sendrecv "m.medsci.cn"
                  "/wh.asp"
@@ -54,19 +56,13 @@
                  ;;#:data "Hello"
                  ))
 
-(displayln status)
-(displayln headers)
-(displayln (port->string in))
+#;(displayln status)
+#;(displayln headers)
+#;(displayln (port->string in))
+(define res (html->xexp (port->string in)))
+(sxpath '() res)
 
 
-
-(define news-qq-com
-  (make-domain-requester "news.qq.com" (make-https-requester http-requester)))
-
-(define result (html->xexp (http-response-body (get news-qq-com "/zt2020/page/feiyan.htm"))))
-
-#;(display-to-file (se-path*/list '(p span) result) "/Users/yanying/abc.txt")
-(display-to-file  (http-response-body (get news-qq-com "/zt2020/page/feiyan.htm")) "/Users/yanying/abc.html")
 
 #;(class "clearfix placeItem placeArea")
 
@@ -77,7 +73,7 @@
 <div class='heal'>49</div>
 <div class='dead'>2</div>
 </div>")
-
+(display-to-file (xexp->html res)  "/Users/yanying/abc.html")
 
 
 (module+ test
