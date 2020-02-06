@@ -27,4 +27,7 @@ jobs:
         run: |
           cd 2019-nCov-report && ./main.rkt
         env:
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          SENDER: ${{ secrets.SENDER }}
+          RECIPIENT: ${{ secrets.RECIPIENT }}
+          AUTH_USER: ${{ secrets.AUTH_USER }}
+          AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
