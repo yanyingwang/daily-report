@@ -31,16 +31,16 @@
                          cities))
 
 (define content @~a{
-                    全国疑似：@(hash-ref data 'suspect)人，
                     全国已确诊：@(hash-ref data 'diagnosed)人，
-                    全国已死亡：@(hash-ref data 'death)人，
-                    全国已治愈：@(hash-ref data 'cured)人。
+                    全国疑似：@(hash-ref data 'suspect)人，
+                    全国已治愈：@(hash-ref data 'cured)人，
+                    全国已死亡：@(hash-ref data 'death)人。
                     河南已确诊：@(hash-ref henan 'confirmedCount)人，
-                    河南已死亡：@(hash-ref henan 'deadCount)人，
-                    河南已治愈：@(hash-ref henan 'curedCount)人。
+                    河南已治愈：@(hash-ref henan 'curedCount)人，
+                    河南已死亡：@(hash-ref henan 'deadCount)人。
                     郑州已确诊：@(hash-ref zhengzhou 'confirmedCount)人，
-                    郑州已死亡：@(hash-ref zhengzhou 'deadCount)人，
-                    郑州已治愈：@(hash-ref zhengzhou 'curedCount)人。
+                    郑州已治愈：@(hash-ref zhengzhou 'curedCount)人，
+                    郑州已死亡：@(hash-ref zhengzhou 'deadCount)人。
                     })
 
 (define email (mail (getenv "SENDER") ; sender
