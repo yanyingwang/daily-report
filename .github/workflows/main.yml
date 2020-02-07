@@ -1,7 +1,9 @@
+on: push
 name: main
-on:
-  schedule:
-    - cron: '0 2 * * *' # this is utc time
+# on:
+#   schedule:
+#     - cron: '0 2 * * *' # this is utc time
+
 
 
 jobs:
@@ -23,12 +25,12 @@ jobs:
       - name: install deps
         run: |
           raco pkg install --auto
-        working-directory: ./2019-nCov-report
+          # working-directory: ./2019-nCov-report
 
       - name: send-sms
         run: |
           ./main.rkt
-        working-directory: ./2019-nCov-report
+          # working-directory: ./2019-nCov-report
         env:
           SENDER: ${{ secrets.SENDER }}
           RECIPIENT: ${{ secrets.RECIPIENT }}
