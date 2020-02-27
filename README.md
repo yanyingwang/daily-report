@@ -21,4 +21,5 @@ SENDER="abc@qq.com" RECIPIENT="edf@qq.com" AUTH_USER="abc" AUTH_PASSWD="abc-pswd
 Or, you can check this repo's github action file for how I am using it.
 
 
-
+![ex1](https://raw.githubusercontent.com/yanyingwang/2019-nCov-report/master/pics/ex1.png)
+![ex2](https://raw.githubusercontent.com/yanyingwang/2019-nCov-report/master/pics/ex2.png)
