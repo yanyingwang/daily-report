@@ -8,7 +8,7 @@
          ;smtp-lib
 	 (file "smtp-lib.rkt")
          json
-         ; debug/repl
+         ;; debug/repl
          )
 
 ;;;; sina.cn api
@@ -72,12 +72,20 @@
                                   'value (hash-ref (hash-ref i 'adddaily) 'conadd_n))) list))
 (define daily-c (map (lambda (i) (hash 'name (hash-ref i 'name)
                                   'value (hash-ref i 'conadd))) otherlist))
+
 (define sorted-daily-p (sort daily-p (lambda (i1 i2)
-                                       (> (hash-ref i1 'value)
-                                          (hash-ref i2 'value)))))
+                                       (define v1 (hash-ref i1 'value))
+                                       (define v2 (hash-ref i2 'value))
+                                       (and (string? v1) (set! v1 -1))
+                                       (and (string? v2) (set! v2 -1))
+                                       (> v1 v2))))
 (define sorted-daily-c (sort daily-c (lambda (i1 i2)
-                                       (> (string->number (hash-ref i1 'value))
-                                          (string->number (hash-ref i2 'value))))))
+                                       (define v1 (hash-ref i1 'value))
+                                       (define v2 (hash-ref i2 'value))
+                                       (and (string=? v1 "-") (set! v1 "-1"))
+                                       (and (string=? v2 "-") (set! v2 "-1"))
+                                       (> (string->number v1)
+                                          (string->number v2)))))
 (define content2 @~a{
                      全国各省新增确诊前五：
                      @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人
