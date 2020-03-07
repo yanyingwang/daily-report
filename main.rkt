@@ -32,16 +32,18 @@
 (define zhengzhou (findf (lambda (i) (equal? (hash-ref i 'name) "郑州市"))
                          city))
 (define content @~a{
-                    全国已确诊：@(hash-ref data 'gntotal)人
-                    全国疑似：@(hash-ref data 'sustotal)人
-                    全国已治愈：@(hash-ref data 'curetotal)人
-                    全国已死亡：@(hash-ref data 'deathtotal)人
-                    河南已确诊：@(hash-ref henan 'value)人
-                    河南已治愈：@(hash-ref henan 'cureNum)人
-                    河南已死亡：@(hash-ref henan 'deathNum)人
+                    全国现有确诊：@(hash-ref data 'econNum)人
+                    累计确诊：@(hash-ref data 'gntotal)人
+                    疑似：@(hash-ref data 'sustotal)人
+                    已治愈：@(hash-ref data 'curetotal)人
+                    已死亡：@(hash-ref data 'deathtotal)人
+                    河南现有确诊：@(hash-ref henan 'econNum)人
+                    累计确诊：@(hash-ref henan 'value)人
+                    已治愈：@(hash-ref henan 'cureNum)人
+                    已死亡：@(hash-ref henan 'deathNum)人
                     郑州已确诊：@(hash-ref zhengzhou 'conNum)人
-                    郑州已治愈：@(hash-ref zhengzhou 'cureNum)人
-                    郑州已死亡：@(hash-ref zhengzhou 'deathNum)人
+                    已治愈：@(hash-ref zhengzhou 'cureNum)人
+                    已死亡：@(hash-ref zhengzhou 'deathNum)人
                     })
 
 
@@ -53,7 +55,7 @@
                                    (> (string->number (hash-ref i1 'value))
                                       (string->number (hash-ref i2 'value))))))
 (define content1 @~a{
-                     全国各省已确诊前五：
+                     全国各省累计确诊病例前五：
                      @(hash-ref (first sorted-p) 'name)：@(hash-ref (first sorted-p) 'value)人
                      @(hash-ref (second sorted-p) 'name)：@(hash-ref (second sorted-p) 'value)人
                      @(hash-ref (third sorted-p) 'name)：@(hash-ref (third sorted-p) 'value)人
