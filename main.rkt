@@ -5,9 +5,10 @@
          racket/list
          racket/port
          racket/format
-         smtp-lib
+         ;smtp-lib
+	 (file "smtp-lib.rkt")
          json
-         ;; debug/repl
+         ; debug/repl
          )
 
 ;;;; sina.cn api
@@ -23,7 +24,6 @@
 (define data (hash-ref res 'data))
 (define list (hash-ref data 'list))
 (define otherlist (hash-ref data 'otherlist))
-
 
 ;;;;;;;
 (define henan (findf (lambda (i) (equal? (hash-ref i 'name) "河南"))
