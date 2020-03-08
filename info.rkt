@@ -1,5 +1,5 @@
 #lang info
-(define collection "report-covid-19")
+(define collection "2019-nCov-report")
 (define deps '("base" "at-exp-lib" "r6rs-lib" "gregor-lib"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
 (define scribblings '(("scribblings/2019-nCov-report.scrbl" ())))
