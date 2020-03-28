@@ -11,6 +11,22 @@
          ;; debug/repl
          )
 
+(define (do-sending subject content)
+  (define email (mail (getenv "SENDER") ; sender
+                      `(,(getenv "RECIPIENT")) ; recipients
+                      subject ; subject
+                      content ; content
+                      '() #;attachments))
+  (send-smtp-mail email
+                  #:host "smtp.qq.com"
+                  #:port 587
+                  #:auth-user (getenv "AUTH_USER")
+                  #:auth-passwd (getenv "AUTH_PASSWD")))
+
+
+
+
+
 ;;;; sina.cn api
 (define-values (status headers in)
   (http-sendrecv "interface.sina.cn"
@@ -104,34 +120,38 @@
                      })
 
 
-(define email (mail (getenv "SENDER") ; sender
-                    `(,(getenv "RECIPIENT")) ; recipients
-                    "新型肺炎今日概览报告" ; subject
-                    content ; content
-                    '() #;attachments))
-(define email1 (mail (getenv "SENDER") ; sender
-                     `(,(getenv "RECIPIENT")) ; recipients
-                     "新型肺炎今日总计排名报告" ; subject
-                     content1 ; content
-                     '() #;attachments))
-(define email2 (mail (getenv "SENDER") ; sender
-                     `(,(getenv "RECIPIENT")) ; recipients
-                     "新型肺炎今日新增排名报告" ; subject
-                     content2 ; content
-                     '() #;attachments))
+;; (define email (mail (getenv "SENDER") ; sender
+;;                     `(,(getenv "RECIPIENT")) ; recipients
+;;                     "新型肺炎今日概览报告" ; subject
+;;                     content ; content
+;;                     '() #;attachments))
+;; (define email1 (mail (getenv "SENDER") ; sender
+;;                      `(,(getenv "RECIPIENT")) ; recipients
+;;                      "新型肺炎今日总计排名报告" ; subject
+;;                      content1 ; content
+;;                      '() #;attachments))
+;; (define email2 (mail (getenv "SENDER") ; sender
+;;                      `(,(getenv "RECIPIENT")) ; recipients
+;;                      "新型肺炎今日新增排名报告" ; subject
+;;                      content2 ; content
+;;                      '() #;attachments))
 
-(send-smtp-mail email
-                #:host "smtp.qq.com"
-                #:port 587
-                #:auth-user (getenv "AUTH_USER")
-                #:auth-passwd (getenv "AUTH_PASSWD"))
-(send-smtp-mail email1
-                #:host "smtp.qq.com"
-                #:port 587
-                #:auth-user (getenv "AUTH_USER")
-                #:auth-passwd (getenv "AUTH_PASSWD"))
-(send-smtp-mail email2
-                #:host "smtp.qq.com"
-                #:port 587
-                #:auth-user (getenv "AUTH_USER")
-                #:auth-passwd (getenv "AUTH_PASSWD"))
+
+
+
+(define top5-domestic @~a{
+                          @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人
+                          @(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人
+                          @(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人
+                          @(hash-ref (fourth sorted-daily-p) 'name)：@(hash-ref (fourth sorted-daily-p) 'value)人
+                          @(hash-ref (fifth sorted-daily-p) 'name)：@(hash-ref (fifth sorted-daily-p) 'value)人
+                          })
+(define top5-foreign @~a{
+                         @(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人
+                         @(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人
+                         @(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人
+                         @(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人
+                         @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人
+                         })
+(do-sending "新冠肺炎今日新增确诊国内前五" top5-domestic)
+(do-sending "新冠肺炎今日新增确诊国外前五" top5-foreign)
