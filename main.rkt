@@ -5,6 +5,7 @@
          racket/list
          racket/port
          racket/format
+         racket/string
          ;smtp-lib
 	 (file "smtp-lib.rkt")
          json
@@ -13,7 +14,7 @@
 
 (define (do-sending subject content)
   (define email (mail (getenv "SENDER") ; sender
-                      `(,(getenv "RECIPIENT")) ; recipients
+                      (string-split (getenv "RECIPIENT")) ; recipients
                       subject ; subject
                       content ; content
                       '() #;attachments))
@@ -153,5 +154,5 @@
                          @(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人
                          @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人
                          })
-(do-sending "新冠肺炎今日新增确诊国内前五" top5-domestic)
-(do-sending "新冠肺炎今日新增确诊国外前五" top5-foreign)
+(do-sending "新冠肺炎今日新增确诊-国内前五" top5-domestic)
+(do-sending "新冠肺炎今日新增确诊-国外前五" top5-foreign)
