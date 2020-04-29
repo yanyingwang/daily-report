@@ -18,7 +18,7 @@ raco pkg install --auto
 SENDER="abc@qq.com" RECIPIENT="edf@qq.com" AUTH_USER="abc" AUTH_PASSWD="abc-pswd" ./main.rkt
 ~~~
 
-Or, you can check this repo's github action file for how I am using it.
+And also, you can check this repo's github action file for how I am using it to send a daily report email to myself.
 
 
 # example
