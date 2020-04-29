@@ -1,4 +1,4 @@
-2019-nCov-report
+2019-nCoV-report
 ================
 
 
