@@ -110,38 +110,30 @@
 
 
 (define top5-domestic @~a{
-                          今日新增确诊病例国内排名前五：
-                          @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人
-                          @(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人
-                          @(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人
-                          @(hash-ref (fourth sorted-daily-p) 'name)：@(hash-ref (fourth sorted-daily-p) 'value)人
-                          @(hash-ref (fifth sorted-daily-p) 'name)：@(hash-ref (fifth sorted-daily-p) 'value)人
-                          })
+                            全国各省今日新增确诊病例排名前五：                           @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人
+                            @(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人
+                            @(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人
+                            @(hash-ref (fourth sorted-daily-p) 'name)：@(hash-ref (fourth sorted-daily-p) 'value)人
+                            @(hash-ref (fifth sorted-daily-p) 'name)：@(hash-ref (fifth sorted-daily-p) 'value)人
+                            })
 
 (define top5-foreign @~a{
-                         今日新增确诊病例国外排名前五：
-                         @(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人
-                         @(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人
-                         @(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人
-                         @(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人
-                         @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人
-                         })
-
-#;(do-sending "新冠肺炎今日新增确诊-国内前五" top5-domestic)
-#;(do-sending "新冠肺炎今日新增确诊-国外前五" top5-foreign)
-
-
-
-
+                           国外各国今日新增确诊病例排名前五：
+                           @(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人
+                           @(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人
+                           @(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人
+                           @(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人
+                           @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人
+                           })
 (define content @~a{
-                    @overall
+                      @overall
 
-                    @top5-domestic
+                      @top5-domestic
 
-                    @top5-foreign
+                      @top5-foreign
 
-                    @top5-con
-                    })
+                      @top5-con
+                      })
 
 (do-sending "新冠肺炎今日报告" content)
 
@@ -161,5 +153,5 @@
                @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人
                })
 
-#;(do-sending "新冠肺炎今日新增确诊" top5)
+#;(do-sending "新冠肺炎今日新增确诊报告" top5)
 
