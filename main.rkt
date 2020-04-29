@@ -77,7 +77,7 @@
                                           (string->number v2)))))
 
 ;; 新型肺炎今日概览报告
-#;(define content @~a{
+#;(define overall @~a{
                       全国现有确诊：@(hash-ref data 'econNum)人
                       累计确诊：@(hash-ref data 'gntotal)人
                       疑似：@(hash-ref data 'sustotal)人
@@ -93,14 +93,14 @@
                       })
 
 ;; 新型肺炎今日总计排名报告
-#;(define content1 @~a{
-                       全国各省累计确诊病例前五：
+#;(define top5-con @~a{
+                       全国各省累计确诊病例排名前五：
                        @(hash-ref (first sorted-p) 'name)：@(hash-ref (first sorted-p) 'value)人
                        @(hash-ref (second sorted-p) 'name)：@(hash-ref (second sorted-p) 'value)人
                        @(hash-ref (third sorted-p) 'name)：@(hash-ref (third sorted-p) 'value)人
                        @(hash-ref (fourth sorted-p) 'name)：@(hash-ref (fourth sorted-p) 'value)人
                        @(hash-ref (fifth sorted-p) 'name)：@(hash-ref (fifth sorted-p) 'value)人
-                       国外前五：
+                       国外各国累积确诊病例排名前五：
                        @(hash-ref (first sorted-c) 'name)：@(hash-ref (first sorted-c) 'value)人
                        @(hash-ref (second sorted-c) 'name)：@(hash-ref (second sorted-c) 'value)人
                        @(hash-ref (third sorted-c) 'name)：@(hash-ref (third sorted-c) 'value)人
@@ -109,25 +109,43 @@
                        })
 
 
-#;(define top5-domestic @~a{
+(define top5-domestic @~a{
+                          今日新增确诊病例国内排名前五：
                           @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人
                           @(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人
                           @(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人
                           @(hash-ref (fourth sorted-daily-p) 'name)：@(hash-ref (fourth sorted-daily-p) 'value)人
                           @(hash-ref (fifth sorted-daily-p) 'name)：@(hash-ref (fifth sorted-daily-p) 'value)人
                           })
-#;(define top5-foreign @~a{
+(define top5-foreign @~a{
+                         今日新增确诊病例国外排名前五：
                          @(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人
                          @(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人
                          @(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人
                          @(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人
                          @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人
                          })
+
 #;(do-sending "新冠肺炎今日新增确诊-国内前五" top5-domestic)
 #;(do-sending "新冠肺炎今日新增确诊-国外前五" top5-foreign)
 
 
-(define top5 @~a{
+
+
+(define content @~a{
+                    @overall
+
+                    @top5-domestic
+
+                    @top5-foreign
+
+                    @top5-con
+                    })
+
+(do-sending "新冠肺炎今日报告" content)
+
+
+#;(define top5 @~a{
                国内前五：
                @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人
                @(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人
@@ -142,5 +160,5 @@
                @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人
                })
 
-(do-sending "新冠肺炎今日新增确诊" top5)
+#;(do-sending "新冠肺炎今日新增确诊" top5)
 
