@@ -78,7 +78,7 @@
 
 ;; 新型肺炎今日概览报告
 (define overall @~a{
-                      【概览】
+                      概览
                       全国现有确诊：@(hash-ref data 'econNum)人，
                       全国累计确诊：@(hash-ref data 'gntotal)人，
                       全国现有疑似：@(hash-ref data 'sustotal)人，
@@ -95,7 +95,7 @@
 
 ;; 新型肺炎今日总计排名报告
 (define top5-con @~a{
-                       【累积确诊排名】
+                       累积确诊排名
                        国内前五：
                        @(hash-ref (first sorted-p) 'name)：@(hash-ref (first sorted-p) 'value)人
                        @(hash-ref (second sorted-p) 'name)：@(hash-ref (second sorted-p) 'value)人
@@ -112,8 +112,8 @@
 
 
 (define top5-con-today @~a{
-                             【新增确诊排名】
-                             国内前五： 
+                             新增确诊排名
+                             国内前五：
                              @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人
                              @(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人
                              @(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人
