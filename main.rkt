@@ -132,7 +132,7 @@
 		      
 		      @overall
 		      
-		      @top-con
+		      @top5-con
                       })
 
 (do-sending "新冠肺炎今日报告" content)
