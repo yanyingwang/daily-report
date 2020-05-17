@@ -1,7 +1,7 @@
 name: main
 on:
   schedule:
-    - cron: '30 12 * * *' # this is utc time, it would be 10am/18pm in China.
+    - cron: '30 12 * * *' # this is utc time, it is 20:30 in China.
 
 
 
