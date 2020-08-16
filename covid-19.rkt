@@ -54,21 +54,27 @@
       全国今日新增确诊：@(hash-ref china-add 'confirm)人，
       全国今日治愈：@(hash-ref china-add 'heal)人，
       全国今日死亡：@(hash-ref china-add 'dead)人。
-      -- @(hash-ref (hash-ref henan 'today) 'tip)
+      ：@(hash-ref (hash-ref henan 'today) 'tip)
       河南今日新增确诊：@(hash-ref (hash-ref henan 'today) 'confirm)人。
       郑州今日新增确诊：@(hash-ref (hash-ref zhengzhou 'today) 'confirm)人。
-      -- @(hash-ref (hash-ref shanghai 'today) 'tip)
-      上海今日新增确诊：@(hash-ref (hash-ref shanghai 'today) 'confirm)人（其中境外输入@(hash-ref (hash-ref sh-aboard 'today) 'confirm)人）。
+      ：@(hash-ref (hash-ref shanghai 'today) 'tip)
+      上海今日新增确诊：@(hash-ref (hash-ref shanghai 'today) 'confirm)人，
+      其中境外输入：@(hash-ref (hash-ref sh-aboard 'today) 'confirm)人。
       })
 
-(define top5
+(define top10
   @~a{
-      『国内新增前五』
+      『国内新增前十』
       @(hash-ref (first sorted-provinces) 'name)：@(hash-ref (hash-ref (first sorted-provinces) 'today) 'confirm)人，
       @(hash-ref (second sorted-provinces) 'name)：@(hash-ref (hash-ref (second sorted-provinces) 'today) 'confirm)人，
       @(hash-ref (third sorted-provinces) 'name)：@(hash-ref (hash-ref (third sorted-provinces) 'today) 'confirm)人，
       @(hash-ref (fourth sorted-provinces) 'name)：@(hash-ref (hash-ref (fourth sorted-provinces) 'today) 'confirm)人，
-      @(hash-ref (fifth sorted-provinces) 'name)：@(hash-ref (hash-ref (fifth sorted-provinces) 'today) 'confirm)人。
+      @(hash-ref (fifth sorted-provinces) 'name)：@(hash-ref (hash-ref (fifth sorted-provinces) 'today) 'confirm)人，
+      @(hash-ref (sixth sorted-provinces) 'name)：@(hash-ref (hash-ref (sixth sorted-provinces) 'today) 'confirm)人。
+      @(hash-ref (seventh sorted-provinces) 'name)：@(hash-ref (hash-ref (seventh sorted-provinces) 'today) 'confirm)人。
+      @(hash-ref (eighth sorted-provinces) 'name)：@(hash-ref (hash-ref (eighth sorted-provinces) 'today) 'confirm)人。
+      @(hash-ref (ninth sorted-provinces) 'name)：@(hash-ref (hash-ref (ninth sorted-provinces) 'today) 'confirm)人。
+      @(hash-ref (tenth sorted-provinces) 'name)：@(hash-ref (hash-ref (tenth sorted-provinces) 'today) 'confirm)人。
       })
 
 
@@ -77,7 +83,7 @@
             @~a{
                 @overall
 
-                @top5
+                @top10
                 }
             #:from (getenv "SENDER")
             #:to (string-split (getenv "RECIPIENT"))))
