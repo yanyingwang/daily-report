@@ -25,7 +25,7 @@ jobs:
         run: |
           raco pkg install --auto
 
-      - name: send-sms
+      - name: send-sms-for-covid-19
         run: |
           ./covid-19.rkt
         env:
