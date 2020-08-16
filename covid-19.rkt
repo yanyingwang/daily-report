@@ -36,7 +36,7 @@
 (define shanghai (findf (lambda (i) (equal? (hash-ref i 'name) "上海"))
                      provinces))
 (define areas-of-shanghai (hash-ref shanghai 'children))
-(define jingwai-of-shanghai (findf (lambda (i) (equal? (hash-ref i 'name) "境外输入"))
+(define sh-aboard (findf (lambda (i) (equal? (hash-ref i 'name) "境外输入"))
                          areas-of-shanghai))
 
 
@@ -58,7 +58,7 @@
       河南今日新增确诊：@(hash-ref (hash-ref henan 'today) 'confirm)人。
       郑州今日新增确诊：@(hash-ref (hash-ref zhengzhou 'today) 'confirm)人。
       -- @(hash-ref (hash-ref shanghai 'today) 'tip)
-      上海今日新增确诊：@(hash-ref (hash-ref shanghai 'today) 'confirm)人（其中境外输入@(hash-ref (hash-ref jingwai-of-shanghai 'today) 'confirm)人）。
+      上海今日新增确诊：@(hash-ref (hash-ref shanghai 'today) 'confirm)人（其中境外输入@(hash-ref (hash-ref sh-aboard 'today) 'confirm)人）。
       })
 
 (define top5
