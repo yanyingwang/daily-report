@@ -25,7 +25,12 @@
 
 (define china-total (hash-ref data 'chinaTotal))
 (define china-add (hash-ref data 'chinaAdd))
+
 (define provinces (hash-ref (car (hash-ref data 'areaTree)) 'children))
+(define sorted-provinces ;; by-daily-added
+  (sort provinces (lambda (i1 i2)
+                    (> (hash-ref (hash-ref i1 'today) 'confirm)
+                       (hash-ref (hash-ref i2 'today) 'confirm)))))
 
 (define henan (findf (lambda (i) (equal? (hash-ref i 'name) "河南"))
                      provinces))
@@ -41,11 +46,6 @@
 
 
 
-;;;;;;;
-(define sorted-provinces ;; by-daily-added
-  (sort provinces (lambda (i1 i2)
-                    (> (hash-ref (hash-ref i1 'today) 'confirm)
-                       (hash-ref (hash-ref i2 'today) 'confirm)))))
 
 
 (define overall
