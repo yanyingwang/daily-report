@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        racket-version: [ "7.5" ]
+        racket-version: [ "7.8" ]
         racket-variant: [ "regular" ]
     name: main
     steps:
@@ -27,7 +27,7 @@ jobs:
 
       - name: send-sms
         run: |
-          ./main.rkt
+          ./covid-19.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
           RECIPIENT: ${{ secrets.RECIPIENT }}
