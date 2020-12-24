@@ -8,7 +8,7 @@
          racket/string
          smtp
          json
-         debug/repl
+         ;;debug/repl
          )
 
 
