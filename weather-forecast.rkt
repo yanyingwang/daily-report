@@ -29,4 +29,4 @@
 (send-smtp-mail
  (make-mail sms/title sms/content
             #:from (getenv "SENDER")
-            #:to (string-split (getenv "139_RECIPIENT"))))
+            #:to (string-split (getenv "RECIPIENT_CM"))))
