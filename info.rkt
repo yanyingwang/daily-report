@@ -1,5 +1,4 @@
 #lang info
-<<<<<<< HEAD
 (define collection "daily-report")
 (define deps
   '("base"
