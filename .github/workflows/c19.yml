@@ -1,0 +1,32 @@
+name: c19
+on:
+  schedule:
+    - cron: '30 12 * * *' # this is utc time, it is 20:30 in China.
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        racket-version: ["stable"]
+        racket-variant: ["CS"]
+    name: main
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Bogdanp/setup-racket@v0.12
+        with:
+          architecture: x64
+          distribution: full # or minimal
+          variant: ${{ matrix.racket-variant }}
+          version: ${{ matrix.racket-version }}
+      - name: install deps
+        run: raco pkg install --auto
+      - name: send-sms-for-covid-19
+        run: |
+          ./covid-19.rkt
+        env:
+          SENDER: ${{ secrets.SENDER }}
+          RECIPIENT: ${{ secrets.RECIPIENT }}
+          AUTH_USER: ${{ secrets.AUTH_USER }}
+          AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
