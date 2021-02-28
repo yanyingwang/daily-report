@@ -8,7 +8,7 @@
          racket/string
          smtp
          json
-         ;; debug/repl
+         ;;debug/repl
          )
 
 
@@ -115,6 +115,7 @@
                            @(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人。
                            })
 
+(current-smtp-debug-mode #t)
 
 (send-smtp-mail (make-mail "新冠肺炎今日报告"
                            @~a{
