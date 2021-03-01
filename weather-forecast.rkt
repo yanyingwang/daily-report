@@ -8,7 +8,7 @@
 (current-smtp-username (getenv "AUTH_USER"))
 (current-smtp-password (getenv "AUTH_PASSWD"))
 
-(current-qweather-key QWEATHER_API_KEY)
+(current-qweather-key (getenv "QWEATHER_API_KEY"))
 (current-qweather-lang "zh")
 
 (define lid "101180106") ;;xinzheng
