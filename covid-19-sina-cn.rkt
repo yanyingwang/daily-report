@@ -93,6 +93,7 @@
                      @(hash-ref (third sorted-p) 'name)：@(hash-ref (third sorted-p) 'value)人，
                      @(hash-ref (fourth sorted-p) 'name)：@(hash-ref (fourth sorted-p) 'value)人，
                      @(hash-ref (fifth sorted-p) 'name)：@(hash-ref (fifth sorted-p) 'value)人。
+                     ----
                      @(hash-ref (first sorted-c) 'name)：@(hash-ref (first sorted-c) 'value)人，
                      @(hash-ref (second sorted-c) 'name)：@(hash-ref (second sorted-c) 'value)人，
                      @(hash-ref (third sorted-c) 'name)：@(hash-ref (third sorted-c) 'value)人，
@@ -108,6 +109,7 @@
                            @(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人，
                            @(hash-ref (fourth sorted-daily-p) 'name)：@(hash-ref (fourth sorted-daily-p) 'value)人，
                            @(hash-ref (fifth sorted-daily-p) 'name)：@(hash-ref (fifth sorted-daily-p) 'value)人。
+                           ----
                            @(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人，
                            @(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人，
                            @(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人，

@@ -20,7 +20,7 @@ clone this repo, cd in it, and then:
 ~~~racket
 raco pkg install --auto
 
-SENDER="abc@qq.com" RECIPIENT="edf@qq.com" AUTH_USER="abc" AUTH_PASSWD="abc-pswd" ./main.rkt
+SENDER="abc@qq.com" RECIPIENT="edf@qq.com" AUTH_USER="abc" AUTH_PASSWD="abc-pswd" ./covid-19.rkt
 QWEATHER_API_KEY="the key" SENDER="name@qq.com" RECIPIENT_CM=“pn@139.com” AUTH_USER="name" AUTH_PASSWD="passwd" ./weather-forecast.rkt
 ~~~
 

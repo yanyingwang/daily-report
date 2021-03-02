@@ -18,10 +18,11 @@
 (current-smtp-password (getenv "AUTH_PASSWD"))
 
 (define res
-  (http-get (http-connection "https://view.inews.qq.com" (hasheq) (hasheq))
-            #:path "/g2/getOnsInfo?name=disease_h5"))
-
-(define data (string->jsexpr (hash-ref (http-response-body res) 'data)))
+  (http-get "https://view.inews.qq.com"
+            #:path "/g2/getOnsInfo"
+            #:data (hasheq 'name "disease_h5")))
+(define data
+  (string->jsexpr (hash-ref (http-response-body res) 'data)))
 
 (define china-total (hash-ref data 'chinaTotal))
 (define china-add (hash-ref data 'chinaAdd))
