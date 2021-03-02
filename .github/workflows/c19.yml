@@ -23,7 +23,8 @@ jobs:
         run: raco pkg install --auto
       - name: send-sms-for-covid-19
         run: |
-          ./covid-19.rkt
+          ./covid-19-qq.rkt
+          ./covid-19-sina.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
           RECIPIENT: ${{ secrets.RECIPIENT }}
