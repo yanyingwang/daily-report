@@ -1,7 +1,7 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string http-client qweather smtp)
+(require racket/string racket/format http-client qweather smtp)
 
 (current-smtp-host "smtp.qq.com")
 (current-smtp-port 587)
@@ -18,7 +18,7 @@
 (define data/3d
   (hash-ref result/3d 'daily))
 
-(define sms/title "近三日天气")
+(define sms/title "三日天气")
 (define sms/content
   (string-join
    (for/list ([d data/3d])
