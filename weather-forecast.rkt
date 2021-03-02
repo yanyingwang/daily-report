@@ -1,7 +1,7 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require http-client qweather smtp)
+(require racket/string http-client qweather smtp)
 
 (current-smtp-host "smtp.qq.com")
 (current-smtp-port 587)
