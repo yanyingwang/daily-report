@@ -55,10 +55,10 @@
       全国今日新增确诊：@(hash-ref china-add 'confirm)人，
       全国今日治愈：@(hash-ref china-add 'heal)人，
       全国今日死亡：@(hash-ref china-add 'dead)人。
-      ：@(hash-ref (hash-ref henan 'today) 'tip)
+      @(hash-ref (hash-ref henan 'today) 'tip)
       河南今日新增确诊：@(hash-ref (hash-ref henan 'today) 'confirm)人。
       郑州今日新增确诊：@(hash-ref (hash-ref zhengzhou 'today) 'confirm)人。
-      ：@(hash-ref (hash-ref shanghai 'today) 'tip)
+      @(hash-ref (hash-ref shanghai 'today) 'tip)
       上海今日新增确诊：@(hash-ref (hash-ref shanghai 'today) 'confirm)人，
       其中境外输入：@(hash-ref (hash-ref sh-aboard 'today) 'confirm)人。
       })
