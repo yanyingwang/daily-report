@@ -21,7 +21,7 @@ jobs:
           version: ${{ matrix.racket-version }}
       - name: install deps
         run: raco pkg install --auto
-      - name: send-sms-for-covid-19
+      - name: weather-forecast
         run: |
           ./weather-forecast.rkt
         env:
