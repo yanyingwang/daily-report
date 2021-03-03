@@ -23,7 +23,7 @@ jobs:
         run: raco pkg install --auto
       - name: send-sms-for-covid-19
         run: |
-          ./weather-forest.rkt
+          ./weather-forecast.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
           RECIPIENT: ${{ secrets.RECIPIENT }}
