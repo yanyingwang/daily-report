@@ -1,11 +1,9 @@
 #lang at-exp racket/base
 
-(require net/http-client
-         racket/list racket/port racket/format racket/string
-         smtp json
+(require racket/list racket/port racket/format racket/string racket/match racket/provide
+         net/http-client smtp json
          (file "parameters.rkt"))
-(provide racket/provide
-         (matching-identifiers-out #rx"^sina.*"))
+(provide (matching-identifiers-out #rx"^sina\\/.*" (all-defined-out)))
 
 
 ;;;; sina.cn api
