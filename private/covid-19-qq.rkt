@@ -1,13 +1,9 @@
 #lang at-exp racket/base
 
-(require http-client
-         racket/list
-         racket/port
-         racket/format
-         racket/string
+(require racket/list racket/port racket/format racket/string racket/provide
+         http-client json
          (file "parameters.rkt"))
-(provide racket/provide
-         (matching-identifiers-out #rx"^qq.*"))
+(provide (matching-identifiers-out #rx"^qq\\/.*" (all-defined-out)))
 
 (define res
   (http-get "https://view.inews.qq.com"
