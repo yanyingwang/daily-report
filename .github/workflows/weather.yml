@@ -30,4 +30,4 @@ jobs:
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
-          QWEATHER_API_KEY: ${{ secret.QWEATHER_API_KEY }}
+          QWEATHER_API_KEY: ${{ secrets.QWEATHER_API_KEY }}
