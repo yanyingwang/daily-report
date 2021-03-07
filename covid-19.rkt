@@ -8,10 +8,10 @@
 
 (send-smtp-mail
  (make-mail "新冠肺炎报告"
-            (string-join 
+            (string-join
               (list qq/overall/china
-                    qq/top10/china
                     sina/overall/china
+                    qq/top10/china
                     sina/top5/foreign
                     sina/top5/today/foreign)
               "\n")

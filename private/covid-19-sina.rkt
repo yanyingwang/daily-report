@@ -62,7 +62,7 @@
 ;; 新型肺炎今日概览报告
 (define sina/overall/china
   @~a{
-      概览::
+      <概览>
       全国现有确诊：@(hash-ref data 'econNum)人，
       全国累计确诊：@(hash-ref data 'gntotal)人，
       全国现有疑似：@(hash-ref data 'sustotal)人，
@@ -80,7 +80,7 @@
 ;; 新型肺炎今日总计排名报告
 (define sina/top5/foreign
   @~a{
-      国外累积前五::
+      <国外累积前五>
       @(hash-ref (first sorted-c) 'name)：@(hash-ref (first sorted-c) 'value)人，
       @(hash-ref (second sorted-c) 'name)：@(hash-ref (second sorted-c) 'value)人，
       @(hash-ref (third sorted-c) 'name)：@(hash-ref (third sorted-c) 'value)人，
@@ -89,7 +89,7 @@
       })
 (define sina/top5/china
   @~a{
-      国内累积前五::
+      <国内累积前五>
       @(hash-ref (first sorted-p) 'name)：@(hash-ref (first sorted-p) 'value)人，
       @(hash-ref (second sorted-p) 'name)：@(hash-ref (second sorted-p) 'value)人，
       @(hash-ref (third sorted-p) 'name)：@(hash-ref (third sorted-p) 'value)人，
@@ -98,7 +98,7 @@
       })
 (define sina/top5/today/foreign
   @~a{
-      国外今日新增前五::
+      <国外今日新增前五>
       @(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人，
       @(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人，
       @(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人，
@@ -107,7 +107,7 @@
       })
 (define sina/top5/today/china
   @~a{
-      国内今日新增前五::
+      <国内今日新增前五>
       @(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人，
       @(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人，
       @(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人，
