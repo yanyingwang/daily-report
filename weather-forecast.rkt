@@ -6,8 +6,8 @@
          (file "private/parameters.rkt"))
 
 
-(define lid "101180106") ;;xinzheng
-;; (define lid "101020100") ;;shanhhai
+(define lid "101180106") ;;henan xinzheng
+;; (define lid "101020100") ;;shanghai
 (define result/3d
   (http-response-body (weather/3d lid)))
 (define data/3d
