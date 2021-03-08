@@ -26,7 +26,7 @@ jobs:
           ./weather-forecast.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
-          RECIPIENT: ${{ secrets.RECIPIENT }}
+          RECIPIENT_CM: ${{ secrets.RECIPIENT_CM }}
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
