@@ -19,7 +19,7 @@
             @~a{白天@(hash-ref d 'textDay)，夜间@(hash-ref d 'textNight)，气温@(hash-ref d 'tempMin)-@(hash-ref d 'tempMax)度。})))
 
 
-(for ([(title content) (in-hash dta/3d/filtered)])
+(for ([(title content) (in-hash data/3d/filtered)])
   (send-smtp-mail
    (make-mail title content
               #:from (getenv "SENDER")
