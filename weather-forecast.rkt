@@ -15,7 +15,7 @@
 
 (define data/3d/filtered
   (for/hash ([d data/3d])
-    (values @~a{@(substring (hash-ref d 'fxDate) 5 7)月@(substring (hash-ref d 'fxDate) 8 10)日}
+    (values @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)天气}
             @~a{@(hash-ref d 'textDay)转@(hash-ref d 'textNight)，@(hash-ref d 'tempMin)-@(hash-ref d 'tempMax)度，@(hash-ref d 'windDirDay)@(hash-ref d 'windScaleDay)级。})))
 
 (for ([(title content) (in-hash data/3d/filtered)])
