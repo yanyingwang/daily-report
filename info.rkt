@@ -2,7 +2,6 @@
 (define collection "daily-report")
 (define deps
   '("base"
-    "xml"
     "at-exp-lib"
     "gregor-lib"
     "https://github.com/yanyingwang/smtp.git"
