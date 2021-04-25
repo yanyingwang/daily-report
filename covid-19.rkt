@@ -11,10 +11,11 @@
 (send-smtp-mail
  (make-mail "新冠肺炎报告"
             (xexpr->string
-             `(div ,qq/overall/china
+             `(div ((class "main"))
+                   ,qq/overall/china
                    ,sina/overall/china
                    ,qq/top10/china
-                   ,sina/top5/foreign
-                   ,sina/top5/today/foreign))
+                   ,sina/top5/today/foreign
+                   ,sina/top5/foreign))
             #:from (getenv "SENDER")
             #:to (string-split (getenv "RECIPIENT"))))

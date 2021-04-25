@@ -94,7 +94,7 @@
                   ))
   )
 (define sina/top5/today/foreign
-  (div-wrap "国外今日新增前五"
+  (div-wrap "国外新增前五"
             (list  @~a{@(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人，}
                    @~a{@(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人，}
                    @~a{@(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人，}
@@ -103,7 +103,7 @@
                    ))
   )
 (define sina/top5/today/china
-  (div-wrap "国内今日新增前五"
+  (div-wrap "国内新增前五"
             (list @~a{@(hash-ref (first sorted-daily-p) 'name)：@(hash-ref (first sorted-daily-p) 'value)人，}
                   @~a{@(hash-ref (second sorted-daily-p) 'name)：@(hash-ref (second sorted-daily-p) 'value)人，}
                   @~a{@(hash-ref (third sorted-daily-p) 'name)：@(hash-ref (third sorted-daily-p) 'value)人，}

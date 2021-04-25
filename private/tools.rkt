@@ -4,7 +4,7 @@
 (provide (all-defined-out))
 
 
-(define (div-wrap h1 p-list)
+(define (div-wrap h ps)
   `(div ((class "sub"))
-        (h1 ((style "margin-bottom: 6px;")) ,h1)
-        (p ((style "margin-top: 6px;")) ,@(add-between p-list '(br)))))
+        (h2 ((style "margin-bottom: 6px;")) ,h)
+        (p ((style "margin-top: 6px;")) ,@(add-between ps '(br)))))
