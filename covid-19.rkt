@@ -6,8 +6,6 @@
          (file "private/covid-19-qq.rkt")
          (file "private/covid-19-sina.rkt"))
 
-(current-smtp-body-content-type "text/html")
-
 (send-smtp-mail
  (make-mail "新冠肺炎报告"
             (xexpr->string
@@ -17,5 +15,6 @@
                    ,qq/top10/china
                    ,sina/top5/today/foreign
                    ,sina/top5/foreign))
+            #:body-content-type "text/html"
             #:from (getenv "SENDER")
             #:to (string-split (getenv "RECIPIENT"))))
