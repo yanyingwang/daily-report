@@ -62,15 +62,15 @@
             (list @~a{全国现有确诊：@(hash-ref data 'econNum)人，}
                   @~a{全国累计确诊：@(hash-ref data 'gntotal)人，}
                   @~a{全国现有疑似：@(hash-ref data 'sustotal)人，}
-                  @~a{全国现已治愈：@(hash-ref data 'curetotal)人，}
-                  @~a{全国现已死亡：@(hash-ref data 'deathtotal)人。}
+                  @~a{全国总已治愈：@(hash-ref data 'curetotal)人，}
+                  @~a{全国总已死亡：@(hash-ref data 'deathtotal)人。}
                   @~a{河南现有确诊：@(hash-ref henan 'econNum)人，}
                   @~a{河南累计确诊：@(hash-ref henan 'value)人，}
-                  @~a{河南现已治愈：@(hash-ref henan 'cureNum)人，}
-                  @~a{河南已死亡：@(hash-ref henan 'deathNum)人。}
+                  @~a{河南总已治愈：@(hash-ref henan 'cureNum)人，}
+                  @~a{河南总已死亡：@(hash-ref henan 'deathNum)人。}
                   @~a{郑州累积确诊：@(hash-ref zhengzhou 'conNum)人，}
-                  @~a{郑州现已治愈：@(hash-ref zhengzhou 'cureNum)人，}
-                  @~a{郑州现已死亡：@(hash-ref zhengzhou 'deathNum)人。}
+                  @~a{郑州总已治愈：@(hash-ref zhengzhou 'cureNum)人，}
+                  @~a{郑州总已死亡：@(hash-ref zhengzhou 'deathNum)人。}
                   ))
   )
 
