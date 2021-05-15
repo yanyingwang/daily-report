@@ -6,6 +6,26 @@
          (file "tools.rkt"))
 (provide (matching-identifiers-out #rx"^qq\\/.*" (all-defined-out)))
 
+
+;;; helper functions:
+(define (get-province provinces province-name)
+  (findf (lambda (i) (equal? (hash-ref i 'name) province-name))
+         provinces))
+
+(define (get-city province city-name)
+  (findf (lambda (i) (equal? (hash-ref i 'name) city-name))
+         (hash-ref province 'children)))
+
+(define (get-outbound-income province)
+  (get-city province "境外输入"))
+
+(define (get-outbound-income-count province)
+  (define outbound-income (get-outbound-income province))
+  (if outbound-income
+      (hash-ref (hash-ref outbound-income 'today) 'confirm)
+      "未知"))
+
+
 (define res
   (http-get "https://view.inews.qq.com"
             #:path "/g2/getOnsInfo"
@@ -22,17 +42,9 @@
                     (> (hash-ref (hash-ref i1 'today) 'confirm)
                        (hash-ref (hash-ref i2 'today) 'confirm)))))
 
-(define henan (findf (lambda (i) (equal? (hash-ref i 'name) "河南"))
-                     provinces))
-(define cities-of-henan (hash-ref henan 'children))
-(define zhengzhou (findf (lambda (i) (equal? (hash-ref i 'name) "郑州"))
-                         cities-of-henan))
-
-(define shanghai (findf (lambda (i) (equal? (hash-ref i 'name) "上海"))
-                     provinces))
-(define areas-of-shanghai (hash-ref shanghai 'children))
-(define sh-aboard (findf (lambda (i) (equal? (hash-ref i 'name) "境外输入"))
-                         areas-of-shanghai))
+(define henan (get-province provinces "河南"))
+(define zhengzhou (get-city henan "郑州"))
+(define shanghai (get-province provinces "上海"))
 
 
 
@@ -44,18 +56,18 @@
                   @~a{河南今日新增确诊：@(hash-ref (hash-ref henan 'today) 'confirm)人，}
                   @~a{其中郑州：@(hash-ref (hash-ref zhengzhou 'today) 'confirm)人。}
                   @~a{上海今日新增确诊：@(hash-ref (hash-ref shanghai 'today) 'confirm)人， }
-                  @~a{其中境外输入：@(hash-ref (hash-ref sh-aboard 'today) 'confirm)人。}
+                  @~a{其中境外输入：@(hash-ref (hash-ref (get-outbound-income shanghai) 'today) 'confirm)人。}
                   ))
   )
 
 
 (define qq/top10/china
   (div-wrap "国内新增前五"
-            (list @~a{@(hash-ref (first sorted-provinces) 'name)：@(hash-ref (hash-ref (first sorted-provinces) 'today) 'confirm)人，}
-                  @~a{@(hash-ref (second sorted-provinces) 'name)：@(hash-ref (hash-ref (second sorted-provinces) 'today) 'confirm)人，}
-                  @~a{@(hash-ref (third sorted-provinces) 'name)：@(hash-ref (hash-ref (third sorted-provinces) 'today) 'confirm)人，}
-                  @~a{@(hash-ref (fourth sorted-provinces) 'name)：@(hash-ref (hash-ref (fourth sorted-provinces) 'today) 'confirm)人，}
-                  @~a{@(hash-ref (fifth sorted-provinces) 'name)：@(hash-ref (hash-ref (fifth sorted-provinces) 'today) 'confirm)人。}
+            (list @~a{@(hash-ref (first sorted-provinces) 'name)：@(hash-ref (hash-ref (first sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (first sorted-provinces))）人，}
+                  @~a{@(hash-ref (second sorted-provinces) 'name)：@(hash-ref (hash-ref (second sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (second sorted-provinces))）人，}
+                  @~a{@(hash-ref (third sorted-provinces) 'name)：@(hash-ref (hash-ref (third sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (third sorted-provinces))）人，}
+                  @~a{@(hash-ref (fourth sorted-provinces) 'name)：@(hash-ref (hash-ref (fourth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (fourth sorted-provinces))）人，}
+                  @~a{@(hash-ref (fifth sorted-provinces) 'name)：@(hash-ref (hash-ref (fifth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (fifth sorted-provinces))）人。}
                   ;; @~a{@(hash-ref (sixth sorted-provinces) 'name)：@(hash-ref (hash-ref (sixth sorted-provinces) 'today) 'confirm)人，}
                   ;; @~a{@(hash-ref (seventh sorted-provinces) 'name)：@(hash-ref (hash-ref (seventh sorted-provinces) 'today) 'confirm)人，}
                   ;; @~a{@(hash-ref (eighth sorted-provinces) 'name)：@(hash-ref (hash-ref (eighth sorted-provinces) 'today) 'confirm)人，}
