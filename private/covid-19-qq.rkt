@@ -62,16 +62,16 @@
 
 
 (define qq/top10/china
-  (div-wrap "国内新增前五"
+  (div-wrap "国内新增前十"
             (list @~a{@(hash-ref (first sorted-provinces) 'name)：@(hash-ref (hash-ref (first sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (first sorted-provinces))）人，}
                   @~a{@(hash-ref (second sorted-provinces) 'name)：@(hash-ref (hash-ref (second sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (second sorted-provinces))）人，}
                   @~a{@(hash-ref (third sorted-provinces) 'name)：@(hash-ref (hash-ref (third sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (third sorted-provinces))）人，}
                   @~a{@(hash-ref (fourth sorted-provinces) 'name)：@(hash-ref (hash-ref (fourth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (fourth sorted-provinces))）人，}
                   @~a{@(hash-ref (fifth sorted-provinces) 'name)：@(hash-ref (hash-ref (fifth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (fifth sorted-provinces))）人。}
-                  ;; @~a{@(hash-ref (sixth sorted-provinces) 'name)：@(hash-ref (hash-ref (sixth sorted-provinces) 'today) 'confirm)人，}
-                  ;; @~a{@(hash-ref (seventh sorted-provinces) 'name)：@(hash-ref (hash-ref (seventh sorted-provinces) 'today) 'confirm)人，}
-                  ;; @~a{@(hash-ref (eighth sorted-provinces) 'name)：@(hash-ref (hash-ref (eighth sorted-provinces) 'today) 'confirm)人，}
-                  ;; @~a{@(hash-ref (ninth sorted-provinces) 'name)：@(hash-ref (hash-ref (ninth sorted-provinces) 'today) 'confirm)人，}
-                  ;; @~a{@(hash-ref (tenth sorted-provinces) 'name)：@(hash-ref (hash-ref (tenth sorted-provinces) 'today) 'confirm)人。}
+                  @~a{@(hash-ref (sixth sorted-provinces) 'name)：@(hash-ref (hash-ref (sixth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (sixth sorted-provinces))）人，}
+                  @~a{@(hash-ref (seventh sorted-provinces) 'name)：@(hash-ref (hash-ref (seventh sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (seventh sorted-provinces))）人，}
+                  @~a{@(hash-ref (eighth sorted-provinces) 'name)：@(hash-ref (hash-ref (eighth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (eighth sorted-provinces))）人，}
+                  @~a{@(hash-ref (ninth sorted-provinces) 'name)：@(hash-ref (hash-ref (ninth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (ninth sorted-provinces))）人，}
+                  @~a{@(hash-ref (tenth sorted-provinces) 'name)：@(hash-ref (hash-ref (tenth sorted-provinces) 'today) 'confirm)（其中境外输入@(get-outbound-income-count (tenth sorted-provinces))）人。}
                   ))
   )
