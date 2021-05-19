@@ -14,6 +14,6 @@
         (div ((class "text"))
          (h2 ((id "indent-10")) ,(car h+ps)))
         (div ((class "chart"))
-             (img ((src ,img))))
+             (img ((src ,img) (alt "Nature") (class "responsive"))))
         (div ((class "text"))
              (p  ,@(add-between (cdr h+ps) '(br))))))

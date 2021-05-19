@@ -15,6 +15,7 @@
 
 ;; (plot-width 600)
 ;; (plot-font-size 8)
+(plot-font-family 'system)
 (define-runtime-path index.html "public/index.html")
 (define-runtime-path domestic.jpeg "public/domestic.jpeg")
 (define-runtime-path foreign-today.jpeg "public/foreign-today.jpeg")
@@ -81,8 +82,9 @@
 (define xpage
   `(html
     (head
+     (meta ((name "viewport") (content "width=device-width, initial-scale=1")))
      (style
-         "body { background-color: linen; } .main { width: auto; } .row { padding-top: 10px; } .text { padding-left: 30px; } h2 { margin-bottom: 6px; } p { margin-top: 6px; }"))
+         "body { background-color: linen; } .main { width: auto; } .row { padding-top: 10px; } .text { padding-left: 30px; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } .responsive { width: 100%; height: auto; }"))
     (body
      (div ((class "main"))
           (div ((class "text"))
