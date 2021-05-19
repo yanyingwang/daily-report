@@ -15,7 +15,7 @@
 
 ;; (plot-width 600)
 ;; (plot-font-size 8)
-(plot-font-family 'system)
+;; (plot-font-family 'system)
 (define-runtime-path index.html "public/index.html")
 (define-runtime-path domestic.jpeg "public/domestic.jpeg")
 (define-runtime-path foreign-today.jpeg "public/foreign-today.jpeg")
@@ -24,8 +24,8 @@
 
 (define data/domestic
   (for/list ([p (take qq/provinces 10)])
-    (vector  (hash-ref p 'name)
-             (hash-ref (hash-ref p 'today) 'confirm))))
+    (vector (hash-ref p 'name)
+            (hash-ref (hash-ref p 'today) 'confirm))))
 (define data/domestic/local
   (for/list ([p (take qq/provinces 10)])
     (vector (hash-ref p 'name)
@@ -45,17 +45,23 @@
             (string->number (hash-ref i 'value)))))
 
 
+(define y-max (vector-ref (fifth data/domestic) 1))
+;; (require debug/repl)
+;; (debug-repl)
 (plot-file (list (discrete-histogram data/domestic
                                      #:color "navy"
                                      #:line-color "navy"
+                                     #:y-max y-max
                                      #:label "全部")
                  (discrete-histogram data/domestic/local
                                      #:color "red"
                                      #:line-color "red"
+                                     #:y-max y-max
                                      #:label "本土")
                  (discrete-histogram data/domestic/abroad
                                      #:color "yellow"
                                      #:line-color "yellow"
+                                     #:y-max y-max
                                      #:label "境外输入"))
            domestic.jpeg
            #:x-label "省份名"
@@ -89,7 +95,11 @@
      (div ((class "main"))
           (div ((class "text"))
                (h1 "新冠肺炎报告")
-               (p @,~a{（更新日期：@(~t (now) "yyyy-MM-dd HH:mm")）})
+               (p "作者：Yanying" 
+                 (br)
+                 "数据来源：qq/sina"
+                 (br)
+                 @,~a{更新日期：@(~t (now) "yyyy-MM-dd HH:mm")})
                ,(div-wrap qq/domestic/overall)
                ,(div-wrap sina/domestic/overall))
           ,(div-wrap-with-img qq/domestic/top10 "./domestic.jpeg")
@@ -97,8 +107,6 @@
           ,(div-wrap-with-img sina/foreign/top10-agg "./foreign-aggregate.jpeg")
           ))))
 
-;; (require debug/repl)
-;; (debug-repl)
 (and (file-exists? index.html)
      (delete-file index.html))
 (with-output-to-file index.html

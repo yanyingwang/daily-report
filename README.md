@@ -2,10 +2,6 @@ daily report
 ================
 
 ## covid-19.rkt
-## covid-19-sina-cn.rkt
-## weather-forecast.rkt
-
-
 <del>
 主要为我家人发送手机短信通知每日新型肺炎统计报告而开发，该程序开发使用了 sina.cn（<del>或 www.tianqiapi.com </del>：[已移除](https://github.com/yanyingwang/2019-nCov-report/commit/693bf3746bde79063773c3db364327ba017b5d0b#diff-35f1a3a934ba13a4b17438067c7233fdL43)）提供的api，亦感谢之。
 
@@ -13,6 +9,11 @@ daily report
 1. 全国病例报告、河南省病例报告、郑州市病理报告。
 2. 2月27日增加了国内省份和国外国家确诊病例排名报告。
 </del>
+
+除去邮件发送外，增加了图标和html查看页面，使用github page驱动之，可见：https://www.yanying.wang/daily-report/
+
+## weather-forecast.rkt
+
 
 ## Usage Example
 clone this repo, cd in it, and then:
@@ -25,4 +26,6 @@ QWEATHER_API_KEY="the key" SENDER="name@qq.com" RECIPIENT_CM=“pn@139.com” AU
 ~~~
 
 You can check this repo's github action file as well for how I am using it to send a daily report email to myself.
+
+
 
