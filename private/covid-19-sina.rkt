@@ -23,7 +23,6 @@
 (define zhengzhou (findf (lambda (i) (equal? (hash-ref i 'name) "郑州市"))
                          city))
 
-
 (define sorted-c (sort data/otherlist (lambda (i1 i2) ; countries except china
                                    (> (string->number (hash-ref i1 'value))
                                       (string->number (hash-ref i2 'value))))))
@@ -41,54 +40,53 @@
 
 
 ;; 新型肺炎今日概览报告
-(define sina/overall/china
-  (div-wrap "概览1"
-            (list @~a{全国现有确诊：@(hash-ref data 'econNum)人，}
-                  @~a{全国累计确诊：@(hash-ref data 'gntotal)人，}
-                  @~a{全国现有疑似：@(hash-ref data 'sustotal)人，}
-                  @~a{全国总已治愈：@(hash-ref data 'curetotal)人，}
-                  @~a{全国总已死亡：@(hash-ref data 'deathtotal)人。}
-                  @~a{河南现有确诊：@(hash-ref henan 'econNum)人，}
-                  @~a{河南累计确诊：@(hash-ref henan 'value)人，}
-                  @~a{河南总已治愈：@(hash-ref henan 'cureNum)人，}
-                  @~a{河南总已死亡：@(hash-ref henan 'deathNum)人。}
-                  @~a{郑州累积确诊：@(hash-ref zhengzhou 'conNum)人，}
-                  @~a{郑州总已治愈：@(hash-ref zhengzhou 'cureNum)人，}
-                  @~a{郑州总已死亡：@(hash-ref zhengzhou 'deathNum)人。}
-                  ))
+(define sina/domestic/overall
+  (cons "概览1"
+        (list @~a{全国现有确诊：@(hash-ref data 'econNum)人，}
+              @~a{全国累计确诊：@(hash-ref data 'gntotal)人，}
+              @~a{全国现有疑似：@(hash-ref data 'sustotal)人，}
+              @~a{全国总已治愈：@(hash-ref data 'curetotal)人，}
+              @~a{全国总已死亡：@(hash-ref data 'deathtotal)人。}
+              @~a{河南现有确诊：@(hash-ref henan 'econNum)人，}
+              @~a{河南累计确诊：@(hash-ref henan 'value)人，}
+              @~a{河南总已治愈：@(hash-ref henan 'cureNum)人，}
+              @~a{河南总已死亡：@(hash-ref henan 'deathNum)人。}
+              @~a{郑州累积确诊：@(hash-ref zhengzhou 'conNum)人，}
+              @~a{郑州总已治愈：@(hash-ref zhengzhou 'cureNum)人，}
+              @~a{郑州总已死亡：@(hash-ref zhengzhou 'deathNum)人。}
+              ))
   )
 
-;; 新型肺炎今日总计排名报告
-(define sina/top5/foreign
-  (div-wrap "国外累积前十"
-            (list  @~a{@(hash-ref (first sorted-c) 'name)：@(hash-ref (first sorted-c) 'value)人，}
-                   @~a{@(hash-ref (second sorted-c) 'name)：@(hash-ref (second sorted-c) 'value)人，}
-                   @~a{@(hash-ref (third sorted-c) 'name)：@(hash-ref (third sorted-c) 'value)人，}
-                   @~a{@(hash-ref (fourth sorted-c) 'name)：@(hash-ref (fourth sorted-c) 'value)人，}
-                   @~a{@(hash-ref (fifth sorted-c) 'name)：@(hash-ref (fifth sorted-c) 'value)人。}
-                   @~a{@(hash-ref (sixth sorted-c) 'name)：@(hash-ref (sixth sorted-c) 'value)人，}
-                   @~a{@(hash-ref (seventh sorted-c) 'name)：@(hash-ref (seventh sorted-c) 'value)人，}
-                   @~a{@(hash-ref (eighth sorted-c) 'name)：@(hash-ref (eighth sorted-c) 'value)人，}
-                   @~a{@(hash-ref (ninth sorted-c) 'name)：@(hash-ref (ninth sorted-c) 'value)人，}
-                   @~a{@(hash-ref (tenth sorted-c) 'name)：@(hash-ref (tenth sorted-c) 'value)人。}
-                   ))
+(define sina/foreign/top10
+  (cons "国外新增前十"
+        (list  @~a{@(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人。}
+               @~a{@(hash-ref (sixth sorted-daily-c) 'name)：@(hash-ref (sixth sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (seventh sorted-daily-c) 'name)：@(hash-ref (seventh sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (eighth sorted-daily-c) 'name)：@(hash-ref (eighth sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (ninth sorted-daily-c) 'name)：@(hash-ref (ninth sorted-daily-c) 'value)人，}
+               @~a{@(hash-ref (tenth sorted-daily-c) 'name)：@(hash-ref (tenth sorted-daily-c) 'value)人。}
+               ))
   )
 
-(define sina/top5/today/foreign
-  (div-wrap "国外新增前十"
-            (list  @~a{@(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人。}
-                   @~a{@(hash-ref (sixth sorted-daily-c) 'name)：@(hash-ref (sixth sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (seventh sorted-daily-c) 'name)：@(hash-ref (seventh sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (eighth sorted-daily-c) 'name)：@(hash-ref (eighth sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (ninth sorted-daily-c) 'name)：@(hash-ref (ninth sorted-daily-c) 'value)人，}
-                   @~a{@(hash-ref (tenth sorted-daily-c) 'name)：@(hash-ref (tenth sorted-daily-c) 'value)人。}
-                   ))
+;; 新型肺炎累计排名报告
+(define sina/foreign/top10-agg
+  (cons "国外累积前十"
+        (list  @~a{@(hash-ref (first sorted-c) 'name)：@(hash-ref (first sorted-c) 'value)人，}
+               @~a{@(hash-ref (second sorted-c) 'name)：@(hash-ref (second sorted-c) 'value)人，}
+               @~a{@(hash-ref (third sorted-c) 'name)：@(hash-ref (third sorted-c) 'value)人，}
+               @~a{@(hash-ref (fourth sorted-c) 'name)：@(hash-ref (fourth sorted-c) 'value)人，}
+               @~a{@(hash-ref (fifth sorted-c) 'name)：@(hash-ref (fifth sorted-c) 'value)人。}
+               @~a{@(hash-ref (sixth sorted-c) 'name)：@(hash-ref (sixth sorted-c) 'value)人，}
+               @~a{@(hash-ref (seventh sorted-c) 'name)：@(hash-ref (seventh sorted-c) 'value)人，}
+               @~a{@(hash-ref (eighth sorted-c) 'name)：@(hash-ref (eighth sorted-c) 'value)人，}
+               @~a{@(hash-ref (ninth sorted-c) 'name)：@(hash-ref (ninth sorted-c) 'value)人，}
+               @~a{@(hash-ref (tenth sorted-c) 'name)：@(hash-ref (tenth sorted-c) 'value)人。}
+               ))
   )
-
 
 
 

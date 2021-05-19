@@ -1,5 +1,8 @@
 name: covid-19
 on:
+  push:
+    branches:
+      - "master"
   schedule:
     - cron: '30 12 * * *' # this is utc time, it is 20:30 in China.
 
@@ -19,8 +22,23 @@ jobs:
           distribution: full # or minimal
           variant: ${{ matrix.racket-variant }}
           version: ${{ matrix.racket-version }}
+
       - name: install deps
         run: raco pkg install --auto
+
+      - name: build index page
+        run: |
+          ./gen-covid-19.rkt
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2.1.2
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: send-sms-for-covid-19
         run: |
           ./covid-19.rkt
