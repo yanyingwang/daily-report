@@ -18,47 +18,37 @@
 ;; (plot-font-family 'system)
 (define-runtime-path index.html "public/index.html")
 (define-runtime-path domestic.jpeg "public/domestic.jpeg")
-(define-runtime-path foreign-today.jpeg "public/foreign-today.jpeg")
-(define-runtime-path foreign-aggregate.jpeg "public/foreign-aggregate.jpeg")
-
-
-(define data/domestic
-  (for/list ([p (take qq/provinces 10)])
-    (vector (hash-ref p 'name)
-            (hash-ref (hash-ref p 'today) 'confirm))))
-(define data/domestic/local
-  (for/list ([p (take qq/provinces 10)])
-    (vector (hash-ref p 'name)
-            (qq/get-local-count p))))
-(define data/domestic/abroad
-  (for/list ([p (take qq/provinces 10)])
-    (vector (hash-ref p 'name)
-            (qq/get-outbound-income-count p))))
-
-(define data/foreign/today
-  (for/list ([i (take sina/contries/today 10)])
-    (vector (hash-ref i 'name)
-            (string->number (hash-ref i 'value)))))
-(define data/foreign/aggregate
-  (for/list ([i (take sina/contries 10)])
-    (vector (hash-ref i 'name)
-            (string->number (hash-ref i 'value)))))
-
-
+(define-runtime-path foreign-conadd.jpeg "public/foreign-conadd.jpeg")
+(define-runtime-path foreign-connum.jpeg "public/foreign-connum.jpeg")
 ;; (define y-max (+ (vector-ref (second data/domestic) 1) 10))
+
 ;; (require debug/repl)
 ;; (debug-repl)
-(plot-file (list (discrete-histogram data/domestic
+
+(define (->plot-format lst)
+  (for/list ([l lst])
+    (vector (car l) (cdr l))))
+
+(plot-file (list (discrete-histogram (->plot-format (take qq/provinces/today/confirm 10))
                                      #:color "navy"
                                      #:line-color "navy"
                                      ;; #:y-max y-max
                                      #:label "全部")
-                 (discrete-histogram data/domestic/local
+                 (discrete-histogram (->plot-format
+                                      (for/list ([i (take qq/provinces/today/confirm 10)])
+                                        (if (qq/get-num (qq/get-province (car i) '境外输入) 'today 'confirm)
+                                            (cons (car i)
+                                                  (- (qq/get-num (qq/get-province (car i)) 'today 'confirm)
+                                                     (qq/get-num (qq/get-province (car i) '境外输入) 'today 'confirm)))
+                                            (cons (car i) #f))))
                                      #:color "red"
                                      #:line-color "red"
                                      ;; #:y-max y-max
                                      #:label "本土")
-                 (discrete-histogram data/domestic/abroad
+                 (discrete-histogram (->plot-format
+                                      (for/list ([i (take qq/provinces/today/confirm 10)])
+                                        (cons (car i)
+                                              (qq/get-num (qq/get-province (car i) '境外输入) 'today 'confirm))))
                                      #:color "yellow"
                                      #:line-color "yellow"
                                      ;; #:y-max y-max
@@ -68,21 +58,21 @@
            #:y-label "确诊人数"
            #:title "统计报表（国内今日新增）")
 
-(plot-file (discrete-histogram data/foreign/today
+(plot-file (discrete-histogram (->plot-format (take sina/contries/conadd 10))
                                #:color "navy"
                                #:line-color "black")
-           foreign-today.jpeg
+           foreign-conadd.jpeg
            #:x-label "国家名"
            #:y-label "确诊人数"
-           #:title "统计报表（国外今日）")
+           #:title "统计报表（国外今日新增确诊）")
 
-(plot-file (discrete-histogram data/foreign/aggregate
+(plot-file (discrete-histogram (->plot-format (take sina/contries/connum 10))
                                #:color "navy"
                                #:line-color "black")
-           foreign-aggregate.jpeg
+           foreign-connum.jpeg
            #:x-label "国家名"
            #:y-label "确诊人数"
-           #:title "统计报表（国外累计）")
+           #:title "统计报表（国外累计确诊）")
 
 
 (define xpage
@@ -96,18 +86,23 @@
           (div ((class "text"))
                (h1 "新冠肺炎报告")
                (p "作者：Yanying"
-                 (br)
-                 "数据来源：qq/sina"
-                 (br)
-                 @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")})
+                  (br)
+                  "数据来源：qq/sina"
+                  (br)
+                  @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
+                  (br)
+                  (a ((href "https://github.com/yanyingwang/daily-report")) "code source")))
+          (div ((class "text"))
                ,(div-wrap qq/domestic/overall)
                ,(div-wrap sina/domestic/overall))
           ,(div-wrap-with-img qq/domestic/top10 "./domestic.jpeg")
-          ,(div-wrap-with-img sina/foreign/top10 "./foreign-today.jpeg")
-          ,(div-wrap-with-img sina/foreign/top10-agg "./foreign-aggregate.jpeg")
+          ,(div-wrap-with-img sina/foreign/top10/conadd "./foreign-conadd.jpeg")
+          ,(div-wrap-with-img sina/foreign/top10/connum "./foreign-connum.jpeg")
           ))))
+
 
 (and (file-exists? index.html)
      (delete-file index.html))
+
 (with-output-to-file index.html
   (lambda () (printf (xexpr->string xpage))))

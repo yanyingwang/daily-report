@@ -7,56 +7,57 @@
 (provide (matching-identifiers-out #rx"^qq\\/.*" (all-defined-out)))
 
 
-
-;;; helper functions:
-(define (get-province provinces province-name)
-  (findf (lambda (i) (equal? (hash-ref i 'name) province-name))
-         provinces))
-
-(define (get-city province city-name)
-  (findf (lambda (i) (equal? (hash-ref i 'name) city-name))
-         (hash-ref province 'children)))
-
-(define (get-outbound-income province)
-  (get-city province "境外输入"))
-
-(define (qq/get-all-count province)
-  (hash-ref (hash-ref province 'today) 'confirm))
-(define (qq/get-outbound-income-count province)
-  (define outbound-income (get-outbound-income province))
-  (if outbound-income
-      (hash-ref (hash-ref outbound-income 'today) 'confirm)
-      #f))
-(define (qq/get-local-count province)
-  (define outbound-income (get-outbound-income province))
-  (if outbound-income
-      (- (hash-ref (hash-ref province 'today) 'confirm)
-         (hash-ref (hash-ref outbound-income 'today) 'confirm))
-      #f))
-
-
 (define res
   (http-get "https://view.inews.qq.com"
             #:path "/g2/getOnsInfo"
             #:data (hasheq 'name "disease_h5")))
 (define data
   (string->jsexpr (hash-ref (http-response-body res) 'data)))
-
 (define china-total (hash-ref data 'chinaTotal))
 (define china-add (hash-ref data 'chinaAdd))
-
-(define provinces (hash-ref (car (hash-ref data 'areaTree)) 'children))
-(define sorted-provinces ;; by-daily-added
-  (sort provinces (lambda (i1 i2)
-                    (> (hash-ref (hash-ref i1 'today) 'confirm)
-                       (hash-ref (hash-ref i2 'today) 'confirm)))))
-(define qq/provinces sorted-provinces)
-
-(define henan (get-province provinces "河南"))
-(define zhengzhou (get-city henan "郑州"))
-(define shanghai (get-province provinces "上海"))
+(define all-provinces (hash-ref (car (hash-ref data 'areaTree)) 'children))
 
 
+;;;;;;; helpers
+(define (qq/get-num node type1 type2)
+  (if node
+      (hash-ref (hash-ref node type1) type2)
+      #f))
+
+(define (qq/filter-by type1 type2) ;; type1 <= { 'today 'total } type2 <= { 'confirm 'dead }
+  (define sorted-provinces
+    (sort all-provinces
+          (lambda (i1 i2)
+            (> (hash-ref (hash-ref i1 type1) type2)
+               (hash-ref (hash-ref i2 type1) type2)))))
+  (for/list ([i sorted-provinces])
+    (cons (hash-ref i 'name)
+          (hash-ref (hash-ref i 'today) 'confirm)))
+  )
+
+(define (qq/get-province name [city-name #f])
+  (and (symbol? name)
+       (set! name (symbol->string name)))
+  (and (symbol? city-name)
+       (set! city-name (symbol->string city-name)))
+  (define province (findf (lambda (i)
+                            (equal? (hash-ref i 'name) name))
+                          all-provinces))
+  (if city-name
+      (findf (lambda (i)
+           (equal? (hash-ref i 'name) city-name))
+             (hash-ref province 'children))
+      province)
+  )
+
+
+
+(define qq/provinces/today/confirm
+  (qq/filter-by 'today 'confirm))
+;; (define qq/provinces all-provinces)
+(define henan (qq/get-province "河南"))
+(define zhengzhou (qq/get-province "河南" "郑州"))
+(define shanghai (qq/get-province "上海"))
 
 
 (define qq/domestic/overall
@@ -64,25 +65,24 @@
         (list @~a{全国今日新增确诊：@(hash-ref china-add 'confirm)人，}
               @~a{全国今日治愈：@(hash-ref china-add 'heal)人，}
               @~a{全国今日死亡：@(hash-ref china-add 'dead)人。}
-              @~a{河南今日新增确诊：@(hash-ref (hash-ref henan 'today) 'confirm)人，}
-              @~a{其中郑州：@(hash-ref (hash-ref zhengzhou 'today) 'confirm)人。}
-              @~a{上海今日新增确诊：@(hash-ref (hash-ref shanghai 'today) 'confirm)人， }
-              @~a{其中境外输入：@(hash-ref (hash-ref (get-outbound-income shanghai) 'today) 'confirm)人。}
+              @~a{河南今日新增确诊：@(qq/get-num (qq/get-province '河南) 'today 'confirm)人，}
+              @~a{其中郑州：@(qq/get-num (qq/get-province '河南 '郑州) 'today 'confirm)人。}
+              @~a{上海今日新增确诊：@(qq/get-num (qq/get-province '上海) 'today 'confirm)人， }
+              @~a{其中境外输入：@(qq/get-num (qq/get-province '上海 '境外输入) 'today 'confirm)人。}
               ))
   )
 
-
 (define qq/domestic/top10
-  (cons "国内新增前十"
-        (list @~a{@(hash-ref (first sorted-provinces) 'name)：@(hash-ref (hash-ref (first sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (first sorted-provinces))）人，}
-              @~a{@(hash-ref (second sorted-provinces) 'name)：@(hash-ref (hash-ref (second sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (second sorted-provinces))）人，}
-              @~a{@(hash-ref (third sorted-provinces) 'name)：@(hash-ref (hash-ref (third sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (third sorted-provinces))）人，}
-              @~a{@(hash-ref (fourth sorted-provinces) 'name)：@(hash-ref (hash-ref (fourth sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (fourth sorted-provinces))）人，}
-              @~a{@(hash-ref (fifth sorted-provinces) 'name)：@(hash-ref (hash-ref (fifth sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (fifth sorted-provinces))）人。}
-              @~a{@(hash-ref (sixth sorted-provinces) 'name)：@(hash-ref (hash-ref (sixth sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (sixth sorted-provinces))）人，}
-              @~a{@(hash-ref (seventh sorted-provinces) 'name)：@(hash-ref (hash-ref (seventh sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (seventh sorted-provinces))）人，}
-              @~a{@(hash-ref (eighth sorted-provinces) 'name)：@(hash-ref (hash-ref (eighth sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (eighth sorted-provinces))）人，}
-              @~a{@(hash-ref (ninth sorted-provinces) 'name)：@(hash-ref (hash-ref (ninth sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (ninth sorted-provinces))）人，}
-              @~a{@(hash-ref (tenth sorted-provinces) 'name)：@(hash-ref (hash-ref (tenth sorted-provinces) 'today) 'confirm)（其中本土病例@(qq/get-local-count (tenth sorted-provinces))）人。}
+  (cons "国内新增前十（确诊）"
+        (list @~a{@(car (first qq/provinces/today/confirm))：@(cdr (first qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (first qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (second qq/provinces/today/confirm))：@(cdr (second qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (second qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (third qq/provinces/today/confirm))：@(cdr (third qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (third qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (fourth qq/provinces/today/confirm))：@(cdr (fourth qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (fourth qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (fifth qq/provinces/today/confirm))：@(cdr (fifth qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (fifth qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人。}
+              @~a{@(car (sixth qq/provinces/today/confirm))：@(cdr (sixth qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (sixth qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (seventh qq/provinces/today/confirm))：@(cdr (seventh qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (seventh qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (eighth qq/provinces/today/confirm))：@(cdr (eighth qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (eighth qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (ninth qq/provinces/today/confirm))：@(cdr (ninth qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (ninth qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人，}
+              @~a{@(car (tenth qq/provinces/today/confirm))：@(cdr (tenth qq/provinces/today/confirm))（其中境外输入@(qq/get-num (qq/get-province (car (tenth qq/provinces/today/confirm)) "境外输入") 'today 'confirm)）人。}
               ))
   )

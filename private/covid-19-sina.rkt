@@ -19,27 +19,35 @@
 ;;;;;;;
 (define henan (findf (lambda (i) (equal? (hash-ref i 'name) "河南"))
                      data/list))
-(define city (hash-ref henan 'city))
 (define zhengzhou (findf (lambda (i) (equal? (hash-ref i 'name) "郑州市"))
-                         city))
-
-(define sorted-c (sort data/otherlist (lambda (i1 i2) ; countries except china
-                                   (> (string->number (hash-ref i1 'value))
-                                      (string->number (hash-ref i2 'value))))))
-(define daily-c (map (lambda (i) (hash 'name (hash-ref i 'name)
-                                  'value (hash-ref i 'conadd))) data/otherlist))
-(define sorted-daily-c (sort daily-c (lambda (i1 i2)
-                                       (define v1 (hash-ref i1 'value))
-                                       (define v2 (hash-ref i2 'value))
-                                       (and (string=? v1 "-") (set! v1 "-1"))
-                                       (and (string=? v2 "-") (set! v2 "-1"))
-                                       (> (string->number v1)
-                                          (string->number v2)))))
-(define sina/contries sorted-c)
-(define sina/contries/today sorted-daily-c)
+                         (hash-ref henan 'city)))
 
 
-;; 新型肺炎今日概览报告
+(define (sina/contries/filter-by column-name)
+  (define sorted-contries
+    (sort data/otherlist
+          (lambda (i1 i2)
+            (define v1 (hash-ref i1 'value))
+            (define v2 (hash-ref i2 'value))
+            (and (string=? v1 "-") (set! v1 "-1"))
+            (and (string=? v2 "-") (set! v2 "-1"))
+            (> (string->number v1)
+               (string->number v2)))))
+  (for/list ([i sorted-contries])
+    (cons (hash-ref i 'name)
+          (string->number (hash-ref i 'conNum)))))
+
+(define sina/contries/connum
+  (sina/contries/filter-by 'conNum))
+(define sina/contries/conadd
+  (sina/contries/filter-by 'conadd))
+(define sina/contries/deathnum
+  (sina/contries/filter-by 'deathNum))
+(define sina/contries/deathadd
+  (sina/contries/filter-by 'deathadd))
+
+
+
 (define sina/domestic/overall
   (cons "概览1"
         (list @~a{全国现有确诊：@(hash-ref data 'econNum)人，}
@@ -57,34 +65,63 @@
               ))
   )
 
-(define sina/foreign/top10
-  (cons "国外新增前十"
-        (list  @~a{@(hash-ref (first sorted-daily-c) 'name)：@(hash-ref (first sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (second sorted-daily-c) 'name)：@(hash-ref (second sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (third sorted-daily-c) 'name)：@(hash-ref (third sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (fourth sorted-daily-c) 'name)：@(hash-ref (fourth sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (fifth sorted-daily-c) 'name)：@(hash-ref (fifth sorted-daily-c) 'value)人。}
-               @~a{@(hash-ref (sixth sorted-daily-c) 'name)：@(hash-ref (sixth sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (seventh sorted-daily-c) 'name)：@(hash-ref (seventh sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (eighth sorted-daily-c) 'name)：@(hash-ref (eighth sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (ninth sorted-daily-c) 'name)：@(hash-ref (ninth sorted-daily-c) 'value)人，}
-               @~a{@(hash-ref (tenth sorted-daily-c) 'name)：@(hash-ref (tenth sorted-daily-c) 'value)人。}
+(define sina/foreign/top10/conadd
+  (cons "国外新增前十（确诊）"
+        (list  @~a{@(car (first sina/contries/conadd))：@(cdr (first sina/contries/conadd))人，}
+               @~a{@(car (second sina/contries/conadd))：@(cdr (second sina/contries/conadd))人，}
+               @~a{@(car (third sina/contries/conadd))：@(cdr (third sina/contries/conadd))人，}
+               @~a{@(car (fourth sina/contries/conadd))：@(cdr (fourth sina/contries/conadd))人，}
+               @~a{@(car (fifth sina/contries/conadd))：@(cdr (fifth sina/contries/conadd))人。}
+               @~a{@(car (sixth sina/contries/conadd))：@(cdr (sixth sina/contries/conadd))人，}
+               @~a{@(car (seventh sina/contries/conadd))：@(cdr (seventh sina/contries/conadd))人，}
+               @~a{@(car (eighth sina/contries/conadd))：@(cdr (eighth sina/contries/conadd))人，}
+               @~a{@(car (ninth sina/contries/conadd))：@(cdr (ninth sina/contries/conadd))人，}
+               @~a{@(car (tenth sina/contries/conadd))：@(cdr (tenth sina/contries/conadd))人。}
                ))
   )
 
-;; 新型肺炎累计排名报告
-(define sina/foreign/top10-agg
-  (cons "国外累积前十"
-        (list  @~a{@(hash-ref (first sorted-c) 'name)：@(hash-ref (first sorted-c) 'value)人，}
-               @~a{@(hash-ref (second sorted-c) 'name)：@(hash-ref (second sorted-c) 'value)人，}
-               @~a{@(hash-ref (third sorted-c) 'name)：@(hash-ref (third sorted-c) 'value)人，}
-               @~a{@(hash-ref (fourth sorted-c) 'name)：@(hash-ref (fourth sorted-c) 'value)人，}
-               @~a{@(hash-ref (fifth sorted-c) 'name)：@(hash-ref (fifth sorted-c) 'value)人。}
-               @~a{@(hash-ref (sixth sorted-c) 'name)：@(hash-ref (sixth sorted-c) 'value)人，}
-               @~a{@(hash-ref (seventh sorted-c) 'name)：@(hash-ref (seventh sorted-c) 'value)人，}
-               @~a{@(hash-ref (eighth sorted-c) 'name)：@(hash-ref (eighth sorted-c) 'value)人，}
-               @~a{@(hash-ref (ninth sorted-c) 'name)：@(hash-ref (ninth sorted-c) 'value)人，}
-               @~a{@(hash-ref (tenth sorted-c) 'name)：@(hash-ref (tenth sorted-c) 'value)人。}
+(define sina/foreign/top10/deathadd
+  (cons "国外新增前十（死亡）"
+        (list  @~a{@(car (first sina/contries/deathadd))：@(cdr (first sina/contries/deathadd))人，}
+               @~a{@(car (second sina/contries/deathadd))：@(cdr (second sina/contries/deathadd))人，}
+               @~a{@(car (third sina/contries/deathadd))：@(cdr (third sina/contries/deathadd))人，}
+               @~a{@(car (fourth sina/contries/deathadd))：@(cdr (fourth sina/contries/deathadd))人，}
+               @~a{@(car (fifth sina/contries/deathadd))：@(cdr (fifth sina/contries/deathadd))人。}
+               @~a{@(car (sixth sina/contries/deathadd))：@(cdr (sixth sina/contries/deathadd))人，}
+               @~a{@(car (seventh sina/contries/deathadd))：@(cdr (seventh sina/contries/deathadd))人，}
+               @~a{@(car (eighth sina/contries/deathadd))：@(cdr (eighth sina/contries/deathadd))人，}
+               @~a{@(car (ninth sina/contries/deathadd))：@(cdr (ninth sina/contries/deathadd))人，}
+               @~a{@(car (tenth sina/contries/deathadd))：@(cdr (tenth sina/contries/deathadd))人。}
+               ))
+  )
+
+(define sina/foreign/top10/connum
+  (cons "国外累积前十（确诊）"
+        (list  @~a{@(car (first sina/contries/connum))：@(cdr (first sina/contries/connum))人，}
+               @~a{@(car (second sina/contries/connum))：@(cdr (second sina/contries/connum))人，}
+               @~a{@(car (third sina/contries/connum))：@(cdr (third sina/contries/connum))人，}
+               @~a{@(car (fourth sina/contries/connum))：@(cdr (fourth sina/contries/connum))人，}
+               @~a{@(car (fifth sina/contries/connum))：@(cdr (fifth sina/contries/connum))人。}
+               @~a{@(car (sixth sina/contries/connum))：@(cdr (sixth sina/contries/connum))人，}
+               @~a{@(car (seventh sina/contries/connum))：@(cdr (seventh sina/contries/connum))人，}
+               @~a{@(car (eighth sina/contries/connum))：@(cdr (eighth sina/contries/connum))人，}
+               @~a{@(car (ninth sina/contries/connum))：@(cdr (ninth sina/contries/connum))人，}
+               @~a{@(car (tenth sina/contries/connum))：@(cdr (tenth sina/contries/connum))人。}
+               ))
+  )
+
+(define sina/foreign/top10/deathnum
+  (cons "国外累积前十（死亡）"
+        (list  @~a{@(car (first sina/contries/deathnum))：@(cdr (first sina/contries/deathnum))人，}
+               @~a{@(car (second sina/contries/deathnum))：@(cdr (second sina/contries/deathnum))人，}
+               @~a{@(car (third sina/contries/deathnum))：@(cdr (third sina/contries/deathnum))人，}
+               @~a{@(car (fourth sina/contries/deathnum))：@(cdr (fourth sina/contries/deathnum))人，}
+               @~a{@(car (fifth sina/contries/deathnum))：@(cdr (fifth sina/contries/deathnum))人。}
+               @~a{@(car (sixth sina/contries/deathnum))：@(cdr (sixth sina/contries/deathnum))人，}
+               @~a{@(car (seventh sina/contries/deathnum))：@(cdr (seventh sina/contries/deathnum))人，}
+               @~a{@(car (eighth sina/contries/deathnum))：@(cdr (eighth sina/contries/deathnum))人，}
+               @~a{@(car (ninth sina/contries/deathnum))：@(cdr (ninth sina/contries/deathnum))人，}
+               @~a{@(car (tenth sina/contries/deathnum))：@(cdr (tenth sina/contries/deathnum))人。}
                ))
   )
 

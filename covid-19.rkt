@@ -17,8 +17,11 @@
                    ,(div-wrap qq/domestic/overall)
                    ,(div-wrap sina/domestic/overall)
                    ,(div-wrap qq/domestic/top10)
-                   ,(div-wrap sina/foreign/top10)
-                   ,(div-wrap sina/foreign/top10-agg)))
+                   ,(div-wrap sina/foreign/top10/conadd)
+                   ,(div-wrap sina/foreign/top10/deathadd)
+                   ,(div-wrap sina/foreign/top10/connum)
+                   ,(div-wrap sina/foreign/top10/deathnum)
+                   ))
             #:body-content-type "text/html"
             #:from (getenv "SENDER")
             #:to (string-split (getenv "RECIPIENT"))))
