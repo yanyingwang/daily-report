@@ -45,23 +45,23 @@
             (string->number (hash-ref i 'value)))))
 
 
-(define y-max (+ (vector-ref (second data/domestic) 1) 10))
+;; (define y-max (+ (vector-ref (second data/domestic) 1) 10))
 ;; (require debug/repl)
 ;; (debug-repl)
 (plot-file (list (discrete-histogram data/domestic
                                      #:color "navy"
                                      #:line-color "navy"
-                                     #:y-max y-max
+                                     ;; #:y-max y-max
                                      #:label "全部")
                  (discrete-histogram data/domestic/local
                                      #:color "red"
                                      #:line-color "red"
-                                     #:y-max y-max
+                                     ;; #:y-max y-max
                                      #:label "本土")
                  (discrete-histogram data/domestic/abroad
                                      #:color "yellow"
                                      #:line-color "yellow"
-                                     #:y-max y-max
+                                     ;; #:y-max y-max
                                      #:label "境外输入"))
            domestic.jpeg
            #:x-label "省份名"
@@ -95,11 +95,11 @@
      (div ((class "main"))
           (div ((class "text"))
                (h1 "新冠肺炎报告")
-               (p "作者：Yanying" 
+               (p "作者：Yanying"
                  (br)
                  "数据来源：qq/sina"
                  (br)
-                 @,~a{更新日期：@(~t (now) "yyyy-MM-dd HH:mm")})
+                 @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")})
                ,(div-wrap qq/domestic/overall)
                ,(div-wrap sina/domestic/overall))
           ,(div-wrap-with-img qq/domestic/top10 "./domestic.jpeg")
