@@ -45,7 +45,7 @@
             (string->number (hash-ref i 'value)))))
 
 
-(define y-max (vector-ref (fifth data/domestic) 1))
+(define y-max (+ (vector-ref (second data/domestic) 1) 10))
 ;; (require debug/repl)
 ;; (debug-repl)
 (plot-file (list (discrete-histogram data/domestic
