@@ -13,7 +13,7 @@
 ;; file:///Applications/Racket%20v8.0/doc/plot/renderer2d.html?q=histogram#(def._((lib._plot%2Fmain..rkt)._discrete-histogram))
 
 
-;; (plot-width 600)
+(plot-width 600)
 ;; (plot-font-size 8)
 ;; (plot-font-family 'system)
 (define-runtime-path index.html "public/index.html")
