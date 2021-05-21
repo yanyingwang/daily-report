@@ -24,6 +24,15 @@
       (hash-ref (hash-ref node type1) type2)
       #f))
 
+(define (qq/get-num* prov-name
+                     #:city [city-name #f]
+                     [type1 'confirm]
+                     [type2 'today])
+  (define province (qq/get-province prov-name city-name))
+  (if province
+      (hash-ref (hash-ref province type2) type1)
+      #f))
+
 (define (qq/filter-by type1 type2) ;; type1 <= { 'today 'total } type2 <= { 'confirm 'dead }
   (define sorted-provinces
     (sort all-provinces
