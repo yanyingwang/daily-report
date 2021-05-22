@@ -6,6 +6,7 @@
          (file "private/covid-19-qq.rkt")
          (file "private/covid-19-sina.rkt")
          (file "private/tools.rkt"))
+(provide xpage xpage/string)
 
 ;; colors
 ;; file:///Applications/Racket%20v8.0/doc/draw/color-database___.html
@@ -111,11 +112,15 @@
                ,(div-wrap-with-img processed/foreign/deathadd/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-deathadd.jpeg})
                ,(div-wrap-with-img processed/foreign/connum/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-connum.jpeg})
                ,(div-wrap-with-img processed/foreign/deathnum/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-deathnum.jpeg})
-          ))))
+               ))))
+
+(define xpage/string (xexpr->string xpage))
 
 
+(module+ main
 (and (file-exists? index.html)
      (delete-file index.html))
 
 (with-output-to-file index.html
-  (lambda () (printf (xexpr->string xpage))))
+  (lambda () (printf xpage/string)))
+)
