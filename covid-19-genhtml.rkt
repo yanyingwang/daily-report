@@ -105,12 +105,12 @@
                   (a ((href "https://github.com/yanyingwang/daily-report")) "source code")))
           (div ((class "text"))
                ,(div-wrap processed/domestic/overall)
-               ;; ,(div-wrap processed/domestic/overall1))
-          ,(div-wrap-with-img processed/domestic/top10 "./domestic.jpeg")
-          ,(div-wrap-with-img processed/foreign/conadd/top10 "./foreign-conadd.jpeg")
-          ,(div-wrap-with-img processed/foreign/deathadd/top10 "./foreign-deathadd.jpeg")
-          ,(div-wrap-with-img processed/foreign/connum/top10 "./foreign-connum.jpeg")
-          ,(div-wrap-with-img processed/foreign/deathnum/top10 "./foreign-deathnum.jpeg")
+               #;,(div-wrap processed/domestic/overall1))
+               ,(div-wrap-with-img processed/domestic/top10 @~a{@(or (getenv "DOMAIN") "")./domestic.jpeg})
+               ,(div-wrap-with-img processed/foreign/conadd/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-conadd.jpeg})
+               ,(div-wrap-with-img processed/foreign/deathadd/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-deathadd.jpeg})
+               ,(div-wrap-with-img processed/foreign/connum/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-connum.jpeg})
+               ,(div-wrap-with-img processed/foreign/deathnum/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-deathnum.jpeg})
           ))))
 
 

@@ -30,7 +30,7 @@ jobs:
 
       - name: build index page
         run: |
-          ./gen-covid-19.rkt
+          ./covid-19-gen-html.rkt
 
       - name: Deploy to GitHub Pages
         if: success()
@@ -45,6 +45,7 @@ jobs:
         run: |
           ./covid-19.rkt
         env:
+          DOMAIN: https://yanying.wang/daily-report
           SENDER: ${{ secrets.SENDER }}
           RECIPIENT: ${{ secrets.RECIPIENT }}
           AUTH_USER: ${{ secrets.AUTH_USER }}
