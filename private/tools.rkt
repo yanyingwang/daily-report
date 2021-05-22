@@ -17,3 +17,7 @@
              (img ((src ,img) (alt "Nature") (class "responsive"))))
         (div ((class "text"))
              (p  ,@(add-between (cdr h+ps) '(br))))))
+
+(define (->plot-format lst)
+  (for/list ([l lst])
+    (vector (car l) (cdr l))))

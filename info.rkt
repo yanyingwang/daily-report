@@ -6,6 +6,7 @@
     "gregor-lib"
     "plot-lib"
     "plot-gui-lib"
+    "https://github.com/yanyingwang/covid-19.git"
     "https://github.com/yanyingwang/smtp.git"
     "https://github.com/yanyingwang/http-client.git"
     "https://github.com/yanyingwang/qweather.git"))

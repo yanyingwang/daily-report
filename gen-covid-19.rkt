@@ -2,7 +2,7 @@
 #lang at-exp racket/base
 
 (require racket/string racket/list racket/runtime-path racket/format
-         xml plot/no-gui gregor
+         covid-19/qq xml plot/no-gui gregor
          (file "private/covid-19-qq.rkt")
          (file "private/covid-19-sina.rkt")
          (file "private/tools.rkt"))
@@ -19,66 +19,77 @@
 (define-runtime-path index.html "public/index.html")
 (define-runtime-path domestic.jpeg "public/domestic.jpeg")
 (define-runtime-path foreign-conadd.jpeg "public/foreign-conadd.jpeg")
+(define-runtime-path foreign-deathadd.jpeg "public/foreign-deathadd.jpeg")
 (define-runtime-path foreign-connum.jpeg "public/foreign-connum.jpeg")
-;; (define y-max (+ (vector-ref (second data/domestic) 1) 10))
+(define-runtime-path foreign-deathnum.jpeg "public/foreign-deathnum.jpeg")
+
 
 ;; (require debug/repl)
 ;; (debug-repl)
 
-(define (->plot-format lst)
-  (for/list ([l lst])
-    (vector (car l) (cdr l))))
-
-(plot-file (list (discrete-histogram (->plot-format (take qq/provinces/today/confirm 10))
+;; (define y-max (+ (vector-ref (second data/domestic) 1) 10))
+(plot-file (list (discrete-histogram (->plot-format domestic/top10)
                                      #:color "navy"
                                      #:line-color "navy"
                                      ;; #:y-max y-max
                                      #:label "全部")
                  (discrete-histogram (->plot-format
-                                      (for/list ([i (take qq/provinces/today/confirm 10)])
-                                        (if (qq/get-num (qq/get-province (car i) '境外输入) 'today 'confirm)
-                                            (cons (car i)
-                                                  (- (qq/get-num (qq/get-province (car i)) 'today 'confirm)
-                                                     (qq/get-num (qq/get-province (car i) '境外输入) 'today 'confirm)))
-                                            (cons (car i) #f))))
+                                      (for/list ([i domestic/top10])
+                                        (cons (car i)
+                                              (- (cdr i)
+                                                 (or (qq/get-num* (car i) #:city '境外输入) 0)))))
                                      #:color "red"
                                      #:line-color "red"
                                      ;; #:y-max y-max
                                      #:label "本土")
                  (discrete-histogram (->plot-format
-                                      (for/list ([i (take qq/provinces/today/confirm 10)])
+                                      (for/list ([i domestic/top10])
                                         (cons (car i)
-                                              (qq/get-num (qq/get-province (car i) '境外输入) 'today 'confirm))))
+                                              (qq/get-num* (car i) #:city '境外输入))))
                                      #:color "yellow"
                                      #:line-color "yellow"
                                      ;; #:y-max y-max
                                      #:label "境外输入"))
            domestic.jpeg
            #:x-label "省份名"
-           #:y-label "确诊人数"
-           #:title "统计报表（国内今日新增）")
+           #:y-label "人数"
+           #:title "统计报表（国内前十/今日新增确诊）")
 
-(plot-file (discrete-histogram (->plot-format (take sina/contries/conadd 10))
+(plot-file (discrete-histogram (->plot-format foreign/conadd/top10)
                                #:color "navy"
                                #:line-color "black")
            foreign-conadd.jpeg
            #:x-label "国家名"
-           #:y-label "确诊人数"
-           #:title "统计报表（国外今日新增确诊）")
+           #:y-label "人数"
+           #:title "统计报表（国外前十/今日新增确诊）")
+(plot-file (discrete-histogram (->plot-format foreign/deathadd/top10)
+                               #:color "navy"
+                               #:line-color "black")
+           foreign-deathadd.jpeg
+           #:x-label "国家名"
+           #:y-label "人数"
+           #:title "统计报表（国外前十/今日新增死亡）")
 
-(plot-file (discrete-histogram (->plot-format (take sina/contries/connum 10))
+(plot-file (discrete-histogram (->plot-format foreign/connum/top10)
                                #:color "navy"
                                #:line-color "black")
            foreign-connum.jpeg
            #:x-label "国家名"
-           #:y-label "确诊人数"
-           #:title "统计报表（国外累计确诊）")
+           #:y-label "人数"
+           #:title "统计报表（国外/累计确诊）")
+(plot-file (discrete-histogram (->plot-format foreign/deathnum/top10)
+                               #:color "navy"
+                               #:line-color "black")
+           foreign-deathnum.jpeg
+           #:x-label "国家名"
+           #:y-label "人数"
+           #:title "统计报表（国外/累计死亡）")
 
 
 (define xpage
   `(html
     (head
-     (meta ((name "viewport") (content "width=device-width, initial-scale=1")))
+     (meta ((name "viewport") (content "width=device-width, initial-scale=0.8")))
      (style
          "body { background-color: linen; } .main { width: auto; } .row { padding-top: 10px; } .text { padding-left: 30px; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } .responsive { width: 100%; height: auto; }"))
     (body
@@ -91,13 +102,15 @@
                   (br)
                   @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
                   (br)
-                  (a ((href "https://github.com/yanyingwang/daily-report")) "code source")))
+                  (a ((href "https://github.com/yanyingwang/daily-report")) "source code")))
           (div ((class "text"))
-               ,(div-wrap qq/domestic/overall)
-               ,(div-wrap sina/domestic/overall))
-          ,(div-wrap-with-img qq/domestic/top10 "./domestic.jpeg")
-          ,(div-wrap-with-img sina/foreign/top10/conadd "./foreign-conadd.jpeg")
-          ,(div-wrap-with-img sina/foreign/top10/connum "./foreign-connum.jpeg")
+               ,(div-wrap processed/domestic/overall)
+               ;; ,(div-wrap processed/domestic/overall1))
+          ,(div-wrap-with-img processed/domestic/top10 "./domestic.jpeg")
+          ,(div-wrap-with-img processed/foreign/conadd/top10 "./foreign-conadd.jpeg")
+          ,(div-wrap-with-img processed/foreign/deathadd/top10 "./foreign-deathadd.jpeg")
+          ,(div-wrap-with-img processed/foreign/connum/top10 "./foreign-connum.jpeg")
+          ,(div-wrap-with-img processed/foreign/deathnum/top10 "./foreign-deathnum.jpeg")
           ))))
 
 
