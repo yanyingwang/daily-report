@@ -54,7 +54,7 @@
            domestic.jpeg
            #:x-label "省份名"
            #:y-label "人数"
-           #:title "统计报表（国内前十/今日新增确诊）")
+           #:title "国内前十/今日新增确诊")
 
 (plot-file (discrete-histogram (->plot-format foreign/conadd/top10)
                                #:color "navy"
@@ -62,14 +62,14 @@
            foreign-conadd.jpeg
            #:x-label "国家名"
            #:y-label "人数"
-           #:title "统计报表（国外前十/今日新增确诊）")
+           #:title "国外前十/今日新增确诊")
 (plot-file (discrete-histogram (->plot-format foreign/deathadd/top10)
                                #:color "navy"
                                #:line-color "black")
            foreign-deathadd.jpeg
            #:x-label "国家名"
            #:y-label "人数"
-           #:title "统计报表（国外前十/今日新增死亡）")
+           #:title "国外前十/今日新增死亡")
 
 (plot-file (discrete-histogram (->plot-format foreign/connum/top10)
                                #:color "navy"
@@ -77,14 +77,14 @@
            foreign-connum.jpeg
            #:x-label "国家名"
            #:y-label "人数"
-           #:title "统计报表（国外/累计确诊）")
+           #:title "国外/累计确诊")
 (plot-file (discrete-histogram (->plot-format foreign/deathnum/top10)
                                #:color "navy"
                                #:line-color "black")
            foreign-deathnum.jpeg
            #:x-label "国家名"
            #:y-label "人数"
-           #:title "统计报表（国外/累计死亡）")
+           #:title "国外/累计死亡")
 
 
 (define xpage
