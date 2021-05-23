@@ -26,7 +26,8 @@
   (cons "国内前十（新增确诊）"
         (for/list ([i domestic/top10])
           (define outbound-num (qq/get-num* (car i) #:city '境外输入))
-          (if (and (number? outbound-num)
+          @~a{@(car i)：@(cdr i)（其中境外输入@(qq/get-num* (car i) #:city '境外输入)）人}
+          #;(if (and (number? outbound-num)
                    (> outbound-num 0))
               @~a{@(car i)：@(cdr i)（其中境外输入@(qq/get-num* (car i) #:city '境外输入)）人}
               @~a{@(car i)：@(cdr i)人}))))

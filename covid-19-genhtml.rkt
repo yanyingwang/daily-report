@@ -25,9 +25,6 @@
 (define-runtime-path foreign-deathnum.jpeg "public/foreign-deathnum.jpeg")
 
 
-;; (require debug/repl)
-;; (debug-repl)
-
 ;; (define y-max (+ (vector-ref (second data/domestic) 1) 10))
 (plot-file (list (discrete-histogram (->plot-format domestic/top10)
                                      #:color "navy"
@@ -36,17 +33,19 @@
                                      #:label "全部")
                  (discrete-histogram (->plot-format
                                       (for/list ([i domestic/top10])
+                                        (define outnum (qq/get-num* (car i) #:city '境外输入))
                                         (cons (car i)
-                                              (- (cdr i)
-                                                 (or (qq/get-num* (car i) #:city '境外输入) 0)))))
+                                              (if outnum
+                                                  (- (cdr i) outnum)
+                                                  #f))))
                                      #:color "red"
                                      #:line-color "red"
                                      ;; #:y-max y-max
                                      #:label "本土")
                  (discrete-histogram (->plot-format
                                       (for/list ([i domestic/top10])
-                                        (cons (car i)
-                                              (qq/get-num* (car i) #:city '境外输入))))
+                                        (define outnum (qq/get-num* (car i) #:city '境外输入))
+                                        (cons (car i) outnum)))
                                      #:color "yellow"
                                      #:line-color "yellow"
                                      ;; #:y-max y-max
@@ -55,6 +54,10 @@
            #:x-label "省份名"
            #:y-label "人数"
            #:title "国内前十/今日新增确诊")
+
+
+;; (require debug/repl)
+;; (debug-repl)
 
 (plot-file (discrete-histogram (->plot-format foreign/conadd/top10)
                                #:color "navy"
@@ -92,7 +95,8 @@
     (head
      (meta ((name "viewport") (content "width=device-width, initial-scale=0.8")))
      (style
-         "body { background-color: linen; } .main { width: auto; } .row { padding-top: 10px; } .text { padding-left: 30px; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } .responsive { width: 100%; height: auto; }"))
+         "body { background-color: linen; } .main { width: auto; } .row { padding-top: 10px; } .text { padding-left: 30px; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } .responsive { width: 100%; height: auto; }"
+         ))
     (body
      (div ((class "main"))
           (div ((class "text"))
@@ -114,13 +118,13 @@
                ,(div-wrap-with-img processed/foreign/deathnum/top10 @~a{@(or (getenv "DOMAIN") "")./foreign-deathnum.jpeg})
                ))))
 
+
+;; (require debug/repl)
+;; (debug-repl)
+
+
 (define xpage/string (xexpr->string xpage))
-
-
 (module+ main
-(and (file-exists? index.html)
-     (delete-file index.html))
-
-(with-output-to-file index.html
-  (lambda () (printf xpage/string)))
-)
+  (with-output-to-file index.html #:exists 'replace
+    (lambda () (display xpage/string)))
+  )

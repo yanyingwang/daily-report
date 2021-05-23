@@ -21,3 +21,6 @@
 (define (->plot-format lst)
   (for/list ([l lst])
     (vector (car l) (cdr l))))
+
+;; (require racket/trace)
+;; (trace ->plot-format)
