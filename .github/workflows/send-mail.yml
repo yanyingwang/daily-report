@@ -45,7 +45,7 @@ jobs:
         run: |
           ./covid-19.rkt
         env:
-          DOMAIN: https://yanying.wang/daily-report
+          DOMAIN: https://yanying.wang/daily-report/
           SENDER: ${{ secrets.SENDER }}
           RECIPIENT: ${{ secrets.RECIPIENT }}
           AUTH_USER: ${{ secrets.AUTH_USER }}
