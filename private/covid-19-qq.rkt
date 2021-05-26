@@ -1,6 +1,6 @@
 #lang at-exp racket/base
 
-(require covid-19/qq racket/list racket/format racket/provide)
+(require covid-19/qq racket/list racket/string racket/format racket/provide)
 (provide (matching-identifiers-out #rx"^(domestic|processed)\\/.*" (all-defined-out)))
 
 
@@ -25,9 +25,16 @@
 (define processed/domestic/top10
   (cons "国内前十（新增确诊）"
         (for/list ([i domestic/top10])
-          (define outbound-num (qq/get-num* (car i) #:city '境外输入))
-          @~a{@(car i)：@(cdr i)（其中境外输入@(or (qq/get-num* (car i) #:city '境外输入) "未知")）人}
-          #;(if (and (number? outbound-num)
-                   (> outbound-num 0))
-              @~a{@(car i)：@(cdr i)（其中境外输入@(qq/get-num* (car i) #:city '境外输入)）人}
-              @~a{@(car i)：@(cdr i)人}))))
+          (define confirmed-inner-regions
+            (for/list ([ii (hash-ref (qq/get-region (car i)) 'children)]
+                       #:when (> (hash-ref (hash-ref ii 'today) 'confirm) 0))
+              (cons (hash-ref ii 'name)
+                    (hash-ref (hash-ref ii 'today) 'confirm))))
+          (define extra-str
+            (if (null? confirmed-inner-regions)
+                ""
+                (string-join (for/list ([r confirmed-inner-regions])
+                               (~a (car r) (cdr r) "）"))
+                             #:before-first "（其中"
+                             ", ")))
+          @~a{@(car i)：@(cdr i)@|extra-str|人})))
