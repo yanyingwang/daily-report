@@ -14,9 +14,6 @@
 ;; file:///Applications/Racket%20v8.0/doc/plot/renderer2d.html?q=histogram#(def._((lib._plot%2Fmain..rkt)._discrete-histogram))
 
 
-(plot-width 600)
-;; (plot-font-size 8)
-;; (plot-font-family 'system)
 (define-runtime-path index.html "public/index.html")
 (define-runtime-path domestic.jpeg "public/domestic.jpeg")
 (define-runtime-path foreign-conadd.jpeg "public/foreign-conadd.jpeg")
@@ -25,31 +22,43 @@
 (define-runtime-path foreign-deathnum.jpeg "public/foreign-deathnum.jpeg")
 
 
+(define plot/domestic/unconfirmed
+  (->plot-format
+   (for/list ([i domestic/top10])
+     (cons (car i)
+           (qq/get-num* (car i) #:city '地区待确认)))))
+
+(define plot/domestic/outincome
+  (->plot-format (for/list ([i domestic/top10])
+                   (cons (car i)
+                         (qq/get-num* (car i) #:city '境外输入)))))
+
+(define (cal-local-today-confirmed-num province)
+  (for/sum ([i (hash-ref (qq/get-region province) 'children)]
+            #:when (and (not (string=? (hash-ref i 'name) "地区待确认"))
+                        (not (string=? (hash-ref i 'name) "境外输入"))))
+    (hash-ref (hash-ref i 'today) 'confirm)))
+
+(define plot/domestic/local
+  (->plot-format (for/list ([i domestic/top10])
+                   (cons (car i)
+                         (cal-local-today-confirmed-num (car i))))))
+
+
+(plot-width 600)
+(rectangle-line-style 'transparent)
+;; (plot-font-size 8)
+;; (plot-font-family 'system)
 ;; (define y-max (+ (vector-ref (second data/domestic) 1) 10))
-(plot-file (list (discrete-histogram (->plot-format domestic/top10)
+(plot-file (list (discrete-histogram plot/domestic/unconfirmed
                                      #:color "navy"
-                                     #:line-color "navy"
-                                     ;; #:y-max y-max
-                                     #:label "全部")
-                 (discrete-histogram (->plot-format
-                                      (for/list ([i domestic/top10])
-                                        (define outnum (qq/get-num* (car i) #:city '境外输入))
-                                        (cons (car i)
-                                              (if outnum
-                                                  (- (cdr i) outnum)
-                                                  #f))))
-                                     #:color "red"
-                                     #:line-color "red"
-                                     ;; #:y-max y-max
-                                     #:label "本土")
-                 (discrete-histogram (->plot-format
-                                      (for/list ([i domestic/top10])
-                                        (define outnum (qq/get-num* (car i) #:city '境外输入))
-                                        (cons (car i) outnum)))
+                                     #:label "地区待确认")
+                 (discrete-histogram plot/domestic/outincome
                                      #:color "yellow"
-                                     #:line-color "yellow"
-                                     ;; #:y-max y-max
-                                     #:label "境外输入"))
+                                     #:label "境外输入")
+                 (discrete-histogram plot/domestic/local
+                                     #:color "red"
+                                     #:label "本土"))
            domestic.jpeg
            #:x-label "省份名"
            #:y-label "人数"
