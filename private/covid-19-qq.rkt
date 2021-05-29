@@ -34,8 +34,8 @@
             (if (null? confirmed-inner-regions)
                 ""
                 (string-join (for/list ([r confirmed-inner-regions])
-                               @~a{@(car r)@(cdr r)})
+                               @~a{@(car r)@(cdr r)人})
                              #:before-first "（其中"
                              #:after-last "）"
                              "，")))
-          @~a{@(car i)：@(cdr i)@|extra-str|人})))
+          @~a{@(car i)：@(cdr i)人@|extra-str|；})))

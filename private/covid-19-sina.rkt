@@ -35,16 +35,16 @@
 (define processed/foreign/conadd/top10
   (cons "国外前十（新增确诊）"
         (for/list ([i foreign/conadd/top10])
-          @~a{@(car i)：@(cdr i)人})))
+          @~a{@(car i)：@(cdr i)人；})))
 (define processed/foreign/deathadd/top10
   (cons "国外前十（新增死亡）"
         (for/list ([i foreign/deathadd/top10])
-          @~a{@(car i)：@(cdr i)人})))
+          @~a{@(car i)：@(cdr i)人；})))
 (define processed/foreign/connum/top10
   (cons "国外前十（累积确诊）"
         (for/list ([i foreign/connum/top10])
-          @~a{@(car i)：@(cdr i)人})))
+          @~a{@(car i)：@(cdr i)人；})))
 (define processed/foreign/deathnum/top10
   (cons "国外前十（累积死亡）"
         (for/list ([i foreign/deathnum/top10])
-          @~a{@(car i)：@(cdr i)人})))
+          @~a{@(car i)：@(cdr i)人；})))
