@@ -5,16 +5,16 @@
 
 
 (define henan (findf (lambda (i) (equal? (hash-ref i 'name) "河南"))
-                     sina/data/list))
+                     (sina/data/list)))
 (define zhengzhou (findf (lambda (i) (equal? (hash-ref i 'name) "郑州市"))
                          (hash-ref henan 'city)))
 (define processed/domestic/overall1
   (cons "概览1"
-        (list @~a{全国现有确诊：@(hash-ref sina/data 'econNum)人，}
-              @~a{全国累计确诊：@(hash-ref sina/data 'gntotal)人，}
-              @~a{全国现有疑似：@(hash-ref sina/data 'sustotal)人，}
-              @~a{全国总已治愈：@(hash-ref sina/data 'curetotal)人，}
-              @~a{全国总已死亡：@(hash-ref sina/data 'deathtotal)人。}
+        (list @~a{全国现有确诊：@(hash-ref (sina/data) 'econNum)人，}
+              @~a{全国累计确诊：@(hash-ref (sina/data) 'gntotal)人，}
+              @~a{全国现有疑似：@(hash-ref (sina/data) 'sustotal)人，}
+              @~a{全国总已治愈：@(hash-ref (sina/data) 'curetotal)人，}
+              @~a{全国总已死亡：@(hash-ref (sina/data) 'deathtotal)人。}
               @~a{河南现有确诊：@(hash-ref henan 'econNum)人，}
               @~a{河南累计确诊：@(hash-ref henan 'value)人，}
               @~a{河南总已治愈：@(hash-ref henan 'cureNum)人，}
