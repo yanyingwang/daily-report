@@ -9,7 +9,7 @@
         (h2 ((style "margin-bottom: 6px;")) ,(car h+ps))
         (p ((style "margin-top: 6px;")) ,@(add-between (cdr h+ps) '(br)))))
 
-(define (div-wrap-with-img h+ps img-file)
+(define (div-wrap/+img h+ps img-file)
   `(div ((class "row"))
         (div ((class "text"))
          (h2 ((id "indent-10")) ,(car h+ps)))
