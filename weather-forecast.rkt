@@ -9,7 +9,7 @@
 (define lid "101180106") ;;henan xinzheng
 ;; (define lid "101020100") ;;shanghai
 (define result/nd
-  (http-response-body (weather/nd lid)))
+  (http-response-body (weather/7d lid)))
 (define data/nd
   (hash-ref result/nd 'daily))
 
@@ -18,7 +18,7 @@
     (values @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)天气}
             @~a{@(hash-ref d 'textDay)转@(hash-ref d 'textNight)，@(hash-ref d 'tempMin)-@(hash-ref d 'tempMax)度，@(hash-ref d 'windDirDay)@(hash-ref d 'windScaleDay)级。})))
 
-(for ([(title content) (in-hash data/3d/filtered)])
+(for ([(title content) (in-hash data/nd/filtered)])
   (send-smtp-mail
    (make-mail title content
               #:from (getenv "SENDER")
