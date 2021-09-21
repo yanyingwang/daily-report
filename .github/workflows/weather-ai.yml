@@ -1,4 +1,4 @@
-name: weather-forest
+name: weather-forest-ai
 on:
   schedule:
     - cron: '50 21,4,10 * * *' # this is utc time, it is 5,12,18:50 in China.
@@ -21,9 +21,9 @@ jobs:
           version: ${{ matrix.racket-version }}
       - name: install deps
         run: raco pkg install --auto
-      - name: weather-forecast
+      - name: weather-forecast-ai
         run: |
-          ./weather-forecast.rkt
+          ./weather-forecast-ai.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
           RECIPIENT_CM: ${{ secrets.RECIPIENT_CM }}
