@@ -1,7 +1,7 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format
+(require racket/string racket/format racket/list
          http-client qweather smtp
          (file "private/parameters.rkt"))
 
