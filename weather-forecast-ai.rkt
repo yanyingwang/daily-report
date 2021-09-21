@@ -17,7 +17,7 @@
 
 (unless (string-contains? content "24小时内无雨，请放心出行")
   (send-smtp-mail
-   (make-mail "恶劣天气提醒" content
+   (make-mail "下雨提醒" content
               #:from (getenv "SENDER")
               #:to (string-split
                     (string-join
