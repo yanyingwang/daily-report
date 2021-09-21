@@ -11,7 +11,7 @@
 (define result/nd
   (http-response-body (weather/7d lid)))
 (define data/nd
-  (hash-ref result/nd 'daily))
+  (take (hash-ref result/nd 'daily) 5))
 
 (define data/nd/filtered
   (for/hash ([d data/nd])
