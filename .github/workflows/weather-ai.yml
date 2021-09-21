@@ -1,0 +1,33 @@
+name: weather-forest
+on:
+  schedule:
+    - cron: '50 21,4,10 * * *' # this is utc time, it is 5,12,18:50 in China.
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        racket-version: ["stable"]
+        racket-variant: ["CS"]
+    name: main
+    steps:
+      - uses: actions/checkout@master
+      - uses: Bogdanp/setup-racket@v1.5
+        with:
+          architecture: x64
+          distribution: full # or minimal
+          variant: ${{ matrix.racket-variant }}
+          version: ${{ matrix.racket-version }}
+      - name: install deps
+        run: raco pkg install --auto
+      - name: weather-forecast
+        run: |
+          ./weather-forecast.rkt
+        env:
+          SENDER: ${{ secrets.SENDER }}
+          RECIPIENT_CM: ${{ secrets.RECIPIENT_CM }}
+          AUTH_USER: ${{ secrets.AUTH_USER }}
+          AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          QWEATHER_API_KEY: ${{ secrets.QWEATHER_API_KEY }}
