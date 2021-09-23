@@ -12,9 +12,11 @@ jobs:
         racket-variant: ["CS"]
     name: main
     steps:
+      - uses: szenius/set-timezone@v1.0
       - uses: actions/checkout@master
       - uses: Bogdanp/setup-racket@v1.5
         with:
+          timezoneLinux: "Asia/Shanghai"
           architecture: x64
           distribution: full # or minimal
           variant: ${{ matrix.racket-variant }}
