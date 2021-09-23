@@ -28,8 +28,7 @@ jobs:
           ./weather-forecast-ai.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
-          PHONE_RECIPIENTS: ${{ secrets.PHONE_RECIPIENTS }}
-          EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+          RECIPIENTS: ${{ env.EMAIL_MY_139 }} ${{ env.EMAIL_MY_QQ }} ${{ env.EMAIL_BA_139 }} ${{ env.EMAIL_BA_QQ }}  ${{ EMAIL_GE }} ${{ EMAIL_DU }}
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}

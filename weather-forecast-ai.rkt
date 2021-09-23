@@ -19,7 +19,4 @@
   (send-smtp-mail
    (make-mail "24小时内有雨！" content
               #:from (getenv "SENDER")
-              #:to (string-split
-                    (string-join
-                     (list (getenv "PHONE_RECIPIENTS")
-                           (getenv "EMAIL_RECIPIENTS")))))))
+              #:to  (string-split (getenv "RECIPIENTS")))))
