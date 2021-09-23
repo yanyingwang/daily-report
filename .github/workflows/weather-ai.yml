@@ -33,7 +33,7 @@ jobs:
           EMAIL2: ${{ secrets.EMAIL_BA_QQ }}
           EMAIL3: ${{ secrets.EMAIL_MY_139 }}
           EMAIL4: ${{ secrets.EMAIL_BA_139 }}
-          RECIPIENTS: {{ env.EMAIL1 }} {{ env.EMAIL2 }} {{ env.EMAIL3 }} {{ env.EMAIL4 }}
+          RECIPIENTS: ${{ env.EMAIL1 }} ${{ env.EMAIL2 }} ${{ env.EMAIL3 }} ${{ env.EMAIL4 }}
 
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
