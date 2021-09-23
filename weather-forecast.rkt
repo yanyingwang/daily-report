@@ -22,6 +22,6 @@
   (send-smtp-mail
    (make-mail title content
               #:from (getenv "SENDER")
-              #:to (string-split (getenv "RECIPIENT_CM"))))
+              #:to (string-split (getenv "RECIPIENTS"))))
   (sleep 5))
 

@@ -1,7 +1,10 @@
-name: send covid-19 mail
+name: build-covid-19-gh-page
 on:
   schedule:
-    - cron: '30 12 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
+    - cron: '30 2,6,10,14 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
+  push:
+    branches:
+      - "master"
 
 jobs:
   main:
@@ -41,13 +44,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: send-sms-for-covid-19
-        run: |
-          ./covid-19.rkt
-        env:
-          DOMAIN: https://yanying.wang/daily-report/
-          SENDER: ${{ secrets.SENDER }}
-          RECIPIENT: ${{ secrets.RECIPIENT }}
-          AUTH_USER: ${{ secrets.AUTH_USER }}
-          AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}

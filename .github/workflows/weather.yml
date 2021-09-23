@@ -1,4 +1,4 @@
-name: weather-forest
+name: weather-forest-email
 on:
   schedule:
     - cron: '30 22 * * *' # this is utc time, it is 6:30 in China.
@@ -26,7 +26,11 @@ jobs:
           ./weather-forecast.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
-          RECIPIENT_CM: ${{ secrets.RECIPIENT_CM }}
+
+          EMAIL1: ${{ secrets.EMAIL_MY_139 }}
+          EMAIL2: ${{ secrets.EMAIL_BA_139 }}
+          RECIPIENTS: {{ env.EMAIL1 }} {{ env.EMAIL2 }}
+
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}

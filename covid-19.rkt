@@ -35,4 +35,4 @@
             xpage/string
             #:body-content-type "text/html"
             #:from (getenv "SENDER")
-            #:to (string-split (getenv "RECIPIENT"))))
+            #:to (string-split (getenv "RECIPIENTS"))))
