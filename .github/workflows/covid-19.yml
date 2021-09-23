@@ -54,7 +54,7 @@ jobs:
           EMAIL4: ${{ secrets.EMAIL_BA_139 }}
           EMAIL5: ${{ secrets.EMAIL_GE }}
           EMAIL6: ${{ secrets.EMAIL_DU }}
-          RECIPIENTS: ${{ env.EMAIL1 }} ${{ env.EMAIL2 }} ${{ env.EMAIL3 }} ${{ env.EMAIL4 }} ${{ env.EMAIL5 }} ${{ env.EMAIL6 }}
+          RECIPIENTS: '${{ env.EMAIL1 }} ${{ env.EMAIL2 }} ${{ env.EMAIL3 }} ${{ env.EMAIL4 }} ${{ env.EMAIL5 }} ${{ env.EMAIL6 }}'
 
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
