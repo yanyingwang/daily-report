@@ -1,8 +1,7 @@
 name: weather-forest-ai-email
 on:
   schedule:
-    # - cron: '50 21,4,10 * * *' # this is utc time, it is 5,12,18:50 in China.
-    - cron: '05 9,7 * * *' # this is utc time, it is 5,12,18:50 in China.
+    - cron: '50 21,4,10 * * *' # this is utc time, it is 5,12,18:50 in China.
 
 jobs:
   main:
