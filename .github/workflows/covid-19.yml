@@ -47,8 +47,8 @@ jobs:
         env:
           EMAIL1: ${{ secrets.EMAIL_MY_QQ }}
           EMAIL2: ${{ secrets.EMAIL_BA_QQ }}
-          EMAIL3: ${{ secrets.EMAIL_MY_139 }}
-          EMAIL4: ${{ secrets.EMAIL_BA_139 }}
+            # EMAIL3: ${{ secrets.EMAIL_MY_139 }}
+            # EMAIL4: ${{ secrets.EMAIL_BA_139 }}
           EMAIL5: ${{ secrets.EMAIL_GE }}
           EMAIL6: ${{ secrets.EMAIL_DU }}
 
