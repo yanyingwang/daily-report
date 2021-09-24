@@ -2,31 +2,31 @@ name: weather-forest-ai-email
 on:
   schedule:
     # - cron: '50 21,4,10 * * *' # this is utc time, it is 5,12,18:50 in China.
-    - cron: '10 5 * * *' # this is utc time, it is 5,12,18:50 in China.
+    - cron: '55 6,7 * * *' # this is utc time, it is 5,12,18:50 in China.
 
 jobs:
   main:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        racket-version: ["stable"]
-        racket-variant: ["CS"]
     name: main
     steps:
-      - uses: szenius/set-timezone@v1.0
       - uses: actions/checkout@master
-      - uses: Bogdanp/setup-racket@v1.5
+      - uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Asia/Shanghai"
+      - uses: Bogdanp/setup-racket@v1.6
+        with:
           architecture: x64
           distribution: full # or minimal
-          variant: ${{ matrix.racket-variant }}
-          version: ${{ matrix.racket-version }}
+          variant: CS
+          version: stable
+
       - name: install deps
         run: raco pkg install --auto
+      - name: setup RECIPIENTS variable
+        run: |
+          echo "RECIPIENTS=$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4" >> $GITHUB_ENV
       - name: weather-forecast-ai
         run: |
-          # echo "$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4" >> $RECIPIENTS
           ./weather-forecast-ai.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
@@ -34,7 +34,6 @@ jobs:
           EMAIL2: ${{ secrets.EMAIL_BA_QQ }}
           EMAIL3: ${{ secrets.EMAIL_MY_139 }}
           EMAIL4: ${{ secrets.EMAIL_BA_139 }}
-          RECIPIENTS: "$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4"
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
