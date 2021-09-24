@@ -1,7 +1,8 @@
 name: weather-forest-ai-email
 on:
   schedule:
-    - cron: '50 21,4,10 * * *' # this is utc time, it is 5,12,18:50 in China.
+    # - cron: '50 21,4,10 * * *' # this is utc time, it is 5,12,18:50 in China.
+    - cron: '10 5 * * *' # this is utc time, it is 5,12,18:50 in China.
 
 jobs:
   main:
@@ -25,16 +26,15 @@ jobs:
         run: raco pkg install --auto
       - name: weather-forecast-ai
         run: |
+          # echo "$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4" >> $RECIPIENTS
           ./weather-forecast-ai.rkt
         env:
           SENDER: ${{ secrets.SENDER }}
-
           EMAIL1: ${{ secrets.EMAIL_MY_QQ }}
           EMAIL2: ${{ secrets.EMAIL_BA_QQ }}
           EMAIL3: ${{ secrets.EMAIL_MY_139 }}
           EMAIL4: ${{ secrets.EMAIL_BA_139 }}
-          RECIPIENTS: '${{ env.EMAIL1 }} ${{ env.EMAIL2 }} ${{ env.EMAIL3 }} ${{ env.EMAIL4 }}'
-
+          RECIPIENTS: "$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4"
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
