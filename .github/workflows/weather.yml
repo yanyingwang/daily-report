@@ -1,4 +1,4 @@
-name: weather-forest-email
+name: weather-forecast-email
 on:
   schedule:
     - cron: '30 22 * * *' # this is utc time, it is 6:30 in China.

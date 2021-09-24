@@ -1,4 +1,4 @@
-name: send-covid-19-email
+name: covid-19-email
 on:
   schedule:
     - cron: '30 12 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
