@@ -23,5 +23,5 @@
    (make-mail title content
               #:from (getenv "SENDER")
               #:to (string-split (getenv "RECIPIENTS"))))
-  (sleep 5))
+  (sleep 20))
 
