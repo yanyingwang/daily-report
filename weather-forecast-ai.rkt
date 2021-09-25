@@ -17,7 +17,7 @@
 
 (unless (string-contains? ai-content "24小时内无雨，请放心出行")
   (send-smtp-mail
-   (make-mail "24小时内有雨！" content
+   (make-mail "24小时内有雨！" ai-content
               #:from (getenv "SENDER")
               #:to  (string-split (getenv "RECIPIENTS")))))
 
@@ -31,6 +31,6 @@
       (sleep 10)
       (send-smtp-mail
        (make-mail (hash-ref i 'title)
-                  (hash-ref i 'text)
+                  [hash-ref i 'text]
                   #:from (getenv "SENDER")
                   #:to  (string-split (getenv "RECIPIENTS")))))))
