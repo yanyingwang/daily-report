@@ -24,12 +24,13 @@ jobs:
 
       - name: setup RECIPIENTS variable
         run: |
-          echo "RECIPIENTS=$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4" >> $GITHUB_ENV
+          echo "RECIPIENTS=$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4 $EMAIL5" >> $GITHUB_ENV
         env:
           EMAIL1: ${{ secrets.EMAIL_MY_QQ }}
           EMAIL2: ${{ secrets.EMAIL_BA_QQ }}
           EMAIL3: ${{ secrets.EMAIL_MY_139 }}
           EMAIL4: ${{ secrets.EMAIL_BA_139 }}
+          EMAIL5: ${{ secrets.EMAIL_MA_139 }}
 
       - name: weather-forecast-ai
         run: |
@@ -38,5 +39,4 @@ jobs:
           SENDER: ${{ secrets.SENDER }}
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
-          # GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
           QWEATHER_API_KEY: ${{ secrets.QWEATHER_API_KEY }}
