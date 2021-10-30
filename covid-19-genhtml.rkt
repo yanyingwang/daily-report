@@ -120,9 +120,8 @@
                   @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
                   (br)
                   (a ((href "https://www.yanying.wang/daily-report")) "原连接")
-                  (hspace 2)
+                  nbsp
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
-
 ))
           (div ((class "text"))
                ,(div-wrap processed/domestic/overall)
