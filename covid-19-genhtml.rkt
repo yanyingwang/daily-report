@@ -137,9 +137,11 @@
 ;; (require debug/repl)
 ;; (debug-repl)
 
+
+(define xpage/string (xexpr->string xpage))
 (define (output-to-file)
   (with-output-to-file index.html #:exists 'replace
-    (lambda () (display (xexpr->string xpage)))))
+    (lambda () (display xpage/string))))
 
 
 (module+ main
