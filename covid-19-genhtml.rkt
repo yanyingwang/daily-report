@@ -120,7 +120,7 @@
                   @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
                   (br)
                   (a ((href "https://www.yanying.wang/daily-report")) "原连接")
-                  nbsp
+                  (entity 'nbsp)
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
 ))
           (div ((class "text"))
@@ -137,9 +137,14 @@
 ;; (require debug/repl)
 ;; (debug-repl)
 
-
-(define xpage/string (xexpr->string xpage))
-(module+ main
+(define (output-to-file)
   (with-output-to-file index.html #:exists 'replace
-    (lambda () (display xpage/string)))
-  )
+    (lambda () (display (xexpr->string xpage)))))
+
+
+(module+ main
+  (with-handlers
+      ([exn:fail:contract?
+        (lambda (v)
+          ((error-display-handler) (exn-message v) v))])
+    (output-to-file)))
