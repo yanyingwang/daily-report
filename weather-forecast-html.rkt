@@ -15,17 +15,28 @@
   (http-response-body (weather/15d lid)))
 (define data
   (hash-ref result 'daily))
-(define data/filtered
-  (for/list ([d data])
+(define data/today
+  (car (hash-ref result 'daily)))
+(define data/rest
+  (drop (hash-ref result 'daily) 1))
+
+(define (gen-weather-single-text text1 text2)
+  (if (string=? text1 text2)
+      text1
+      @~a{@text1转@text2}))
+
+(define data/today/processed
+  (list
+   @~a{今天天气@(gen-weather-single-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
+   @~a{日出于@(hash-ref data/today 'sunrise)，落于@(hash-ref data/today 'sunset)；}
+   @~a{夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
+
+(define data/rest/processed
+  (for/list ([d data/rest])
     (list @~a{@(hash-ref d 'fxDate)：}
           @~a{@(hash-ref d 'textDay)转@(hash-ref d 'textNight)，}
           @~a{@(hash-ref d 'tempMin)~@(hash-ref d 'tempMax)度，}
-          @~a{@(hash-ref d 'windDirDay)转@(hash-ref d 'windDirNight)@(string-replace (hash-ref d 'windScaleDay) "-" "~")到@(string-replace (hash-ref d 'windScaleNight) "-" "~")级，}
-          @~a{日出于@(hash-ref d 'sunrise)落于@(hash-ref d 'sunset)，}
-          @~a{@(hash-ref d 'moonPhase)出于@(hash-ref d 'moonrise)落于@(hash-ref d 'moonset)。})
-    )
-  )
-
+          @~a{@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级。})))
 
 (define xpage
   `(html
@@ -33,11 +44,11 @@
      (title @,~a{新郑市天气预报 - @(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")})
      (meta ((name "viewport") (content "width=device-width, initial-scale=0.8")))
      (style
-         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .text { padding-left: 30px; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } .responsive { width: 100%; height: auto; }"
-         ))
+         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .text { padding-left: 30px; } .subtext { font-size: 90%; } .ssubtext { font-size: 80%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } .responsive { width: 100%; height: auto; }"
+       ))
     (body
      (div ((class "main"))
-          (div ((class "text"))
+          (div ((class "ssubtext"))
                (h1 "新郑市天气预报")
                (p "作者：Yanying"
                   (br)
@@ -48,13 +59,20 @@
                   (a ((href "https://www.yanying.wang/daily-report")) "原连接")
                   (entity 'nbsp)
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
-))
-          (div ((class "text"))
-               (ul
-                ,@(for/list ([i data/filtered])
-                   (list 'li (string-join i ""))))
-               )
-          ))))
+                  ))
+          (div ((class "row" "text"))
+               (strong ,@(add-between data/today/processed '(br))))
+          (div
+           (ul
+            ,@(for/list ([i data/rest/processed])
+                (list 'li
+                      (for/list ([i (string-split (string-join i "") "")])
+                        (if )))))
+           )
+          )
+     )
+    )
+  )
 
 
 ;; (require debug/repl)
