@@ -31,8 +31,9 @@
     (drop (hash-ref result 'daily) 1))
   (define data/today/processed
     (list
-     @~a{今天天气@(gen-weather-single-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
-     @~a{日出于@(hash-ref data/today 'sunrise)，落于@(hash-ref data/today 'sunset)；夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
+     @~a{今天@(gen-weather-single-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
+     @~a{日出于@(hash-ref data/today 'sunrise)，落于@(hash-ref data/today 'sunset)；}
+     @~a{夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
   (define data/rest/processed
     (for/list ([d data/rest])
       (list @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)：}
@@ -62,7 +63,15 @@
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
                   ))
           (div ((class "row"))
-               (strong ,@(add-between data/today/processed '(br))))
+               ,@(add-between
+                  (for/list ([i data/today/processed])
+                    (list* 'strong
+                           (for/list ([ii (string-split i "")])
+                             (if (or (string=? ii "雨")
+                                     (string=? ii "雪"))
+                                 `(span ((style "color:red")) ,ii)
+                                 ii))))
+                  '(br)))
           (div
            (ul
             ,@(for/list ([i data/rest/processed])
@@ -70,7 +79,7 @@
                        (for/list ([i (string-split (string-join i "") "")])
                          (if (or (string=? i "雨")
                                  (string=? i "雪"))
-                             (list 'ins ('strong i))
+                             `(span ((style "color:red")) ,i)
                              i)))))))))
   )
 
