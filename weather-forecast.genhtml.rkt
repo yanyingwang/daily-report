@@ -51,7 +51,7 @@
                   (br)
                   @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
                   (br)
-                  (a ((href @,~a{https://www.yanying.wang/daily-report/@|name|.html} )) "原连接")
+                  (a ((href "https://www.yanying.wang/daily-report")) "原连接")
                   (entity 'nbsp)
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
                   ))

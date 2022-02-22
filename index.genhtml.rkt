@@ -41,6 +41,8 @@
                   (br)
                   "数据来源：Sina/QQ/Qweather"
                   (br)
+                  (a ((href "https://www.yanying.wang/daily-report")) "原连接")
+                  (entity 'nbsp)
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
                   ))
           (div ((class "row"))
