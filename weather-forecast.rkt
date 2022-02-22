@@ -4,7 +4,7 @@
 (require racket/string racket/format racket/list
          http-client qweather smtp
          (file "private/parameters.rkt")
-         (file "private/weather-forecast-genhtml.rkt"))
+         (file "weather-forecast-genhtml.rkt"))
 
 
 (define lid "101180106") ;;henan xinzheng
