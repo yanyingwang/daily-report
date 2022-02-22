@@ -3,29 +3,9 @@
 
 (require racket/string racket/format racket/list racket/runtime-path
          http-client qweather smtp gregor xml
-         (file "private/parameters.rkt"))
+         (file "private/parameters.rkt")
+         (file "index.genhtml.rkt"))
 (provide xpages)
-
-(define lids
-  (hash
-   '沈阳市 "101070101"
-   '北京市 "101010100"
-   '郑州市 "101180101"
-   '新郑市 "101180106"
-   '西安市 "101110101"
-   '成都市 "101270101"
-   '重庆市 "101040100"
-   '武汉市 "101200101"
-   '长沙市 "101250101"
-   '上海市 "101020100"
-   '杭州市 "101210101"
-   '广州市 "101280101"
-   '深圳市 "101280601"
-   '香港市 "101320101"
-   '澳门市 "101330101"
-   '福州市 "101230101"
-   '台北市 "101340101"
-   ))
 
 
 (define (gen-weather-single-text text1 text2)
@@ -100,7 +80,7 @@
 ;; (require debug/repl)
 ;; (debug-repl)
 (define (xpages)
-  (for/hash ([(city lid) (in-hash lids)])
+  (for/hash ([(city lid) (in-dict lids)])
     (values city (gen-xpage city lid))))
 
 (module+ main

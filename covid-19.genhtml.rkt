@@ -14,13 +14,11 @@
 ;; file:///Applications/Racket%20v8.0/doc/plot/renderer2d.html?q=histogram#(def._((lib._plot%2Fmain..rkt)._discrete-histogram))
 
 
-(define-runtime-path index.html "public/index.html")
 (define-runtime-path domestic.jpeg "public/domestic.jpeg")
 (define-runtime-path foreign-conadd.jpeg "public/foreign-conadd.jpeg")
 (define-runtime-path foreign-deathadd.jpeg "public/foreign-deathadd.jpeg")
 (define-runtime-path foreign-connum.jpeg "public/foreign-connum.jpeg")
 (define-runtime-path foreign-deathnum.jpeg "public/foreign-deathnum.jpeg")
-
 
 (define (cal-local-today-confirmed-num province)
   (for/sum ([i (hash-ref (qq/get-region province) 'children)]
@@ -133,18 +131,16 @@
           ,(div-wrap/+img processed/foreign/deathnum/top10 foreign-deathnum.jpeg)
                ))))
 
-
 ;; (require debug/repl)
 ;; (debug-repl)
 
-
 (define xpage/string (xexpr->string xpage))
 (define (output-to-file)
-  (with-output-to-file index.html #:exists 'replace
+  (with-output-to-file covid-19.html #:exists 'replace
     (lambda () (display xpage/string))))
 
-
 (module+ main
+  (define-runtime-path covid-19.html "public/covid-19.html")
   (with-handlers
       ([exn:fail:contract?
         (lambda (v)
