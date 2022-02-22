@@ -34,6 +34,8 @@ jobs:
       - name: build index page
         run: |
           ./covid-19-genhtml.rkt
+          ./weather-forecast-genhtml.rkt
+
 
       - name: Deploy to GitHub Pages
         if: success()

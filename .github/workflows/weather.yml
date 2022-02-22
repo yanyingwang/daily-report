@@ -26,8 +26,8 @@ jobs:
         run: |
           echo "RECIPIENTS=$EMAIL1 $EMAIL2 $EMAIL3 $EMAIL4 $EMAIL5 $EMAIL6" >> $GITHUB_ENV
         env:
-          # EMAIL1: ${{ secrets.EMAIL_MY_QQ }}
-          # EMAIL2: ${{ secrets.EMAIL_BA_QQ }}
+          EMAIL1: ${{ secrets.EMAIL_MY_QQ }}
+          EMAIL2: ${{ secrets.EMAIL_BA_QQ }}
           EMAIL3: ${{ secrets.EMAIL_MY_139 }}
           EMAIL4: ${{ secrets.EMAIL_BA_139 }}
           # EMAIL5: ${{ secrets.EMAIL_GE }}
