@@ -113,7 +113,7 @@
                (h1 "新冠肺炎报告")
                (p "作者：Yanying"
                   (br)
-                  "数据来源：qq/sina"
+                  "数据来源：QQ/Sina"
                   (br)
                   @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
                   (br)
