@@ -1,18 +1,20 @@
 daily report
 ================
+https://www.yanying.wang/daily-report/
 
-## covid-19.rkt
-<del>
-主要为我家人发送手机短信通知每日新型肺炎统计报告而开发，该程序开发使用了 sina.cn（<del>或 www.tianqiapi.com </del>：[已移除](https://github.com/yanyingwang/2019-nCov-report/commit/693bf3746bde79063773c3db364327ba017b5d0b#diff-35f1a3a934ba13a4b17438067c7233fdL43)）提供的api，亦感谢之。
+
+## covid-19
+covid-19的图表统计数据，以及给予github action的邮件通知功能。
 
 统计报告的内容为：
-1. 全国病例报告、河南省病例报告、郑州市病理报告。
-2. 2月27日增加了国内省份和国外国家确诊病例排名报告。
-</del>
+1. 全国病例报告、河南省病例报告、郑州市病理报告、上海市病理报告。
+2. 国内省份和国外国家确诊病例排名报告。
+3. 国外病例统计数据。
+等。
 
-除去邮件发送外，增加了图标和html查看页面，使用github page驱动之，可见：https://www.yanying.wang/daily-report/
 
-## weather-forecast.rkt
+## weather-forecast
+中国城市天气预报，以及每日天气预报邮件通知和异常天气提醒功能。
 
 
 ## Usage Example
