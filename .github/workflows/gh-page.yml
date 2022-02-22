@@ -35,6 +35,8 @@ jobs:
         run: |
           ./covid-19-genhtml.rkt || ./covid-19-genhtml.rkt || ./covid-19-genhtml.rkt || ./covid-19-genhtml.rkt
           ./weather-forecast-genhtml.rkt
+        env:
+          QWEATHER_API_KEY: ${{ secrets.QWEATHER_API_KEY }}
 
 
       - name: Deploy to GitHub Pages
