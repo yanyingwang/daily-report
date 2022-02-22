@@ -45,7 +45,7 @@
                   ))
           (div ((class "row"))
                (ul
-                (li (strong ) (a ((href "covid-19.html")) "COVID-19病例统计"))
+                (li (strong (a ((href "covid-19.html")) "COVID-19病例统计")))
                 (li (strong "城市天气预报：")
                     @,(let loop ([lst (dict-keys lids)]
                                  [result '(table )])
