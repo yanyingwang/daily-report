@@ -33,7 +33,7 @@ jobs:
 
       - name: build index page
         run: |
-          ./covid-19-genhtml.rkt
+          ./covid-19-genhtml.rkt || ./covid-19-genhtml.rkt || ./covid-19-genhtml.rkt || ./covid-19-genhtml.rkt
           ./weather-forecast-genhtml.rkt
 
 
