@@ -28,7 +28,7 @@
 
 (require  racket/string racket/list smtp
           (file "private/parameters.rkt")
-          (file "covid-19-genhtml.rkt"))
+          (file "covid-19.genhtml.rkt"))
 
 (send-smtp-mail
  (make-mail "新冠肺炎报告"
