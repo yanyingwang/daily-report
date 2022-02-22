@@ -13,7 +13,7 @@
 ;; histogram
 ;; file:///Applications/Racket%20v8.0/doc/plot/renderer2d.html?q=histogram#(def._((lib._plot%2Fmain..rkt)._discrete-histogram))
 
-
+(define-runtime-path covid-19.html "public/covid-19.html")
 (define-runtime-path domestic.jpeg "public/domestic.jpeg")
 (define-runtime-path foreign-conadd.jpeg "public/foreign-conadd.jpeg")
 (define-runtime-path foreign-deathadd.jpeg "public/foreign-deathadd.jpeg")
@@ -140,7 +140,6 @@
     (lambda () (display xpage/string))))
 
 (module+ main
-  (define-runtime-path covid-19.html "public/covid-19.html")
   (with-handlers
       ([exn:fail:contract?
         (lambda (v)
