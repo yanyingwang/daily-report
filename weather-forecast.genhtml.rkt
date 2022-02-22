@@ -1,7 +1,7 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format racket/list racket/runtime-path
+(require racket/string racket/format racket/list racket/dict racket/runtime-path
          http-client qweather smtp gregor xml
          (file "private/parameters.rkt")
          (file "index.genhtml.rkt"))
