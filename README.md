@@ -4,7 +4,7 @@ https://www.yanying.wang/daily-report/
 
 
 ## covid-19
-covid-19的图表统计数据，以及给予github action的邮件通知功能。
+covid-19的图表统计数据，以及基于github action的邮件通知功能。
 
 统计报告的内容为：
 1. 全国病例报告、河南省病例报告、郑州市病理报告、上海市病理报告。
