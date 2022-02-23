@@ -22,7 +22,7 @@
 
 (define ai-content
   (weather/24h/severe-weather-ai (car lid)))
-(unless (string-contains? ai-content "24小时内无异常天气，请放心出行")
+(unless (string-contains? ai-content "24小时内无异常天气，请放心出行。")
   (send-smtp-mail
    (make-mail (if (string-contains? ai-content "雪")
                   (string-append (cdr lid) "24小时内有雪！")

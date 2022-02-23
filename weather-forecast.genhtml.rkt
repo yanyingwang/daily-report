@@ -39,7 +39,7 @@
      (title @,~a{@|name|天气预报 - @(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")})
      (meta ((name "viewport") (content "width=device-width, initial-scale=0.9")))
      (style
-         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .ssubtext { font-size: 90%; } .subtext { font-size: 95%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 10px; } .responsive { width: 100%; height: auto; }"
+         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .sssubtext { font-size: 80%; } .ssubtext { font-size: 90%; } .subtext { font-size: 95%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 10px; } .responsive { width: 100%; height: auto; }"
        ))
     (body
      (div ((class "main"))
@@ -65,7 +65,14 @@
                                      (string=? ii "雪"))
                                  `(span ((style "color:color:DarkOliveGreen")) ,ii)
                                  ii))))
-                  '(br)))
+                  '(br))
+               (u (p ((class "sssubtext"))
+                      ,@(add-between
+                         (string-split (weather/24h/severe-weather-ai lid) "\n")
+                         '(br))))
+               ,@(for/list ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
+                   `(p ((class "sssubtext")) ,(hash-ref i 'title) (br) ,(hash-ref i 'text)))
+               )
           (div
            @,(for/fold ([acc '()] #:result (append '(ul ((class "subtext"))) (reverse acc)))
                        ([i data/rest/processed])
