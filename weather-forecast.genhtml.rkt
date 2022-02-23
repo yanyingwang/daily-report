@@ -63,7 +63,7 @@
                            (for/list ([ii (string-split i "")])
                              (if (or (string=? ii "雨")
                                      (string=? ii "雪"))
-                                 `(span ((style "color:BlueViolet")) ,ii)
+                                 `(span ((style "color:Maroon")) ,ii)
                                  ii))))
                   '(br)))
           (div
@@ -75,7 +75,7 @@
                   (cons
                    (if (or (string=? i "雨")
                            (string=? i "雪"))
-                       `(span ((style "color:Brown")) ,i)
+                       `(span ((style "color:MidnightBlue")) ,i)
                        i)
                    acc))
                 acc)
