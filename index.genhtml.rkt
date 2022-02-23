@@ -31,12 +31,12 @@
      (title "daily report - index.html")
      (meta ((name "viewport") (content "width=device-width, initial-scale=1")))
      (style
-         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .subtext { font-size: 90%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 20px; } .responsive { width: 100%; height: auto; }"
+         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .ssubtext { font-size: 80%; } .subtext { font-size: 90%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 20px; } .responsive { width: 100%; height: auto; }"
        ))
     (body
      (div ((class "main"))
           (div (h1  "Daily Report")
-               (p ((class "subtext"))
+               (p ((class "ssubtext"))
                   "作者：Yanying"
                   (br)
                   "数据来源：Sina/QQ/Qweather"
@@ -46,19 +46,19 @@
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
                   ))
           (div ((class "row"))
-               (ul
-                (li (strong (a ((href "covid-19.html")) "COVID-19病例统计")))
-                (li (strong "城市天气预报：")
-                    @,(let loop ([lst (dict-keys lids)]
-                                 [result '(table )])
-                        (if (< (length lst) 3)
-                            (append result `((tr ,@(for/list ([i lst])
-                                                     `(td (a ((href @,~a{@|i|.html})) ,i))))))
-                            (loop (drop lst 3)
-                                  (append result `((tr ,@(for/list ([i (take lst 3)])
-                                             `(td (a ((href @,~a{@|i|.html})) ,i)))))))))
+               (p (strong (a ((href "covid-19.html")) "COVID-19病例统计:")))
+               (p (strong "城市天气预报：")
+                  (br)
+                  @,(let loop ([lst (dict-keys lids)]
+                               [result '(table )])
+                      (if (< (length lst) 3)
+                          (append result `((tr ,@(for/list ([i lst])
+                                                   `(td (a ((class "subtext" )(href @,~a{@|i|.html})) ,i))))))
+                          (loop (drop lst 3)
+                                (append result `((tr ,@(for/list ([i (take lst 3)])
+                                                         `(td (a ((class "subtext") (href @,~a{@|i|.html})) ,i)))))))))
 
-                    ))))))
+                  )))))
   )
 
 (module+ main

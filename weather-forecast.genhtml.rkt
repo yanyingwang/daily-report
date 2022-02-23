@@ -26,7 +26,7 @@
     (list
      @~a{今天@(gen-weather-single-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
      @~a{日出于@(hash-ref data/today 'sunrise)，落于@(hash-ref data/today 'sunset)；}
-     @~a{@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
+     @~a{夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
   (define data/rest/processed
     (for/list ([d data/rest])
       (list @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)：}
@@ -39,23 +39,23 @@
      (title @,~a{@|name|天气预报 - @(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")})
      (meta ((name "viewport") (content "width=device-width, initial-scale=0.9")))
      (style
-         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .subtext { font-size: 90%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 20px; } .responsive { width: 100%; height: auto; }"
+         "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .ssubtext { font-size: 90%; } .subtext { font-size: 95%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 10px; } .responsive { width: 100%; height: auto; }"
        ))
     (body
      (div ((class "main"))
           (div
-               (h1 @,~a{@|name|天气预报})
-               (p ((class "subtext"))
-                  "作者：Yanying"
-                  (br)
-                  "数据来源：Qweather"
-                  (br)
-                  @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
-                  (br)
-                  (a ((href "https://www.yanying.wang/daily-report")) "原连接")
-                  (entity 'nbsp)
-                  (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
-                  ))
+           (h1 @,~a{@|name|天气预报})
+           (p ((class "ssubtext"))
+              "作者：Yanying"
+              (br)
+              "数据来源：Qweather"
+              (br)
+              @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
+              (br)
+              (a ((href "https://www.yanying.wang/daily-report")) "原连接")
+              (entity 'nbsp)
+              (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
+              ))
           (div ((class "row"))
                ,@(add-between
                   (for/list ([i data/today/processed])
@@ -63,23 +63,23 @@
                            (for/list ([ii (string-split i "")])
                              (if (or (string=? ii "雨")
                                      (string=? ii "雪"))
-                                 `(span ((style "color:red")) ,ii)
+                                 `(span ((style "color:BlueViolet")) ,ii)
                                  ii))))
                   '(br)))
           (div
-           @,(for/fold ([acc '()] #:result (append* '(p) (reverse acc)))
-                     ([i data/rest/processed])
-             (cons
-              (for/fold ([acc '()] #:result (append (reverse acc) '((br))))
-                        ([i (string-split (string-join i "") "")])
-                (cons
-                 (if (or (string=? i "雨")
-                         (string=? i "雪"))
-                     `(span ((style "color:red")) ,i)
-                     i)
-                 acc))
-              acc)
-             )))))
+           @,(for/fold ([acc '()] #:result (append '(ul ((class "subtext"))) (reverse acc)))
+                       ([i data/rest/processed])
+               (cons
+                (for/fold ([acc '()] #:result (append '(li) (reverse acc)))
+                          ([i (string-split (string-join i "") "")])
+                  (cons
+                   (if (or (string=? i "雨")
+                           (string=? i "雪"))
+                       `(span ((style "color:Brown")) ,i)
+                       i)
+                   acc))
+                acc)
+               )))))
   )
 
 
