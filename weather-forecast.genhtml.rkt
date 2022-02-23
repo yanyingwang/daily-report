@@ -63,7 +63,7 @@
                            (for/list ([ii (string-split i "")])
                              (if (or (string=? ii "雨")
                                      (string=? ii "雪"))
-                                 `(span ((style "color:color:DarkOliveGreen")) ,ii)
+                                 `(span ((style "color:DarkOliveGreen")) ,ii)
                                  ii))))
                   '(br))
                (u (p ((class "sssubtext"))
