@@ -103,15 +103,16 @@
   `(html
     (head
      (title @,~a{新冠肺炎报告 - @(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")})
-     (meta ((name "viewport") (content "width=device-width, initial-scale=0.8")))
+     (meta ((name "viewport") (content "width=device-width, initial-scale=0.9")))
      (style
          "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .text { padding-left: 30px; } .subtext { padding-left: 30px; font-size: 90%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } .responsive { width: 100%; height: auto; }"
          ))
     (body
      (div ((class "main"))
-          (div ((class "subtext"))
+          (div
                (h1 "新冠肺炎报告")
-               (p "作者：Yanying"
+               (p ((class "subtext"))
+                  "作者：Yanying"
                   (br)
                   "数据来源：QQ/Sina"
                   (br)

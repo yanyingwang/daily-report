@@ -29,15 +29,15 @@
   `(html
     (head
      (title "daily report - index.html")
-     (meta ((name "viewport") (content "width=device-width, initial-scale=0.8")))
+     (meta ((name "viewport") (content "width=device-width, initial-scale=1")))
      (style
          "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .subtext { font-size: 90%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 20px; } .responsive { width: 100%; height: auto; }"
        ))
     (body
      (div ((class "main"))
-          (div ((class "subtext"))
-               (h1  "Daily Report")
-               (p "作者：Yanying"
+          (div (h1  "Daily Report")
+               (p ((class "subtext"))
+                  "作者：Yanying"
                   (br)
                   "数据来源：Sina/QQ/Qweather"
                   (br)
