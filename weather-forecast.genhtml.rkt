@@ -26,7 +26,7 @@
     (list
      @~a{今天@(gen-weather-single-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
      @~a{日出于@(hash-ref data/today 'sunrise)，落于@(hash-ref data/today 'sunset)；}
-     @~a{夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
+     @~a{@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
   (define data/rest/processed
     (for/list ([d data/rest])
       (list @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)：}
@@ -37,15 +37,16 @@
   `(html
     (head
      (title @,~a{@|name|天气预报 - @(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")})
-     (meta ((name "viewport") (content "width=device-width, initial-scale=0.8")))
+     (meta ((name "viewport") (content "width=device-width, initial-scale=0.9")))
      (style
          "body { background-color: linen; } .main { width: auto; padding-left: 10px; padding-right: 10px; } .row { padding-top: 10px; } .subtext { font-size: 90%; } h2 { margin-bottom: 6px; } p { margin-top: 6px; } ul { padding-left: 20px; } .responsive { width: 100%; height: auto; }"
        ))
     (body
      (div ((class "main"))
-          (div ((class "subtext"))
+          (div
                (h1 @,~a{@|name|天气预报})
-               (p "作者：Yanying"
+               (p ((class "subtext"))
+                  "作者：Yanying"
                   (br)
                   "数据来源：Qweather"
                   (br)
@@ -66,14 +67,19 @@
                                  ii))))
                   '(br)))
           (div
-           (ul
-            ,@(for/list ([i data/rest/processed])
-                (list* 'li
-                       (for/list ([i (string-split (string-join i "") "")])
-                         (if (or (string=? i "雨")
-                                 (string=? i "雪"))
-                             `(span ((style "color:red")) ,i)
-                             i)))))))))
+           @,(for/fold ([acc '()] #:result (append* '(p) (reverse acc)))
+                     ([i data/rest/processed])
+             (cons
+              (for/fold ([acc '()] #:result (append (reverse acc) '((br))))
+                        ([i (string-split (string-join i "") "")])
+                (cons
+                 (if (or (string=? i "雨")
+                         (string=? i "雪"))
+                     `(span ((style "color:red")) ,i)
+                     i)
+                 acc))
+              acc)
+             )))))
   )
 
 
