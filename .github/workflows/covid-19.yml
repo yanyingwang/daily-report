@@ -1,4 +1,4 @@
-name: covid-19-email
+name: covid-19
 on:
   schedule:
     - cron: '30 12 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
@@ -30,7 +30,7 @@ jobs:
 
       - name: build index page
         run: |
-          ./covid-19-genhtml.rkt
+          ./covid-19.genhtml.rkt
 
       - name: Deploy to GitHub Pages
         if: success()

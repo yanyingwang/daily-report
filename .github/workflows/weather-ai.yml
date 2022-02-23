@@ -1,4 +1,4 @@
-name: weather-forecast-ai-email
+name: weather-ai
 on:
   schedule:
     - cron: '30 22,3,12 * * *' # this is utc time, it has to be added 8 to be CST.
