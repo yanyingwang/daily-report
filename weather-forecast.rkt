@@ -1,7 +1,7 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format racket/list
+(require racket/string racket/format racket/list xml
          http-client qweather smtp
          (file "private/parameters.rkt")
          (file "weather-forecast.genhtml.rkt"))
@@ -28,6 +28,7 @@
   (sleep 20))
 
 (send-smtp-mail
- (make-mail "新郑市天气预报" (hash-ref (xpages) "新郑市")
+ (make-mail "新郑市天气预报" (xexpr->string
+                              (hash-ref (xpages) "新郑市"))
             #:from (getenv "SENDER")
             #:to (list (getenv "EMAIL1") (getenv "EMAIL2"))))
