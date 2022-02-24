@@ -8,7 +8,7 @@
 (provide xpages)
 
 
-(define (gen-weather-single-text text1 text2)
+(define (simplify-weather-text text1 text2)
   (if (string=? text1 text2)
       text1
       @~a{@|text1|转@text2}))
@@ -24,13 +24,13 @@
     (drop (hash-ref result 'daily) 1))
   (define data/today/processed
     (list
-     @~a{今天@(gen-weather-single-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
+     @~a{今天@(simplify-weather-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
      @~a{日出于@(hash-ref data/today 'sunrise)，落于@(hash-ref data/today 'sunset)；}
      @~a{夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
   (define data/rest/processed
     (for/list ([d data/rest])
       (list @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)：}
-            @~a{@(hash-ref d 'textDay)转@(hash-ref d 'textNight)，}
+            (simplify-weather-text (hash-ref d 'textDay) (hash-ref d 'textNight))，
             @~a{@(hash-ref d 'tempMin)~@(hash-ref d 'tempMax)度，}
             @~a{@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级。})))
 
