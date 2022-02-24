@@ -8,7 +8,7 @@
 (provide xpages)
 
 
-(define (gen-weather-single-text text1 text2)
+(define (simplify-weather-text text1 text2)
   (if (string=? text1 text2)
       text1
       @~a{@|text1|转@text2}))
@@ -24,13 +24,13 @@
     (drop (hash-ref result 'daily) 1))
   (define data/today/processed
     (list
-     @~a{今天@(gen-weather-single-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
+     @~a{今天@(simplify-weather-text (hash-ref data/today 'textDay) (hash-ref data/today 'textNight))，气温@(hash-ref data/today 'tempMin)~@(hash-ref data/today 'tempMax)度，@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级；}
      @~a{日出于@(hash-ref data/today 'sunrise)，落于@(hash-ref data/today 'sunset)；}
      @~a{夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
   (define data/rest/processed
     (for/list ([d data/rest])
       (list @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)：}
-            @~a{@(hash-ref d 'textDay)转@(hash-ref d 'textNight)，}
+            @~a{@(simplify-weather-text (hash-ref d 'textDay) (hash-ref d 'textNight))，}
             @~a{@(hash-ref d 'tempMin)~@(hash-ref d 'tempMax)度，}
             @~a{@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级。})))
 
@@ -57,36 +57,45 @@
               (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
               ))
           (div ((class "row"))
-               ,@(add-between
-                  (for/list ([i data/today/processed])
-                    (list* 'strong
-                           (for/list ([ii (string-split i "")])
-                             (if (or (string=? ii "雨")
-                                     (string=? ii "雪"))
-                                 `(span ((style "color:DarkOliveGreen")) ,ii)
-                                 ii))))
-                  '(br))
-               (u (p ((class "sssubtext"))
-                      ,@(add-between
-                         (string-split (weather/24h/severe-weather-ai lid) "\n")
-                         '(br))))
-               ,@(for/list ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
-                   `(p ((class "sssubtext")) ,(hash-ref i 'title) (br) ,(hash-ref i 'text)))
+               (p
+                ,(for/fold ([acc '(strong)] #:result (reverse acc))
+                           ([i (string-split (string-join data/today/processed "") "")])
+                   (case i
+                     [("；") (list* '(br) i acc)]
+                     [("雨" "雪") (list* `(span ((style "color:DarkOliveGreen")) ,i) acc)]
+                     [else (list* i acc)]
+                     )))
+               (p ((class "sssubtext"))
+                  ,(for/fold ([acc '(u)] #:result (reverse acc))
+                           ([i (string-split (weather/24h/severe-weather-ai lid) "")])
+                   (case i
+                     [("；") (list* '(br) i acc)]
+                     [("雨" "雪") (list* `(span ((style "color:DarkOliveGreen")) ,i) acc)]
+                     [else (list* i acc)]
+                     )))
+               (ul ((class "sssubtext"))
+                   ,@(for/list ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
+                       `(li
+                         ,(hash-ref i 'title)
+                         (br)
+                         ,(list 'i (hash-ref i 'text)))))
                )
-          (div
-           @,(for/fold ([acc '()] #:result (append '(ul ((class "subtext"))) (reverse acc)))
-                       ([i data/rest/processed])
-               (cons
-                (for/fold ([acc '()] #:result (append '(li) (reverse acc)))
-                          ([i (string-split (string-join i "") "")])
-                  (cons
-                   (if (or (string=? i "雨")
-                           (string=? i "雪"))
-                       `(span ((style "color:MidnightBlue")) ,i)
-                       i)
-                   acc))
-                acc)
-               )))))
+
+          (div ((class "row"))
+               @,(for/fold ([acc '()] #:result (append '(ul ((class "subtext"))) (reverse acc)))
+                           ([i data/rest/processed])
+                   (cons
+                    (for/fold ([acc '()] #:result (append '(li) (reverse acc)))
+                              ([i (string-split (string-join i "") "")])
+                      (cons
+                       (if (or (string=? i "雨")
+                               (string=? i "雪"))
+                           `(span ((style "color:MidnightBlue")) ,i)
+                           i)
+                       acc))
+                    acc))
+               )
+          )))
   )
 
 
