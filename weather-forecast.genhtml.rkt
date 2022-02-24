@@ -64,31 +64,36 @@
                      [("；") (list* '(br) i acc)]
                      [("雨" "雪") (list* `(span ((style "color:DarkOliveGreen")) ,i) acc)]
                      [else (list* i acc)]
-                     ))
-
-                )
-
-               (u (p ((class "sssubtext"))
-                     ,@(add-between
-                        (string-split (weather/24h/severe-weather-ai lid) "\n")
-                        '(br))))
-               ,@(for/list ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
-                   `(p ((class "sssubtext")) ,(hash-ref i 'title) (br) ,(hash-ref i 'text)))
+                     )))
+               (p ((class "sssubtext"))
+                  ,(for/fold ([acc '(u)] #:result (reverse acc))
+                           ([i (string-split (weather/24h/severe-weather-ai lid) "")])
+                   (case i
+                     [("；") (list* '(br) i acc)]
+                     [("雨" "雪") (list* `(span ((style "color:DarkOliveGreen")) ,i) acc)]
+                     [else (list* i acc)]
+                     )))
+               (p ((class "sssubtext"))
+                  ,@(for/fold ([acc '()])
+                              ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
+                      (list* (hash-ref i 'title) '(br) (hash-ref i 'text) '(br) acc)
+                      ))
                )
-          (div
-           @,(for/fold ([acc '()] #:result (append '(ul ((class "subtext"))) (reverse acc)))
-                       ([i data/rest/processed])
-               (cons
-                (for/fold ([acc '()] #:result (append '(li) (reverse acc)))
-                          ([i (string-split (string-join i "") "")])
-                  (cons
-                   (if (or (string=? i "雨")
-                           (string=? i "雪"))
-                       `(span ((style "color:MidnightBlue")) ,i)
-                       i)
-                   acc))
-                acc)
-               )))))
+
+          (div ((class "row"))
+               @,(for/fold ([acc '()] #:result (append '(ul ((class "subtext"))) (reverse acc)))
+                           ([i data/rest/processed])
+                   (cons
+                    (for/fold ([acc '()] #:result (append '(li) (reverse acc)))
+                              ([i (string-split (string-join i "") "")])
+                      (cons
+                       (if (or (string=? i "雨")
+                               (string=? i "雪"))
+                           `(span ((style "color:MidnightBlue")) ,i)
+                           i)
+                       acc))
+                    acc)
+                   )))))
   )
 
 
