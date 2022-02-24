@@ -57,19 +57,21 @@
               (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
               ))
           (div ((class "row"))
-               ,@(add-between
-                  (for/list ([i data/today/processed])
-                    (list* 'strong
-                           (for/list ([ii (string-split i "")])
-                             (if (or (string=? ii "雨")
-                                     (string=? ii "雪"))
-                                 `(span ((style "color:DarkOliveGreen")) ,ii)
-                                 ii))))
-                  '(br))
+               (p
+                ,(for/fold ([acc '(strong)] #:result (reverse acc))
+                           ([i (string-split (string-join data/today/processed "") "")])
+                   (case i
+                     [("；") (list* '(br) i acc)]
+                     [("雨" "雪") (list* `(span ((style "color:DarkOliveGreen")) ,i) acc)]
+                     [else (list* i acc)]
+                     ))
+
+                )
+
                (u (p ((class "sssubtext"))
-                      ,@(add-between
-                         (string-split (weather/24h/severe-weather-ai lid) "\n")
-                         '(br))))
+                     ,@(add-between
+                        (string-split (weather/24h/severe-weather-ai lid) "\n")
+                        '(br))))
                ,@(for/list ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
                    `(p ((class "sssubtext")) ,(hash-ref i 'title) (br) ,(hash-ref i 'text)))
                )
