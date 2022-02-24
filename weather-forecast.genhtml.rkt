@@ -30,7 +30,7 @@
   (define data/rest/processed
     (for/list ([d data/rest])
       (list @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)：}
-            (simplify-weather-text (hash-ref d 'textDay) (hash-ref d 'textNight))，
+            @~a{@(simplify-weather-text (hash-ref d 'textDay) (hash-ref d 'textNight))，}
             @~a{@(hash-ref d 'tempMin)~@(hash-ref d 'tempMax)度，}
             @~a{@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级。})))
 
@@ -73,11 +73,12 @@
                      [("雨" "雪") (list* `(span ((style "color:DarkOliveGreen")) ,i) acc)]
                      [else (list* i acc)]
                      )))
-               (p ((class "sssubtext"))
-                  ,@(for/fold ([acc '()])
-                              ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
-                      (list* (hash-ref i 'title) '(br) (hash-ref i 'text) '(br) acc)
-                      ))
+               (ul ((class "sssubtext"))
+                   ,@(for/list ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
+                       `(li
+                         ,(hash-ref i 'title)
+                         (br)
+                         ,(list 'i (hash-ref i 'text)))))
                )
 
           (div ((class "row"))
@@ -92,8 +93,9 @@
                            `(span ((style "color:MidnightBlue")) ,i)
                            i)
                        acc))
-                    acc)
-                   )))))
+                    acc))
+               )
+          )))
   )
 
 
