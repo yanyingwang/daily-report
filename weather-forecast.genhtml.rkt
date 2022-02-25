@@ -3,7 +3,7 @@
 
 (require racket/string racket/format racket/list racket/dict
          http-client qweather smtp gregor xml
-         (file "private/parameters.rkt")
+         (only-in (file "private/parameters.rkt") current-qweather-key current-qweather-lang)
          (only-in (file "private/helpers.rkt") public lids simplify-weather-text)
          (file "index.genhtml.rkt"))
 (provide xpages)
