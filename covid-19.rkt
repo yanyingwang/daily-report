@@ -3,7 +3,7 @@
 
 
 (require  racket/string racket/list smtp
-          (file "private/parameters.rkt")
+          (only-in (file "private/parameters.rkt") init-smtp-parameters)
           (file "covid-19.genhtml.rkt"))
 
 (send-smtp-mail

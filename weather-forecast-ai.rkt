@@ -11,7 +11,6 @@
              #:when (string=? (car i) "新郑市"))
     i))
 
-
 (define ai-content
   (weather/24h/severe-weather-ai (cdr lid)))
 (unless (string-contains? ai-content "24小时内无异常天气，请放心出行。")
