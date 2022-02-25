@@ -4,12 +4,12 @@
 (require racket/string racket/format racket/list racket/dict
          http-client qweather smtp gregor xml
          (only-in (file "private/parameters.rkt") init-qweather-parameters)
-         (only-in (file "private/helpers.rkt") public lids simplify-weather-text)
-         (file "index.genhtml.rkt"))
-(provide xpages)
+         (only-in (file "private/helpers.rkt") public lids simplify-weather-text))
+(provide gen-xexpr)
 
 
-(define (gen-xpage name lid)
+(define (gen-xexpr name)
+  (define lid (dict-ref lids name))
   (define result
     (http-response-body (weather/15d lid)))
   (define data
@@ -99,13 +99,7 @@
           )))
   )
 
-(define (xpages)
-  (for/hash ([(city lid) (in-dict lids)])
-    (values city (gen-xpage city lid))))
-
-
 (module+ main
-  (for ([(city xexpr) (in-hash (xpages))])
-    (define city.html @~a{@|public|/@|city|.html})
-    (with-output-to-file city.html #:exists 'replace
-      (lambda () (display (xexpr->string xexpr))))))
+  (for ([city (dict-keys lids)])
+    (with-output-to-file @~a{@|public|/@|city|.html} #:exists 'replace
+      (lambda () (display (xexpr->string (gen-xexpr city)))))))

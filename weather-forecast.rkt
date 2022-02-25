@@ -30,7 +30,7 @@
 
 (send-smtp-mail
  (make-mail "新郑市天气预报"
-            (xexpr->string (hash-ref (xpages) "新郑市"))
+            (xexpr->string (gen-xexpr "新郑市"))
             #:body-content-type "text/html"
             #:from (getenv "SENDER")
             #:to (list (getenv "EMAIL1") (getenv "EMAIL2"))))
