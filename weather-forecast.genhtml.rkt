@@ -1,17 +1,13 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format racket/list racket/dict racket/runtime-path
+(require racket/string racket/format racket/list racket/dict
          http-client qweather smtp gregor xml
          (file "private/parameters.rkt")
+         (only-in (file "private/helpers.rkt") public lids simplify-weather-text)
          (file "index.genhtml.rkt"))
 (provide xpages)
 
-
-(define (simplify-weather-text text1 text2)
-  (if (string=? text1 text2)
-      text1
-      @~a{@|text1|转@text2}))
 
 (define (gen-xpage name lid)
   (define result
@@ -98,15 +94,12 @@
           )))
   )
 
-
-;; (require debug/repl)
-;; (debug-repl)
 (define (xpages)
   (for/hash ([(city lid) (in-dict lids)])
     (values city (gen-xpage city lid))))
 
+
 (module+ main
-  (define-runtime-path public "public")
   (for ([(city xexpr) (in-hash (xpages))])
     (define city.html @~a{@|public|/@|city|.html})
     (with-output-to-file city.html #:exists 'replace

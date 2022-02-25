@@ -1,11 +1,11 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/list racket/runtime-path racket/format
+(require racket/string racket/list racket/format
          covid-19/qq xml plot/no-gui gregor
          (file "private/covid-19-qq.rkt")
          (file "private/covid-19-sina.rkt")
-         (file "private/tools.rkt"))
+         (file "private/helpers.rkt"))
 (provide xpage xpage/string)
 
 ;; colors
@@ -13,12 +13,12 @@
 ;; histogram
 ;; file:///Applications/Racket%20v8.0/doc/plot/renderer2d.html?q=histogram#(def._((lib._plot%2Fmain..rkt)._discrete-histogram))
 
-(define-runtime-path covid-19.html "public/covid-19.html")
-(define-runtime-path domestic.jpeg "public/domestic.jpeg")
-(define-runtime-path foreign-conadd.jpeg "public/foreign-conadd.jpeg")
-(define-runtime-path foreign-deathadd.jpeg "public/foreign-deathadd.jpeg")
-(define-runtime-path foreign-connum.jpeg "public/foreign-connum.jpeg")
-(define-runtime-path foreign-deathnum.jpeg "public/foreign-deathnum.jpeg")
+(define covid-19.html @~a{@|public|/covid-19.html})
+(define domestic.jpeg @~a{@|public|/domestic.jpeg})
+(define foreign-conadd.jpeg @~a{@|public|/foreign-conadd.jpeg})
+(define foreign-deathadd.jpeg @~a{@|public|/foreign-deathadd.jpeg})
+(define foreign-connum.jpeg @~a{@|public|/foreign-connum.jpeg})
+(define foreign-deathnum.jpeg @~a{@|public|/foreign-deathnum.jpeg})
 
 (define (cal-local-today-confirmed-num province)
   (for/sum ([i (hash-ref (qq/get-region province) 'children)]
@@ -131,18 +131,13 @@
           ,(div-wrap/+img processed/foreign/connum/top10 foreign-connum.jpeg)
           ,(div-wrap/+img processed/foreign/deathnum/top10 foreign-deathnum.jpeg)
                ))))
-
-;; (require debug/repl)
-;; (debug-repl)
-
 (define xpage/string (xexpr->string xpage))
-(define (output-to-file)
-  (with-output-to-file covid-19.html #:exists 'replace
-    (lambda () (display xpage/string))))
+
 
 (module+ main
   (with-handlers
       ([exn:fail:contract?
         (lambda (v)
           ((error-display-handler) (exn-message v) v))])
-    (output-to-file)))
+    (with-output-to-file covid-19.html #:exists 'replace
+      (lambda () (display xpage/string)))))

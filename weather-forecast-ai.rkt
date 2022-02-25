@@ -3,7 +3,8 @@
 
 (require racket/string racket/format racket/list racket/dict
          http-client qweather smtp
-         (file "private/parameters.rkt"))
+         (file "private/parameters.rkt")
+         (only-in (file "private/helpers.rkt") lids))
 
 (define lid
   (for/last ([i lids]

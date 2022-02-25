@@ -1,8 +1,8 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format racket/list racket/dict racket/runtime-path xml
-         (only-in (file "private/parameters.rkt") lids))
+(require racket/string racket/format racket/list racket/dict xml
+         (only-in (file "private/helpers.rkt") public lids))
 
 (define xpage
   `(html
@@ -41,6 +41,5 @@
   )
 
 (module+ main
-  (define-runtime-path index.html "public/index.html")
-  (with-output-to-file index.html #:exists 'replace
+  (with-output-to-file  @~a{@|public|/index.html} #:exists 'replace
     (lambda () (display (xexpr->string xpage)))))
