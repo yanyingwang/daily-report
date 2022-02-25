@@ -4,7 +4,8 @@
 (require racket/string racket/format racket/list racket/dict xml
          http-client qweather smtp
          (file "private/parameters.rkt")
-         (only-in (file "private/helpers.rkt") lids simplify-weather-text)
+         (only-in (file "private/helpers.rkt")
+                  lids simplify-weather-text)
          (file "weather-forecast.genhtml.rkt"))
 
 (define lid

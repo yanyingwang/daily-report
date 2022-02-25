@@ -70,11 +70,16 @@
                      [else (list* i acc)]
                      )))
                (ul ((class "sssubtext"))
-                   ,@(for/list ([i (hash-ref (http-response-body (warning/now lid)) 'warning)])
+                   ,@(for/list ([e (hash-ref (http-response-body (warning/now lid)) 'warning)])
                        `(li
-                         ,(hash-ref i 'title)
+                         ,(hash-ref e 'title)
                          (br)
-                         ,(list 'i (hash-ref i 'text)))))
+                         ,(for/fold ([acc '(i)])
+                                    ([ee (string-split (hash-ref e 'text) "")])
+                           (if (string=? ee "。")
+                               (append acc (list ee '(br)))
+                               (append acc (list ee))))
+                         )))
                )
 
           (div ((class "row"))
