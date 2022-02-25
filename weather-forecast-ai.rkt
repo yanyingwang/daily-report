@@ -1,24 +1,21 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format racket/list
+(require racket/string racket/format racket/list racket/dict
          http-client qweather smtp
          (file "private/parameters.rkt"))
 
 (define lid
-  ;; (cons "101070101" "沈阳市")
-  ;; (cons "101010100" "北京市")
-  ;; (cons "101180101" "郑州市")
-  (cons "101180106" "新郑市")
-  ;; (cons "101230401" "莆田市")
-  ;; (cons "101020100" "上海市")
-  ;; (cons "101280101" "广州市")
-  ;; (cons "101280601" "深圳市")
-  ;; (cons "101320101" "香港市")
-  ;; (cons "101330101" "澳门市")
-  ;; (cons "101230101" "福州市")
-  ;; (cons "101340101" "台北市")
-  )
+  (dict-ref lids "新郑市"))
+
+(for/last ([i lids]
+      #:when (string=? (car i) "新郑市"))
+  i)
+
+(findf
+ (lambda (i) (string=? (car i)
+                  "新郑市"))
+ lids)
 
 (define ai-content
   (weather/24h/severe-weather-ai (car lid)))
