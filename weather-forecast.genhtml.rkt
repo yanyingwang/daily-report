@@ -7,13 +7,24 @@
          (only-in (file "private/helpers.rkt") public lids simplify-weather-text))
 (provide gen-xexpr)
 
+(define (->cn-date str)
+  (let* ([dt (parse-date str "yyyy-MM-dd")]
+         [mon (->month dt)]
+         (day (->day dt))
+         [wday (case (->wday dt)
+                 [(0) "日"]
+                 [(1) "一"]
+                 [(2) "二"]
+                 [(3) "三"]
+                 [(4) "四"]
+                 [(5) "五"]
+                 [(6) "六"])])
+    @~a{@|mon|/@|day|（@|wday|）}))
 
 (define (gen-xexpr name)
   (define lid (dict-ref lids name))
   (define result
     (http-response-body (weather/15d lid)))
-  (define data
-    (hash-ref result 'daily))
   (define data/today
     (car (hash-ref result 'daily)))
   (define data/rest
@@ -25,7 +36,7 @@
      @~a{夜晚的一弯@(hash-ref data/today 'moonPhase)，出于@(hash-ref data/today 'moonrise)，落于@(hash-ref data/today 'moonset)。}))
   (define data/rest/processed
     (for/list ([d data/rest])
-      (list @~a{@(substring (hash-ref d 'fxDate) 5 7)/@(substring (hash-ref d 'fxDate) 8 10)：}
+      (list @~a{@(->cn-date (hash-ref d 'fxDate))：}
             @~a{@(simplify-weather-text (hash-ref d 'textDay) (hash-ref d 'textNight))，}
             @~a{@(hash-ref d 'tempMin)~@(hash-ref d 'tempMax)度，}
             @~a{@(hash-ref data/today 'windDirDay)@(string-replace (hash-ref data/today 'windScaleDay) "-" "~")级。})))
