@@ -19,7 +19,7 @@
                  [(4) "四"]
                  [(5) "五"]
                  [(6) "六"])])
-    @~a{@|mon|/@|day|（@|wday|）}))
+    @~a{@|mon|/@|day|(@|wday|)}))
 
 (define (gen-xexpr name)
   (define lid (dict-ref lids name))
