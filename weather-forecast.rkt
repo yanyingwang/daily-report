@@ -25,7 +25,7 @@
   (send-smtp-mail
    (make-mail title content
               #:from (getenv "SENDER")
-              #:to (list (getenv "EMAIL3") (getenv "EMAIL4"))))
+              #:to (list (getenv "EMAIL_MY_139") (getenv "EMAIL_BA_139"))))
   (sleep 20))
 
 (send-smtp-mail
@@ -33,4 +33,4 @@
             (xexpr->string (gen-xexpr "新郑市"))
             #:body-content-type "text/html"
             #:from (getenv "SENDER")
-            #:to (list (getenv "EMAIL1") (getenv "EMAIL2"))))
+            #:to (list (getenv "EMAIL_MY_QQ") (getenv "EMAIL_BA_QQ"))))

@@ -32,4 +32,10 @@
        (make-mail @~a{今日有@(hash-ref i 'typeName)！}
                   (hash-ref i 'title)
                   #:from (getenv "SENDER")
-                  #:to  (string-split (getenv "RECIPIENTS")))))))
+                  #:to  (list (getenv "EMAIL_MY_139") (getenv "EMAIL_BA_139"))))
+      (sleep 10)
+      (send-smtp-mail
+       (make-mail (hash-ref i 'title)
+                  (hash-ref i 'text)
+                  #:from (getenv "SENDER")
+                  #:to   (list (getenv "EMAIL_MY_QQ") (getenv "EMAIL_BA_QQ")))))))
