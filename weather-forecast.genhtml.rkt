@@ -86,12 +86,12 @@
                    (define title
                      (hash-ref e 'title))
                    (define color
-                     (match title
-                       [str #:when (string-contains? str "蓝色") "color:Blue"]
-                       [str #:when (string-contains? str "黄色") "color:Yellow"]
-                       [str #:when (string-contains? str "橙色") "color:Oringe"]
-                       [str #:when (string-contains? str "红色") "color:Red"]
-                       [_ "color:Black"]))
+                     (cond
+                       [(string-contains? title "蓝色") "color:Blue"]
+                       [(string-contains? title "黄色") "color:Yellow"]
+                       [(string-contains? title "橙色") "color:Orange"]
+                       [(string-contains? title "红色") "color:Red"]
+                         [else "color:Black"]))
                    `(p ((class "sssubtext") (style ,color))
                        (strong ,title)
                      (br)
