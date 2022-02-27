@@ -1,8 +1,8 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format racket/list racket/dict
-         http-client qweather smtp gregor xml
+(require racket/string racket/format racket/list racket/dict racket/match
+         http-client qweather gregor xml
          (only-in (file "private/parameters.rkt") init-qweather-parameters)
          (only-in (file "private/helpers.rkt") public lids simplify-weather-text))
 (provide gen-xexpr)
@@ -80,17 +80,28 @@
                      [("雨" "雪") (list* `(span ((style "color:DarkOliveGreen")) ,i) acc)]
                      [else (list* i acc)]
                      )))
-               (ul ((class "sssubtext"))
-                   ,@(for/list ([e (hash-ref (http-response-body (warning/now lid)) 'warning)])
-                       `(li
-                         ,(hash-ref e 'title)
-                         (br)
-                         ,(for/fold ([acc '(i)])
-                                    ([ee (string-split (hash-ref e 'text) "")])
-                           (if (string=? ee "。")
-                               (append acc (list ee '(br)))
-                               (append acc (list ee))))
-                         )))
+
+               ;; https://zh.wikipedia.org/wiki/%E6%B0%94%E8%B1%A1%E7%81%BE%E5%AE%B3%E9%A2%84%E8%AD%A6%E4%BF%A1%E5%8F%B7
+               ,@(for/list ([e (hash-ref (http-response-body (warning/now lid)) 'warning)])
+                   (define title
+                     (hash-ref e 'title))
+                   (define color
+                     (match title
+                       [str #:when (string-contains? str "蓝色") "color:Blue"]
+                       [str #:when (string-contains? str "黄色") "color:Yellow"]
+                       [str #:when (string-contains? str "橙色") "color:Oringe"]
+                       [str #:when (string-contains? str "红色") "color:Red"]
+                       [_ "color:Black"]))
+                   `(p ((class "sssubtext") (style ,color))
+                       (strong ,title)
+                     (br)
+                     ,(for/fold ([acc '(i)])
+                                ([ee (string-split (hash-ref e 'text) "")])
+                        (if (or (string=? ee "。")
+                                (string=? ee "：")
+                                (string=? ee "；"))
+                            (append acc (list ee '(br)))
+                            (append acc (list ee))))))
                )
 
           (div ((class "row"))
