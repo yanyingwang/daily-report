@@ -1,7 +1,7 @@
 #!/usr/bin/env racket
 #lang at-exp racket/base
 
-(require racket/string racket/format racket/list racket/dict racket/match
+(require racket/string racket/format racket/list racket/dict
          http-client qweather gregor xml
          (only-in (file "private/parameters.rkt") init-qweather-parameters)
          (only-in (file "private/helpers.rkt") public lids simplify-weather-text))
