@@ -3,8 +3,10 @@
 
 (require racket/string racket/format racket/list racket/dict
          http-client qweather gregor xml
-         (only-in (file "private/parameters.rkt") init-qweather-parameters)
-         (only-in (file "private/helpers.rkt") public lids simplify-weather-text))
+         (only-in (file "private/parameters.rkt")
+                  init-qweather-parameters)
+         (only-in (file "private/helpers.rkt")
+                  public lids simplify-weather-text))
 (provide gen-xexpr)
 
 (define (->cn-date str)
