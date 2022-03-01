@@ -28,7 +28,9 @@
                (p (strong (a ((href "covid-19.html")) "COVID-19病例统计:")))
                (p (strong "城市天气预报：")
                   (br)
-                  @,(let loop ([lst (dict-keys lids)]
+                  (a ((class "subtext" ) (href "新郑市.html")) "河南省郑州市新郑")
+                  (br)
+                  @,(let loop ([lst (drop-right (dict-keys lids) 1)]
                                [result '(table ((style "width:80%")) )])
                       (if (< (length lst) 4)
                           (append result `((tr ,@(for/list ([i lst])
