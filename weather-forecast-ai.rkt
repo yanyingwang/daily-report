@@ -7,9 +7,10 @@
          (only-in (file "private/helpers.rkt") lids))
 
 (define lid
-  (for/last ([i lids]
-             #:when (string=? (car i) "新郑市"))
-    i))
+  (assoc "新郑市" lids))
+;; (for/last ([i lids]
+;;              #:when (string=? (car i) "新郑市"))
+;;     i)
 
 (define ai-content
   (weather/24h/severe-weather-ai (cdr lid)))
