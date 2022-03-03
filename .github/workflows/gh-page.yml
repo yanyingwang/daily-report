@@ -1,7 +1,7 @@
 name: ghpage
 on:
   schedule:
-    - cron: '30 2,6,10,14 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
+    - cron: '0 2,6,10,14 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
   push:
     branches:
       - "master"

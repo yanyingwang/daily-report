@@ -1,7 +1,7 @@
 name: weather
 on:
   schedule:
-    - cron: '30 22 * * *' # this is utc time, it is 6:30 in China.
+    - cron: '20 22 * * *' # this is utc time, it is 6:30 in China.
 
 jobs:
   main:

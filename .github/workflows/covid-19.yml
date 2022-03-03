@@ -1,7 +1,7 @@
 name: covid-19
 on:
   schedule:
-    - cron: '30 12 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
+    - cron: '40 12 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
 
 jobs:
   main:
