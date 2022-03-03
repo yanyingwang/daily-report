@@ -26,7 +26,7 @@
    (make-mail title content
               #:from (getenv "SENDER")
               #:to (list (getenv "EMAIL_MY_139") (getenv "EMAIL_BA_139"))))
-  (sleep 40))
+  (sleep 20))
 
 (send-smtp-mail
  (make-mail "新郑市天气预报"
