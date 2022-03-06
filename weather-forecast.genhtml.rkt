@@ -55,8 +55,8 @@
           (div
            (h1 @,~a{@|name|天气预报})
            (p ((class "ssubtext"))
-              "作者：Yanying"
-              (br)
+              #;"作者：Yanying"
+              #;(br)
               "数据来源：Qweather"
               (br)
               @,~a{更新日期：@(~t (now #:tz "Asia/Shanghai") "yyyy-MM-dd HH:mm")}
