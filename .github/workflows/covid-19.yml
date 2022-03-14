@@ -28,9 +28,8 @@ jobs:
       - name: install deps
         run: raco pkg install --auto
 
-      - name: build index page
-        run: |
-          ./covid-19.genhtml.rkt
+      - name: build covide 19 page
+        run:  ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt
 
       - name: Deploy to GitHub Pages
         if: success()
