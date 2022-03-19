@@ -1,4 +1,4 @@
-name: ghpage
+name: bild-ghpage
 on:
   schedule:
     - cron: '0 2,6,10,14 * * *' # this is utc time, it is 20:30 in China.  20:30 <= 12:30 + 8
@@ -16,6 +16,9 @@ jobs:
     name: main
     steps:
       - uses: actions/checkout@master
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Asia/Shanghai"
       - uses: Bogdanp/setup-racket@v1.5
         with:
           architecture: x64
