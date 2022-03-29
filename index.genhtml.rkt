@@ -25,10 +25,10 @@
                   (a ((href "https://github.com/yanyingwang/daily-report")) "源代码")
                   ))
           (div ((class "row"))
-               (p (strong (a ((href "covid-19.html")) "COVID-19病例统计<:=")))
+               (p (a ((href "covid-19.html")) "<COVID-19病例统计>"))
                (p (strong "城市天气预报：")
                   (br)
-                  (b (a ((class "subtext" ) (href "新郑市.html")) "<河南省郑州市新郑>"))
+                  (strong (a ((class "subtext" ) (href "新郑市.html")) "河南省郑州市新郑"))
                   (br)
                   @,(let loop ([lst (drop-right (dict-keys lids) 1)]
                                [result '(table ((style "width:80%")) )])
