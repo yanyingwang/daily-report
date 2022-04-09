@@ -38,4 +38,4 @@
                              #:before-first "（其中"
                              #:after-last "）"
                              "，")))
-          @~a{@(car i)：确诊@(cdr i)人@|extra-str|，无症状@(get-num* (car i) 'wzz_add 'today)人；})))
+          @~a{@(car i)：确诊@(cdr i)人@|extra-str|，无症状@(qq/get-num* (car i) 'wzz_add 'today)人；})))
