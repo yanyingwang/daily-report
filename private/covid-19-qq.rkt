@@ -17,9 +17,9 @@
         (list @~a{全国今日新增确诊：@(hash-ref (qq/data/china-add) 'confirm)人，}
               @~a{全国今日治愈：@(hash-ref (qq/data/china-add) 'heal)人，}
               @~a{全国今日死亡：@(hash-ref (qq/data/china-add) 'dead)人。}
-              @~a{河南今日新增确诊：@(qq/get-num* '河南)人，}
+              @~a{河南今日新增确诊：@(qq/get-num* '河南)人，无症状(qq/get-num* '河南 'wzz 'today)人。}
               @~a{其中郑州：@(qq/get-num* '河南 #:city '郑州)人。}
-              @~a{上海今日新增确诊：@(qq/get-num* '上海)人， }
+              @~a{上海今日新增确诊：@(qq/get-num* '上海)人，无症状(qq/get-num* '上海 'wzz_add 'today)人，}
               @~a{其中境外输入：@(qq/get-num* '上海 #:city '境外输入)人。})))
 
 (define processed/domestic/top10
@@ -38,4 +38,4 @@
                              #:before-first "（其中"
                              #:after-last "）"
                              "，")))
-          @~a{@(car i)：@(cdr i)人@|extra-str|；})))
+          @~a{@(car i)：确诊@(cdr i)人@|extra-str|，无症状@(get-num* (car i) 'wzz_add 'today)人；})))
