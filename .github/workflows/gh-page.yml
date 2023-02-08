@@ -37,8 +37,8 @@ jobs:
       - name: build index.html
         run: ./index.genhtml.rkt
 
-      - name: build covid-19.html
-        run:  ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt
+      #- name: build covid-19.html
+      #  run:  ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt || ./covid-19.genhtml.rkt
 
       - name: build cities.html
         run: ./weather-forecast.genhtml.rkt
