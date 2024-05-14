@@ -21,7 +21,7 @@
           @~a{@(simplify-weather-text (hash-ref d 'textDay) (hash-ref d 'textNight))，@(hash-ref d 'tempMin)~@(hash-ref d 'tempMax)度，@(hash-ref d 'windDirDay)@(string-replace (hash-ref d 'windScaleDay) "-" "~")级。})))
 
 
-(for ([(title content) (in-dict data/nd/filtered)])
+#;(for ([(title content) (in-dict data/nd/filtered)])
   (send-smtp-mail
    (make-mail title content
               #:from (getenv "SENDER")
