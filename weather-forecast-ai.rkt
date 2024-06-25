@@ -4,24 +4,33 @@
 (require racket/string racket/format racket/list racket/dict
          http-client qweather smtp
          (file "private/parameters.rkt")
-         (only-in (file "private/helpers.rkt") lids))
+         (only-in (file "private/helpers.rkt") lids bark-xr))
 
 (define lid
-  (assoc "新郑市" lids))
+  (assoc "新郑市" lids)
+  ;; (assoc "澳门" lids)
+  )
+
 ;; (for/last ([i lids]
 ;;              #:when (string=? (car i) "新郑市"))
 ;;     i)
 
+
+
 (define ai-content
   (weather/24h/severe-weather-ai (cdr lid)))
 (unless (string-contains? ai-content "24小时内无降水天气。")
+  (define title
+    (if (string-contains? ai-content "雪")
+        (string-append (car lid) "24小时内有雪！")
+        (string-append (car lid) "24小时内有雨！")))
   (send-smtp-mail
-   (make-mail (if (string-contains? ai-content "雪")
-                  (string-append (car lid) "24小时内有雪！")
-                  (string-append (car lid) "24小时内有雨！"))
+   (make-mail title
               ai-content
               #:from (getenv "SENDER")
-              #:to  (string-split (getenv "RECIPIENTS")))))
+              #:to  (string-split (getenv "RECIPIENTS"))))
+  (bark-xr title ai-content)
+  )
 
 (define warning-contents
   (hash-ref (http-response-body (warning/now (cdr lid))) 'warning))
@@ -40,4 +49,7 @@
      (make-mail (hash-ref i 'title)
                 (hash-ref i 'text)
                 #:from (getenv "SENDER")
-                #:to   (list (getenv "EMAIL_MY_QQ") (getenv "EMAIL_BA_QQ"))))))
+                #:to   (list (getenv "EMAIL_MY_QQ") (getenv "EMAIL_BA_QQ"))))
+    (bark-xr (hash-ref i 'title) (hash-ref i 'text))
+    ))
+

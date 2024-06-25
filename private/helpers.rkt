@@ -1,7 +1,7 @@
 #lang at-exp racket/base
 
 (require racket/format racket/list racket/file racket/path racket/runtime-path
-         net/base64)
+         net/base64 http-client)
 (provide (all-defined-out))
 
 (define-runtime-path public "../public")
@@ -97,3 +97,14 @@
     ("钓鱼岛" . "101231001")
     ("新郑市" . "101180106")
     ))
+
+
+(define weather-icon "https://raw.githubusercontent.com/yanyingwang/weather_daddy/master/favicon.png")
+(define xr-api
+  (http-connection (getenv "API_DAY_IPHXR")
+                   (hasheq)
+                   (hasheq 'icon weather-icon)))
+(define (bark-xr title content)
+  (http-get xr-api
+            #:path (~a title  "/" content))
+  )
