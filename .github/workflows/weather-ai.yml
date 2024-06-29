@@ -40,6 +40,7 @@ jobs:
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           QWEATHER_API_KEY: ${{ secrets.QWEATHER_API_KEY }}
+          API_DAY_IPHXR: ${{ secrets.API_DAY_IPHXR }}
           EMAIL_MY_QQ: ${{ secrets.EMAIL_MY_QQ }}
           EMAIL_BA_QQ: ${{ secrets.EMAIL_BA_QQ }}
           EMAIL_MY_139: ${{ secrets.EMAIL_MY_139 }}
