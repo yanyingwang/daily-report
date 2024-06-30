@@ -20,16 +20,16 @@
 (define ai-content
   (weather/24h/severe-weather-ai (cdr lid)))
 (unless (string-contains? ai-content "24小时内无降水天气。")
-  (define title
+  (define ai-title
     (if (string-contains? ai-content "雪")
         (string-append (car lid) "24小时内有雪！")
         (string-append (car lid) "24小时内有雨！")))
   (send-smtp-mail
-   (make-mail title
+   (make-mail ai-title
               ai-content
               #:from (getenv "SENDER")
               #:to  (string-split (getenv "RECIPIENTS"))))
-  (bark-xr title ai-content)
+  (bark-xr ai-title ai-content)
   )
 
 (define warning-contents
@@ -37,19 +37,12 @@
 (unless (empty? warning-contents)
   (for ([i warning-contents]
         #:when (string=? (hash-ref i 'status) "active"))
-    (displayln i)
-    (sleep 10)
+    (println i)  (sleep 10)
     (send-smtp-mail
      (make-mail @~a{今日有@(hash-ref i 'typeName)！}
                 (hash-ref i 'title)
                 #:from (getenv "SENDER")
                 #:to  (list (getenv "EMAIL_MY_139") (getenv "EMAIL_BA_139"))))
-    (sleep 10)
-    (send-smtp-mail
-     (make-mail (hash-ref i 'title)
-                (hash-ref i 'text)
-                #:from (getenv "SENDER")
-                #:to   (list (getenv "EMAIL_MY_QQ") (getenv "EMAIL_BA_QQ"))))
     (bark-xr (hash-ref i 'title) (hash-ref i 'text))
     ))
 
