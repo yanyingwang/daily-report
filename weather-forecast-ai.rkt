@@ -1,48 +1,55 @@
 #!/usr/bin/env racket
-#lang at-exp racket/base
+#lang racket/base
 
-(require racket/string racket/format racket/list racket/dict
-         http-client qweather smtp
+(require racket/string racket/format http-client smtp qweather
          (file "private/parameters.rkt")
-         (only-in (file "private/helpers.rkt") lids bark-xr))
+         (file "private/senders.rkt")
+         (only-in (file "private/helpers.rkt") xz sh bj))
 
-(define lid
-  (assoc "新郑市" lids)
-  ;; (assoc "澳门" lids)
+(define (ai-rain lid)
+  (define message (weather/24h/severe-weather-ai (cdr lid)))
+  (define title0
+    (cond
+      [(string-contains? message "24小时内无降水天气。") "24小时内无降水"]
+      [(string-contains? message "雪") "24小时内有雪！"]
+      [(string-contains? message "雨") "24小时内有雨！"]
+      [(string-contains? message "雨夹雪") "24小时内有雨夹雪！"]
+      [(string-contains? message "冰雹") "24小时内有冰雹！"]
+      [(string-contains? message "冻雨") "24小时内有冻雨！"]
+      [else "24小时内有降水！"]))
+  (define title
+    (string-append (car lid) title0))
+  (if (string=? title "24小时内无降水") #f
+      (list title message)))
+
+(define (ai-warnings lid)
+  (define contents
+    (hash-ref (http-response-body (warning/now (cdr lid))) 'warning))
+  (for/list ([i contents]
+             #:when (or (string=? (hash-ref i 'status) "active")
+                        (string=? (hash-ref i 'status) "update")))
+    (list (string-append  (car lid) "今日有" (hash-ref i 'typeName) "！")
+          (hash-ref i 'title)
+          (hash-ref i 'text))))
+
+
+(let ([res (ai-rain xz)])
+  (when res
+    (let ([t (car res)]
+          [m (cadr res)])
+      (bark-xr t m)
+      (nxq-weatherd-ai t m)
+      (mail-139 t m)
+      )
+    )
   )
 
-;; (for/last ([i lids]
-;;              #:when (string=? (car i) "新郑市"))
-;;     i)
-
-
-
-(define ai-content
-  (weather/24h/severe-weather-ai (cdr lid)))
-(unless (string-contains? ai-content "24小时内无降水天气。")
-  (define ai-title
-    (if (string-contains? ai-content "雪")
-        (string-append (car lid) "24小时内有雪！")
-        (string-append (car lid) "24小时内有雨！")))
-  (send-smtp-mail
-   (make-mail ai-title
-              ai-content
-              #:from (getenv "SENDER")
-              #:to  (string-split (getenv "RECIPIENTS"))))
-  (bark-xr ai-title ai-content)
+(for ([i (ai-warnings xz)])
+  (let ([t0 (car i)]
+        [t (cadr i)]
+        [m (caddr i)])
+    (bark-xr t m)
+    (nxq-weatherd-w t m)
+    (mail-139 t0 t)
+    )
   )
-
-(define warning-contents
-  (hash-ref (http-response-body (warning/now (cdr lid))) 'warning))
-(unless (empty? warning-contents)
-  (for ([i warning-contents]
-        #:when (string=? (hash-ref i 'status) "active"))
-    (println i)  (sleep 10)
-    (send-smtp-mail
-     (make-mail @~a{今日有@(hash-ref i 'typeName)！}
-                (hash-ref i 'title)
-                #:from (getenv "SENDER")
-                #:to  (list (getenv "EMAIL_MY_139") (getenv "EMAIL_BA_139"))))
-    (bark-xr (hash-ref i 'title) (hash-ref i 'text))
-    ))
-

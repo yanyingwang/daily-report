@@ -1,7 +1,7 @@
 #lang at-exp racket/base
 
 (require racket/format racket/list racket/file racket/path racket/runtime-path
-         net/base64 http-client)
+         net/base64)
 (provide (all-defined-out))
 
 (define-runtime-path public "../public")
@@ -30,7 +30,6 @@
 (define (->plot-format lst)
   (for/list ([l lst])
     (vector (car l) (cdr l))))
-
 
 
 ;;;; (require debug/repl)
@@ -98,13 +97,13 @@
     ("新郑市" . "101180106")
     ))
 
+(define xz (assoc "新郑市" lids))
+(define am (assoc "澳门" lids))
+(define sh (assoc "上海" lids))
+(define bj (assoc "北京" lids))
+(define gl (assoc "桂林" lids))
+(define sy (assoc "三亚" lids))
+;; (for/last ([i lids]
+;;              #:when (string=? (car i) "新郑市"))
+;;     i)
 
-(define weather-icon "https://raw.githubusercontent.com/yanyingwang/weather_daddy/master/favicon.png")
-(define xr-api
-  (http-connection (getenv "API_DAY_IPHXR")
-                   (hasheq)
-                   (hasheq 'icon weather-icon)))
-(define (bark-xr title content)
-  (http-get xr-api
-            #:path (~a title  "/" content))
-  )
