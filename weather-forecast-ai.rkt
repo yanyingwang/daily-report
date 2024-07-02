@@ -19,7 +19,7 @@
       [else "24小时内有降水！"]))
   (define title
     (string-append (car lid) title0))
-  (if (string=? title "24小时内无降水") #f
+  (if (string=? title0 "24小时内无降水") #f
       (list title message)))
 
 (define (ai-warnings lid)
