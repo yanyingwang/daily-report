@@ -2,6 +2,9 @@ name: send-weather
 on:
   schedule:
     - cron: '20 22 * * *' # this is utc time, it is 6:30 in China.
+  # push:
+    # branches:
+      # - "master"
 
 jobs:
   main:
