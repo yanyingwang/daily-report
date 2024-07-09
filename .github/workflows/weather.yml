@@ -2,9 +2,9 @@ name: send-weather
 on:
   schedule:
     - cron: '20 22 * * *' # this is utc time, it is 6:30 in China.
-  push:
-    branches:
-      - "master"
+  # push:
+  #   branches:
+  #     - "master"
 
 jobs:
   main:
@@ -43,13 +43,15 @@ jobs:
         run: |
           ./weather-forecast.rkt
         env:
+          API_DAY_IPHXR: ${{ secrets.API_DAY_IPHXR }}
+          API_NTFY: ${{ secrets.API_NTFY }}
           SENDER: ${{ secrets.SENDER }}
           AUTH_USER: ${{ secrets.AUTH_USER }}
           AUTH_PASSWD: ${{ secrets.AUTH_PASSWD }}
           QWEATHER_API_KEY: ${{ secrets.QWEATHER_API_KEY }}
-          EMAIL_MY_QQ: ${{ secrets.EMAIL_MY_QQ }}
-          EMAIL_BA_QQ: ${{ secrets.EMAIL_BA_QQ }}
-          EMAIL_MY_139: ${{ secrets.EMAIL_MY_139 }}
-          EMAIL_BA_139: ${{ secrets.EMAIL_BA_139 }}
-          EMAIL_GE: ${{ secrets.EMAIL_GE }}
-          EMAIL_DU: ${{ secrets.EMAIL_DU }}
+          # EMAIL_MY_QQ: ${{ secrets.EMAIL_MY_QQ }}
+          # EMAIL_BA_QQ: ${{ secrets.EMAIL_BA_QQ }}
+          # EMAIL_MY_139: ${{ secrets.EMAIL_MY_139 }}
+          # EMAIL_BA_139: ${{ secrets.EMAIL_BA_139 }}
+          # EMAIL_GE: ${{ secrets.EMAIL_GE }}
+          # EMAIL_DU: ${{ secrets.EMAIL_DU }}

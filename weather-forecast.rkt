@@ -17,20 +17,7 @@
 
 ;-------
 
-
-(current-http-client/debug #t)
-(define r3 (weather/15d/ai (cdr xz)))
-
-(println "============bark-xr:")
-(bark-xr "新郑市天气预报" r3)
-(println "============nxq-weatherd-d:")
-(println nxq-weatherd-d)
-
-#;(let* ([r0 (weather/15d (cdr xz))]
-       [r1 (http-response-body r0)]
-       [r2 (cdr (hash-ref r1 'daily))]
-       [r3 (weather/15d/ai-parse r2)]
-       [msg r3])
-  (bark-xr "新郑市天气预报" msg)
-  (nxq-weatherd-d "新郑市天气预报" msg)
-  )
+(let ([t "新郑市天气预报"]
+      [m (weather/15d/ai (car xz))])
+  (bark-xr t m)
+  (nxq-weatherd-d t m))
