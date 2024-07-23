@@ -1,7 +1,7 @@
 name: send-weather
 on:
   schedule:
-    - cron: '40 21,13 * * *' # this is utc time, it is 6:30 in China.
+    - cron: '10 21,13 * * *' # this is utc time, it is 6:30 in China.
       #push:
       #branches:
       #- "master"
