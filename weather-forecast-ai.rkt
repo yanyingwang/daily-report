@@ -53,3 +53,22 @@
     (mail-139 t0 t)
     )
   )
+
+
+(let ([res (ai-rain bj)])
+  (when res
+    (let ([t (car res)]
+          [m (cadr res)])
+      (bark-xr t m)
+      )
+    )
+  )
+
+(for ([i (ai-warnings bj)])
+  (let ([t0 (car i)]
+        [t (cadr i)]
+        [m (caddr i)])
+    (bark-xr t m)
+    )
+  )
+
