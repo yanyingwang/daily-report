@@ -23,3 +23,8 @@
       [m (weather/15d/ai (cdr xz))])
   (bark-xr t m)
   (nxq-weatherd-d t m))
+
+(let ([t "北京市天气预报"]
+      [m (weather/15d/ai (cdr bj))])
+  (bark-xr t m))
+
