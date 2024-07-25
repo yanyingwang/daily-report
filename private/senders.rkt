@@ -42,5 +42,5 @@
   (send-smtp-mail
    (make-mail t m
               #:from (getenv "SENDER")
-              #:to  (list (getenv "EMAIL_MY_139") (getenv "EMAIL_BA_139"))))
+              #:to  (list (getenv "EMAIL_BA_139"))))
   )
