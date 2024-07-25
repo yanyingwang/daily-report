@@ -37,7 +37,6 @@
   (when res
     (let ([t (car res)]
           [m (cadr res)])
-      (bark-xr t m)
       (nxq-weatherd-ai t m)
       (mail-139 t m)
       )
@@ -48,7 +47,6 @@
   (let ([t0 (car i)]
         [t (cadr i)]
         [m (caddr i)])
-    (bark-xr t m)
     (nxq-weatherd-w t m)
     (mail-139 t0 t)
     )
