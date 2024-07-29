@@ -4,7 +4,7 @@
 (require racket/string racket/format http-client smtp qweather
          (file "private/parameters.rkt")
          (file "private/senders.rkt")
-         (only-in (file "private/helpers.rkt") xz sh bj))
+         (only-in (file "private/helpers.rkt") xz sh bjfs))
 
 (define (ai-rain lid)
   (define message (weather/24h/severe-weather-ai (cdr lid)))
@@ -53,7 +53,7 @@
   )
 
 
-(let ([res (ai-rain bj)])
+(let ([res (ai-rain bjfs)])
   (when res
     (let ([t (car res)]
           [m (cadr res)])
@@ -62,7 +62,7 @@
     )
   )
 
-(for ([i (ai-warnings bj)])
+(for ([i (ai-warnings bjfs)])
   (let ([t0 (car i)]
         [t (cadr i)]
         [m (caddr i)])
