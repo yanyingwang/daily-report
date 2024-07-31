@@ -62,11 +62,3 @@
     )
   )
 
-(for ([i (ai-warnings bjfs)])
-  (let ([t0 (car i)]
-        [t (cadr i)]
-        [m (caddr i)])
-    (bark-xr t m)
-    )
-  )
-
