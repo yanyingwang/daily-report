@@ -23,7 +23,7 @@
       [m (weather/15d/ai (cdr xz))])
   (nxq-weatherd-d t m))
 
-(let ([t "北京市房山区天气预报"]
-      [m (weather/15d/ai (cdr bjfs))])
-  (bark-xr t m))
+;(let ([t "北京市房山区天气预报"]
+;      [m (weather/15d/ai (cdr bjfs))])
+;  (bark-xr t m))
 
