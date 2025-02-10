@@ -5,7 +5,7 @@
          (file "private/parameters.rkt")
          ;; (file "weather-forecast.genhtml.rkt") xml smtp
          (file "private/senders.rkt")
-         (only-in (file "private/helpers.rkt") xz sh bj)
+         (only-in (file "private/helpers.rkt") xz sh bjfs)
          )
 
 ;; (send-smtp-mail
@@ -21,5 +21,9 @@
 
 (let ([t "新郑市天气预报"]
       [m (weather/15d/ai (cdr xz))])
-  (bark-xr t m)
   (nxq-weatherd-d t m))
+
+;(let ([t "北京市房山区天气预报"]
+;      [m (weather/15d/ai (cdr bjfs))])
+;  (bark-xr t m))
+
