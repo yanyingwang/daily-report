@@ -2,7 +2,9 @@
 
 (require http-client racket/format smtp)
 (provide bark-xr mail-139
-         nxq-weatherd-ai nxq-weatherd-w nxq-weatherd-d)
+         nxq-weatherd-ai nxq-weatherd-w nxq-weatherd-d
+         sh-weatherd-ai sh-weatherd-w sh-weatherd-d
+         )
 
 
 (define weather-icon
@@ -36,6 +38,24 @@
             #:path "nxq-weatherd-d/publish"
             #:data (hasheq 'message message
                            'title title)))
+
+
+(define (sh-weatherd-ai title message)
+  (http-get ntfy-api
+            #:path "sh-weatherd-ai/publish"
+            #:data (hasheq 'message message
+                           'title title)))
+(define (sh-weatherd-w title message)
+  (http-get ntfy-api
+            #:path "sh-weatherd-w/publish"
+            #:data (hasheq 'message message
+                           'title title)))
+(define (sh-weatherd-d title message)
+  (http-get ntfy-api
+            #:path "sh-weatherd-d/publish"
+            #:data (hasheq 'message message
+                           'title title)))
+
 
 (define (mail-139 t m)
   (sleep 10)
