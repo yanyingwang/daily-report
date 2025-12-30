@@ -42,18 +42,36 @@
       )
     )
   )
-
 (for ([i (ai-warnings xz)])
   (let ([t0 (car i)]
         [t (cadr i)]
         [m (caddr i)])
-    (nxq-weatherd-w t m)
+    (sh-weatherd-w t m)
     (mail-139 t0 t)
     )
   )
 
 
-(let ([res (ai-rain bjfs)])
+
+(let ([res (ai-rain xz)])
+  (when res
+    (let ([t (car res)]
+          [m (cadr res)])
+      (sh-weatherd-ai t m)
+      )
+    )
+  )
+(for ([i (ai-warnings xz)])
+  (let ([t0 (car i)]
+        [t (cadr i)]
+        [m (caddr i)])
+    (sh-weatherd-w t m)
+    )
+  )
+
+
+
+#;(let ([res (ai-rain bjfs)])
   (when res
     (let ([t (car res)]
           [m (cadr res)])
