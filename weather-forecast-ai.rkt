@@ -53,7 +53,7 @@
 
 
 
-(let ([res (ai-rain xz)])
+(let ([res (ai-rain sh)])
   (when res
     (let ([t (car res)]
           [m (cadr res)])
@@ -61,7 +61,7 @@
       )
     )
   )
-(for ([i (ai-warnings xz)])
+(for ([i (ai-warnings sh)])
   (let ([t0 (car i)]
         [t (cadr i)]
         [m (caddr i)])
